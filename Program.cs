@@ -1,23 +1,20 @@
-﻿
-while (true)
-{
-    IntroText introText = new IntroText();
-    Character character = new Character();
-    TownHub townHub = new TownHub();
-    break;
-}
-               
+﻿IntroText introText = new IntroText();
+Character character = new Character();
+TownHub townHub = new TownHub();
+            
 class IntroText 
 {
     public IntroText()
     {
         Console.Title = "Legend of Textica";
 
+        Console.ForegroundColor = ConsoleColor.Yellow;
         Console.WriteLine("LEGEND OF TEXTICA");
         Console.WriteLine();
         Console.Write("PRESS ANY KEY TO CONTINUE");
         Console.ReadKey(true);
         Console.Beep(800, 100);
+        Console.ForegroundColor= ConsoleColor.White;
         Console.Clear();
     }
 }
@@ -39,7 +36,7 @@ class Character
 
    private protected void CharacterCreation()
    {
-        do
+        while (true)
         {
 
             Console.Write("What is thy name, adventurer? ");
@@ -49,7 +46,7 @@ class Character
             _response = Console.ReadLine();
             Console.Beep(800, 100);
 
-            if (_response != "Y")
+            if (_response == "N" || _response == "n")
             {
                 continue;
             }
@@ -70,7 +67,21 @@ class Character
                     _armorPoints = 10;
                     _speedPoints = 3;
                     _characterClass = "Fighter";
-                    Console.WriteLine($"HP: {_healthPoints}/{_healthPoints} AP: {_armorPoints}/{_armorPoints} SPD: {_speedPoints}");
+
+                    Console.ForegroundColor = ConsoleColor.Red;
+
+                    Console.Write($"HP: {_healthPoints}/{_healthPoints} ");
+
+                    Console.ForegroundColor = ConsoleColor.Gray;
+
+                    Console.Write($"AP: {_armorPoints}/{_armorPoints} ");
+
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+
+                    Console.WriteLine($"SPD: {_speedPoints}"); 
+                    
+                    Console.ForegroundColor = ConsoleColor.White;
+
                     Console.WriteLine("The fighter is the most basic of the classes. Armed with sword, shield, and plate armor, it is a balanced class that can take on any foe. Highest constitution of the classes.");
                 }
                 if (_response == "2")
@@ -80,7 +91,20 @@ class Character
                     _speedPoints = 10;
                     _characterClass = "Rogue";
 
-                    Console.WriteLine($"HP: {_healthPoints}/{_healthPoints} AP: {_armorPoints}/{_armorPoints} SPD: {_speedPoints}");
+                    Console.ForegroundColor = ConsoleColor.Red;
+
+                    Console.Write($"HP: {_healthPoints}/{_healthPoints} ");
+
+                    Console.ForegroundColor = ConsoleColor.Gray;
+
+                    Console.Write($"AP: {_armorPoints}/{_armorPoints} ");
+
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+
+                    Console.WriteLine($"SPD: {_speedPoints}");
+
+                    Console.ForegroundColor = ConsoleColor.White;
+
                     Console.WriteLine("The rogue uses stealth and tricky to misdirect and evade foes. Weaker in consitution with no defense compared to a fighter, but stronger than a mage, and quicker than both.");
                 }
                 if (_response == "3")
@@ -90,7 +114,20 @@ class Character
                     _speedPoints = 5;
                     _characterClass = "Grammaturge";
 
-                    Console.WriteLine($"HP: {_healthPoints}/{_healthPoints} AP: {_armorPoints}/{_armorPoints} SPD: {_speedPoints}");
+                    Console.ForegroundColor = ConsoleColor.Red;
+
+                    Console.Write($"HP: {_healthPoints}/{_healthPoints} ");
+
+                    Console.ForegroundColor = ConsoleColor.Gray;
+
+                    Console.Write($"AP: {_armorPoints}/{_armorPoints} ");
+
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+
+                    Console.WriteLine($"SPD: {_speedPoints}");
+
+                    Console.ForegroundColor = ConsoleColor.White;
+
                     Console.WriteLine("The grammaturge is a master of grammaturgy: using words as a medium for magick powers. Though weaker and slower than the fighter and rogue, the grammaturge makes up for it with both offensive and defensive healing magicks, assuming you find the right words!");
                 }
 
@@ -98,16 +135,19 @@ class Character
                 _response = Console.ReadLine();
                 Console.Beep(800, 100);
 
-                if (_response != "Y")
+                if (_response == "N" || _response == "n")
                 {
                     continue;
                 }
+
                 Console.WriteLine($"Welcome to the lands of Textica, {_characterName} the {_characterClass}!");
                 break;
             }
 
-        } while (_characterClass == null || _characterName == null);
-   }    
+            break;
+
+        }
+    }    
 
     public Character()
     {
