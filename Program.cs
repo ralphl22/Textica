@@ -1,6 +1,6 @@
-﻿IntroText introText = new IntroText();
-Character character = new Character();
-TownHub townHub = new TownHub();
+﻿//IntroText introText = new ();
+Character character = new ();
+TownHub townHub = new ();
             
 class IntroText 
 {
@@ -27,9 +27,23 @@ class Character
    private protected float _healthPoints;
    private protected float _armorPoints;
    private protected float _speedPoints;
-
     private protected void CharacterStatus()
     {
+        if (_characterClass == "Fighter")
+        {
+            Console.ForegroundColor = ConsoleColor.DarkRed;
+
+        }
+        if (_characterClass == "Rogue")
+        {
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+
+        }
+        if (_characterClass == "Grammaturge")
+        {
+            Console.ForegroundColor = ConsoleColor.Blue;
+
+        }
         Console.WriteLine($"{_characterName} the {_characterClass}");
 
         Console.ForegroundColor = ConsoleColor.Red;
@@ -47,9 +61,10 @@ class Character
         Console.ForegroundColor = ConsoleColor.White;
     }
 
-   private protected void CharacterCreation()
+
+   public void CharacterCreation()
    {
-        while (true)
+        do
         {
 
             Console.Write("What is thy name, adventurer? ");
@@ -64,7 +79,7 @@ class Character
                 continue;
             }
 
-            while (true)
+            do
             {
                 Console.WriteLine("Choose thy class, adventurer: ");
                 Console.WriteLine("1 - Fighter");
@@ -166,22 +181,20 @@ class Character
                 }
 
                 Console.WriteLine($"Welcome to the lands of Textica, {_characterName} the {_characterClass}!");
-                break;
-            }
-            break;
-        }
+
+            } while (_characterClass == null || _characterName == null);
+
+        } while (_characterClass == null || _characterName == null);
+        
     }    
 
-    public Character()
-    {
-        CharacterCreation();
-    }
 }
 
 class TownHub : Character
 {
     public TownHub()
     {
+        CharacterCreation();
         CharacterStatus();
         Console.WriteLine($"Welcome to the city of Textica, {_characterName}! Where do you want to go?");
         Console.WriteLine("1 - Tavern");
