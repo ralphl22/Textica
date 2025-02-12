@@ -1,12 +1,14 @@
-﻿
-// introText instance commented out to save time on debugging, and because the IntroText class is fine as is.
+﻿// mainMenu instance commented out to save time on debugging, and because the MainMenu class is fine as is.
 
-//IntroText introText = new IntroText();
+//MainMenu mainMenu = new MainMenu();
 Character character = new Character();
-TownHub townHub = new TownHub();      
-class IntroText 
+TownHub townHub = new TownHub();  
+
+// Serves as the main menu of the game - user can press any key to continue to character creation 
+
+class MainMenu 
 {
-    public IntroText()
+    public MainMenu()
     {
         Console.Title = "Legend of Textica";
 
@@ -25,51 +27,29 @@ class IntroText
         Console.Clear();
     }
 }
+
+
+// Handles anything important in regards to the user's character, including character creation and stats
+
 class Character
 {
+   // Declares important fields for the user's character in the game
+
    private protected string _characterName;
    private protected string _characterClass;
    private protected string _response;
+   private protected int _characterLevel;
+   private protected int _currentExperiencePoints;
+   private protected int _experiencePointsToLevelUp;
    private protected float _healthPoints;
    private protected float _armorPoints;
    private protected float _speedPoints;
-    private protected void CharacterClassColorCheck()
+
+
+    // Allows the user to choose their name and character class
+
+    public void CharacterCreation()
     {
-        if (_characterClass == "Fighter")
-        {
-            Console.ForegroundColor = ConsoleColor.DarkRed;
-
-        }
-        if (_characterClass == "Rogue")
-        {
-            Console.ForegroundColor = ConsoleColor.DarkGray;
-
-        }
-        if (_characterClass == "Grammaturge")
-        {
-            Console.ForegroundColor = ConsoleColor.Blue;
-        }
-    }
-    private protected void CharacterStatus()
-    {
-        Console.WriteLine($"{_characterName} the {_characterClass}");
-
-        Console.ForegroundColor = ConsoleColor.Red;
-
-        Console.Write($"HP: {_healthPoints}/{_healthPoints} ");
-
-        Console.ForegroundColor = ConsoleColor.Gray;
-
-        Console.Write($"AP: {_armorPoints}/{_armorPoints} ");
-
-        Console.ForegroundColor = ConsoleColor.Yellow;
-
-        Console.WriteLine($"SPD: {_speedPoints}");
-
-        Console.ForegroundColor = ConsoleColor.White;
-    }
-   public void CharacterCreation()
-   {
         do
         {
             Console.Write("What is thy name, adventurer? ");
@@ -113,15 +93,15 @@ class Character
 
                     Console.ForegroundColor = ConsoleColor.Red;
 
-                    Console.Write($"HP: {_healthPoints}/{_healthPoints} ");
+                    Console.Write($"HP: {_healthPoints} ");
 
                     Console.ForegroundColor = ConsoleColor.Gray;
 
-                    Console.Write($"AP: {_armorPoints}/{_armorPoints} ");
+                    Console.Write($"AP: {_armorPoints} ");
 
                     Console.ForegroundColor = ConsoleColor.Yellow;
 
-                    Console.WriteLine($"SPD: {_speedPoints}"); 
+                    Console.WriteLine($"SPD: {_speedPoints}");
 
                     Console.ForegroundColor = ConsoleColor.White;
 
@@ -140,11 +120,11 @@ class Character
 
                     Console.ForegroundColor = ConsoleColor.Red;
 
-                    Console.Write($"HP: {_healthPoints}/{_healthPoints} ");
+                    Console.Write($"HP: {_healthPoints} ");
 
                     Console.ForegroundColor = ConsoleColor.Gray;
 
-                    Console.Write($"AP: {_armorPoints}/{_armorPoints} ");
+                    Console.Write($"AP: {_armorPoints} ");
 
                     Console.ForegroundColor = ConsoleColor.Yellow;
 
@@ -167,11 +147,11 @@ class Character
 
                     Console.ForegroundColor = ConsoleColor.Red;
 
-                    Console.Write($"HP: {_healthPoints}/{_healthPoints} ");
+                    Console.Write($"HP: {_healthPoints} ");
 
                     Console.ForegroundColor = ConsoleColor.Gray;
 
-                    Console.Write($"AP: {_armorPoints}/{_armorPoints} ");
+                    Console.Write($"AP: {_armorPoints} ");
 
                     Console.ForegroundColor = ConsoleColor.Yellow;
 
@@ -193,13 +173,12 @@ class Character
                     continue;
                 }
 
-
                 Console.Write($"Welcome to the lands of Textica, ");
 
                 CharacterClassColorCheck();
 
-                Console.Write($"{_characterName} the {_characterClass}"); 
-                
+                Console.Write($"{_characterName} the {_characterClass}");
+
                 Console.ForegroundColor = ConsoleColor.White;
 
                 Console.WriteLine("!");
@@ -207,16 +186,105 @@ class Character
             } while (_characterClass == null || _characterName == null);
 
         } while (_characterClass == null || _characterName == null);
-        
-    }    
 
+    }
+
+    // Handles current character level and EXP gain
+
+    public void CharacterLevelAndExperience()
+    {
+        // Intial character level
+
+        _characterLevel = 1;
+
+      
+        // Intial EXP required to level up
+
+        _experiencePointsToLevelUp = 10;
+
+        // EXP required to level up based on what the user's current EXP is
+
+
+        switch (_currentExperiencePoints)
+        {
+            // 10 EXP for level 2, 20 for level 2, 30 for level 3, 40 for level 4, and 40 for level 5
+
+
+            case 10:
+                _characterLevel = 2;
+                _experiencePointsToLevelUp = 20;
+                break;
+            case 20:
+                _characterLevel = 3;
+                _experiencePointsToLevelUp = 30;
+                break;
+            case 30:
+                _characterLevel = 4;
+                _experiencePointsToLevelUp = 40;
+                break;
+            case 40:
+                _characterLevel = 5;
+                break;
+        }
+    }
+
+    // Displays what the character's status is: name, class, HP, AP, and SPD
+
+    private protected void CharacterStatus()
+    {
+        Console.WriteLine($"{_characterName} the {_characterClass} ");
+
+        Console.ForegroundColor = ConsoleColor.White;
+
+        Console.Write($"Level: {_characterLevel} ");
+
+        Console.Write($"EXP: {_currentExperiencePoints}/{_experiencePointsToLevelUp} ");
+
+        Console.ForegroundColor = ConsoleColor.Red;
+
+        Console.Write($"HP: {_healthPoints} ");
+
+        Console.ForegroundColor = ConsoleColor.Gray;
+
+        Console.Write($"AP: {_armorPoints} ");
+
+        Console.ForegroundColor = ConsoleColor.Yellow;
+
+        Console.WriteLine($"SPD: {_speedPoints}");
+
+        Console.ForegroundColor = ConsoleColor.White;
+    }
+
+    // Makes it so the character's name and class in CharacterStatus() changes color based on what class the user chooses in CharacterCreation()
+
+    private protected void CharacterClassColorCheck()
+    {
+        if (_characterClass == "Fighter")
+        {
+            Console.ForegroundColor = ConsoleColor.DarkRed;
+
+        }
+        if (_characterClass == "Rogue")
+        {
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+
+        }
+        if (_characterClass == "Grammaturge")
+        {
+            Console.ForegroundColor = ConsoleColor.Blue;
+        }
+    }    
 }
+
+// Allows the user to interact with and take quests from NPCs in the city
+
 class TownHub : Character
 {
     public TownHub()
     {
         CharacterCreation();
         CharacterClassColorCheck();
+        CharacterLevelAndExperience();
         CharacterStatus();
 
         Console.ForegroundColor = ConsoleColor.White;
