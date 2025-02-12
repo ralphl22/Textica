@@ -31,7 +31,20 @@ class Character
     private protected void CharacterStatus()
     {
         Console.WriteLine($"{_characterName} the {_characterClass}");
-        Console.WriteLine($"HP: {_healthPoints}/{_healthPoints} AP: {_armorPoints}/{_armorPoints} SPD: {_speedPoints} / {_speedPoints}");
+
+        Console.ForegroundColor = ConsoleColor.Red;
+
+        Console.Write($"HP: {_healthPoints}/{_healthPoints} ");
+
+        Console.ForegroundColor = ConsoleColor.Gray;
+
+        Console.Write($"AP: {_armorPoints}/{_armorPoints} ");
+
+        Console.ForegroundColor = ConsoleColor.Yellow;
+
+        Console.WriteLine($"SPD: {_speedPoints}");
+
+        Console.ForegroundColor = ConsoleColor.White;
     }
 
    private protected void CharacterCreation()
@@ -68,6 +81,10 @@ class Character
                     _speedPoints = 3;
                     _characterClass = "Fighter";
 
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
+
+                    Console.WriteLine("The Fighter");
+
                     Console.ForegroundColor = ConsoleColor.Red;
 
                     Console.Write($"HP: {_healthPoints}/{_healthPoints} ");
@@ -79,7 +96,7 @@ class Character
                     Console.ForegroundColor = ConsoleColor.Yellow;
 
                     Console.WriteLine($"SPD: {_speedPoints}"); 
-                    
+
                     Console.ForegroundColor = ConsoleColor.White;
 
                     Console.WriteLine("The fighter is the most basic of the classes. Armed with sword, shield, and plate armor, it is a balanced class that can take on any foe. Highest constitution of the classes.");
@@ -90,6 +107,10 @@ class Character
                     _armorPoints = 5;
                     _speedPoints = 10;
                     _characterClass = "Rogue";
+
+                    Console.ForegroundColor = ConsoleColor.DarkGray;
+
+                    Console.WriteLine("The Rogue");
 
                     Console.ForegroundColor = ConsoleColor.Red;
 
@@ -105,7 +126,7 @@ class Character
 
                     Console.ForegroundColor = ConsoleColor.White;
 
-                    Console.WriteLine("The rogue uses stealth and tricky to misdirect and evade foes. Weaker in consitution with no defense compared to a fighter, but stronger than a mage, and quicker than both.");
+                    Console.WriteLine("The rogue uses stealth and tricky to misdirect and evade foes. Weaker in consitution with lesser armor compared to a fighter, but stronger than a mage, and quicker than both.");
                 }
                 if (_response == "3")
                 {
@@ -113,6 +134,10 @@ class Character
                     _armorPoints = 3;
                     _speedPoints = 5;
                     _characterClass = "Grammaturge";
+
+                    Console.ForegroundColor = ConsoleColor.Blue;
+
+                    Console.WriteLine("The Grammaturge");
 
                     Console.ForegroundColor = ConsoleColor.Red;
 
@@ -143,9 +168,7 @@ class Character
                 Console.WriteLine($"Welcome to the lands of Textica, {_characterName} the {_characterClass}!");
                 break;
             }
-
             break;
-
         }
     }    
 
