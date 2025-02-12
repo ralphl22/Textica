@@ -3,10 +3,10 @@ while (true)
 {
     IntroText introText = new IntroText();
     Character character = new Character();
+    TownHub townHub = new TownHub();
     break;
 }
-        
-            
+               
 class IntroText 
 {
     public IntroText()
@@ -36,7 +36,6 @@ class Character
         Console.WriteLine($"{_characterName} the {_characterClass}");
         Console.WriteLine($"HP: {_healthPoints}/{_healthPoints} AP: {_armorPoints}/{_armorPoints} SPD: {_speedPoints} / {_speedPoints}");
     }
-
 
    private protected void CharacterCreation()
    {
@@ -120,6 +119,7 @@ class TownHub : Character
 {
     public TownHub()
     {
+        CharacterStatus();
         Console.WriteLine($"Welcome to the city of Textica, {_characterName}! Where do you want to go?");
         Console.WriteLine("1 - Tavern");
         Console.WriteLine("2 - City Watch");
@@ -128,8 +128,4 @@ class TownHub : Character
         _response = Console.ReadLine();
 
     }
-    
-
-
-
 }
