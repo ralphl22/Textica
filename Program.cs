@@ -3,8 +3,7 @@
 
 //IntroText introText = new IntroText();
 Character character = new Character();
-TownHub townHub = new TownHub();
-            
+TownHub townHub = new TownHub();      
 class IntroText 
 {
     public IntroText()
@@ -12,16 +11,20 @@ class IntroText
         Console.Title = "Legend of Textica";
 
         Console.ForegroundColor = ConsoleColor.Yellow;
+
         Console.WriteLine("LEGEND OF TEXTICA");
         Console.WriteLine();
         Console.Write("PRESS ANY KEY TO CONTINUE");
+
         Console.ReadKey(true);
+
         Console.Beep(800, 100);
+
         Console.ForegroundColor= ConsoleColor.White;
+
         Console.Clear();
     }
 }
-
 class Character
 {
    private protected string _characterName;
@@ -30,7 +33,6 @@ class Character
    private protected float _healthPoints;
    private protected float _armorPoints;
    private protected float _speedPoints;
-
     private protected void CharacterClassColorCheck()
     {
         if (_characterClass == "Fighter")
@@ -47,7 +49,6 @@ class Character
         {
             Console.ForegroundColor = ConsoleColor.Blue;
         }
-
     }
     private protected void CharacterStatus()
     {
@@ -67,18 +68,20 @@ class Character
 
         Console.ForegroundColor = ConsoleColor.White;
     }
-
-
    public void CharacterCreation()
    {
         do
         {
-
             Console.Write("What is thy name, adventurer? ");
+
             _characterName = Console.ReadLine();
+
             Console.Beep(800, 100);
+
             Console.Write("Are thy sure this is the name thy choseth? (y or n): ");
+
             _response = Console.ReadLine();
+
             Console.Beep(800, 100);
 
             if (_response == "N" || _response == "n")
@@ -92,9 +95,10 @@ class Character
                 Console.WriteLine("1 - Fighter");
                 Console.WriteLine("2 - Rogue");
                 Console.WriteLine("3 - Grammaturge");
-                _response = Console.ReadLine();
-                Console.Beep(800, 100);
 
+                _response = Console.ReadLine();
+
+                Console.Beep(800, 100);
 
                 if (_response == "1")
                 {
@@ -179,7 +183,9 @@ class Character
                 }
 
                 Console.Write("Are thy sure this is the class thy choseth? (y or n): ");
+
                 _response = Console.ReadLine();
+
                 Console.Beep(800, 100);
 
                 if (_response == "N" || _response == "n")
@@ -205,7 +211,6 @@ class Character
     }    
 
 }
-
 class TownHub : Character
 {
     public TownHub()
@@ -213,13 +218,15 @@ class TownHub : Character
         CharacterCreation();
         CharacterClassColorCheck();
         CharacterStatus();
+
         Console.ForegroundColor = ConsoleColor.White;
+
         Console.WriteLine($"Welcome to the city of Textica, {_characterName}! Where do you want to go?");
         Console.WriteLine("1 - Tavern");
         Console.WriteLine("2 - City Watch");
         Console.WriteLine("3 - Mayor's Office");
         Console.WriteLine("4 - Merchant");
-        _response = Console.ReadLine();
 
+        _response = Console.ReadLine();
     }
 }
