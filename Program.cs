@@ -1,6 +1,9 @@
-﻿//IntroText introText = new ();
-Character character = new ();
-TownHub townHub = new ();
+﻿
+// introText instance commented out to save time on debugging, and because the IntroText class is fine as is.
+
+//IntroText introText = new IntroText();
+Character character = new Character();
+TownHub townHub = new TownHub();
             
 class IntroText 
 {
@@ -27,7 +30,8 @@ class Character
    private protected float _healthPoints;
    private protected float _armorPoints;
    private protected float _speedPoints;
-    private protected void CharacterStatus()
+
+    private protected void CharacterClassColorCheck()
     {
         if (_characterClass == "Fighter")
         {
@@ -42,8 +46,11 @@ class Character
         if (_characterClass == "Grammaturge")
         {
             Console.ForegroundColor = ConsoleColor.Blue;
-
         }
+
+    }
+    private protected void CharacterStatus()
+    {
         Console.WriteLine($"{_characterName} the {_characterClass}");
 
         Console.ForegroundColor = ConsoleColor.Red;
@@ -70,7 +77,7 @@ class Character
             Console.Write("What is thy name, adventurer? ");
             _characterName = Console.ReadLine();
             Console.Beep(800, 100);
-            Console.Write("Are thy sure this is the name thy choseth? (Y or N): ");
+            Console.Write("Are thy sure this is the name thy choseth? (y or n): ");
             _response = Console.ReadLine();
             Console.Beep(800, 100);
 
@@ -96,7 +103,7 @@ class Character
                     _speedPoints = 3;
                     _characterClass = "Fighter";
 
-                    Console.ForegroundColor = ConsoleColor.DarkRed;
+                    CharacterClassColorCheck();
 
                     Console.WriteLine("The Fighter");
 
@@ -123,7 +130,7 @@ class Character
                     _speedPoints = 10;
                     _characterClass = "Rogue";
 
-                    Console.ForegroundColor = ConsoleColor.DarkGray;
+                    CharacterClassColorCheck();
 
                     Console.WriteLine("The Rogue");
 
@@ -150,7 +157,7 @@ class Character
                     _speedPoints = 5;
                     _characterClass = "Grammaturge";
 
-                    Console.ForegroundColor = ConsoleColor.Blue;
+                    CharacterClassColorCheck();
 
                     Console.WriteLine("The Grammaturge");
 
@@ -171,7 +178,7 @@ class Character
                     Console.WriteLine("The grammaturge is a master of grammaturgy: using words as a medium for magick powers. Though weaker and slower than the fighter and rogue, the grammaturge makes up for it with both offensive and defensive healing magicks, assuming you find the right words!");
                 }
 
-                Console.Write("Are thy sure this is the class thy choseth? (Y or N): ");
+                Console.Write("Are thy sure this is the class thy choseth? (y or n): ");
                 _response = Console.ReadLine();
                 Console.Beep(800, 100);
 
@@ -180,7 +187,16 @@ class Character
                     continue;
                 }
 
-                Console.WriteLine($"Welcome to the lands of Textica, {_characterName} the {_characterClass}!");
+
+                Console.Write($"Welcome to the lands of Textica, ");
+
+                CharacterClassColorCheck();
+
+                Console.Write($"{_characterName} the {_characterClass}"); 
+                
+                Console.ForegroundColor = ConsoleColor.White;
+
+                Console.WriteLine("!");
 
             } while (_characterClass == null || _characterName == null);
 
@@ -195,7 +211,9 @@ class TownHub : Character
     public TownHub()
     {
         CharacterCreation();
+        CharacterClassColorCheck();
         CharacterStatus();
+        Console.ForegroundColor = ConsoleColor.White;
         Console.WriteLine($"Welcome to the city of Textica, {_characterName}! Where do you want to go?");
         Console.WriteLine("1 - Tavern");
         Console.WriteLine("2 - City Watch");
