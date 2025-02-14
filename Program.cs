@@ -6,14 +6,16 @@ public class Main
      {
         // mainMenu instance commented out to save time on debugging, and because the MainMenu class is fine as is.
 
-        // MainMenu mainMenu = new MainMenu();
+        //new MainMenu();
 
-        Character character = new Character();
-        TownHub townHub = new TownHub();
+        new Character();
+        new TownHub();
 
-        // Serves as the main menu of the game - user can press any key to continue to character creation 
+    
      }
 }
+
+// Serves as the main menu of the game - user can press any key to continue to character creation 
 
 public class MainMenu 
 {
