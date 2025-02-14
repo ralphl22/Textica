@@ -1,15 +1,25 @@
-﻿// mainMenu instance commented out to save time on debugging, and because the MainMenu class is fine as is.
+﻿// Entry point to get the whole game running
+Main main = new Main();
+public class Main
+{
+     public Main()
+     {
+        // mainMenu instance commented out to save time on debugging, and because the MainMenu class is fine as is.
 
-//MainMenu mainMenu = new MainMenu();
-Character character = new Character();
-TownHub townHub = new TownHub();  
+        // MainMenu mainMenu = new MainMenu();
 
-// Serves as the main menu of the game - user can press any key to continue to character creation 
+        Character character = new Character();
+        TownHub townHub = new TownHub();
 
-class MainMenu 
+        // Serves as the main menu of the game - user can press any key to continue to character creation 
+     }
+}
+
+public class MainMenu 
 {
     public MainMenu()
     {
+        
         Console.Title = "Legend of Textica";
 
         Console.ForegroundColor = ConsoleColor.Yellow;
@@ -27,17 +37,15 @@ class MainMenu
         Console.Clear();
     }
 }
-
-
 // Handles anything important in regards to the user's character, including character creation and stats
 
-class Character
+public class Character
 {
    // Declares important fields for the user's character in the game
 
    private protected string _characterName;
    private protected string _characterClass;
-   private protected string _response;
+   private protected  string _response;
    private protected int _characterLevel;
    private protected int _currentExperiencePoints;
    private protected int _experiencePointsToLevelUp;
@@ -48,17 +56,121 @@ class Character
 
     // Allows the user to choose their name and character class
 
-    public void CharacterCreation()
+private protected void CharacterCreation()
+{
+    do
     {
+        Console.Write("What is thy name, adventurer? ");
+
+        _characterName = Console.ReadLine();
+
+        Console.Beep(800, 100);
+
+        Console.Write("Are thy sure this is the name thy choseth? (y or n): ");
+
+        _response = Console.ReadLine();
+
+        Console.Beep(800, 100);
+
+        if (_response == "N" || _response == "n")
+        {
+            continue;
+        }
+
         do
         {
-            Console.Write("What is thy name, adventurer? ");
+            Console.WriteLine("Choose thy class, adventurer: ");
+            Console.WriteLine("1 - Fighter");
+            Console.WriteLine("2 - Rogue");
+            Console.WriteLine("3 - Grammaturge");
 
-            _characterName = Console.ReadLine();
+            _response = Console.ReadLine();
 
             Console.Beep(800, 100);
 
-            Console.Write("Are thy sure this is the name thy choseth? (y or n): ");
+            if (_response == "1")
+            {
+                _healthPoints = 15;
+                _armorPoints = 10;
+                _speedPoints = 3;
+                _characterClass = "Fighter";
+
+                CharacterClassColorCheck();
+
+                Console.WriteLine("The Fighter");
+
+                Console.ForegroundColor = ConsoleColor.Red;
+
+                Console.Write($"HP: {_healthPoints} ");
+
+                Console.ForegroundColor = ConsoleColor.Gray;
+
+                Console.Write($"AP: {_armorPoints} ");
+
+                Console.ForegroundColor = ConsoleColor.Yellow;
+
+                Console.WriteLine($"SPD: {_speedPoints}");
+
+                Console.ForegroundColor = ConsoleColor.White;
+
+                Console.WriteLine("The fighter is the most basic of the classes. Armed with sword, shield, and plate armor, it is a balanced class that can take on any foe. Highest constitution of the classes.");
+            }
+            if (_response == "2")
+            {
+                _healthPoints = 10;
+                _armorPoints = 5;
+                _speedPoints = 10;
+                _characterClass = "Rogue";
+
+                CharacterClassColorCheck();
+
+                Console.WriteLine("The Rogue");
+
+                Console.ForegroundColor = ConsoleColor.Red;
+
+                Console.Write($"HP: {_healthPoints} ");
+
+                Console.ForegroundColor = ConsoleColor.Gray;
+
+                Console.Write($"AP: {_armorPoints} ");
+
+                Console.ForegroundColor = ConsoleColor.Yellow;
+
+                Console.WriteLine($"SPD: {_speedPoints}");
+
+                Console.ForegroundColor = ConsoleColor.White;
+
+                Console.WriteLine("The rogue uses stealth and tricky to misdirect and evade foes. Weaker in consitution with lesser armor compared to a fighter, but stronger than a mage, and quicker than both.");
+            }
+            if (_response == "3")
+            {
+                _healthPoints = 5;
+                _armorPoints = 3;
+                _speedPoints = 5;
+                _characterClass = "Grammaturge";
+
+                CharacterClassColorCheck();
+
+                Console.WriteLine("The Grammaturge");
+
+                Console.ForegroundColor = ConsoleColor.Red;
+
+                Console.Write($"HP: {_healthPoints} ");
+
+                Console.ForegroundColor = ConsoleColor.Gray;
+
+                Console.Write($"AP: {_armorPoints} ");
+
+                Console.ForegroundColor = ConsoleColor.Yellow;
+
+                Console.WriteLine($"SPD: {_speedPoints}");
+
+                Console.ForegroundColor = ConsoleColor.White;
+
+                Console.WriteLine("The grammaturge is a master of grammaturgy: using words as a medium for magick powers. Though weaker and slower than the fighter and rogue, the grammaturge makes up for it with both offensive and defensive healing magicks, assuming you find the right words!");
+            }
+
+            Console.Write("Are thy sure this is the class thy choseth? (y or n): ");
 
             _response = Console.ReadLine();
 
@@ -69,129 +181,25 @@ class Character
                 continue;
             }
 
-            do
-            {
-                Console.WriteLine("Choose thy class, adventurer: ");
-                Console.WriteLine("1 - Fighter");
-                Console.WriteLine("2 - Rogue");
-                Console.WriteLine("3 - Grammaturge");
+            Console.Write($"Welcome to the lands of Textica, ");
 
-                _response = Console.ReadLine();
+            CharacterClassColorCheck();
 
-                Console.Beep(800, 100);
+            Console.Write($"{_characterName} the {_characterClass}");
 
-                if (_response == "1")
-                {
-                    _healthPoints = 15;
-                    _armorPoints = 10;
-                    _speedPoints = 3;
-                    _characterClass = "Fighter";
+            Console.ForegroundColor = ConsoleColor.White;
 
-                    CharacterClassColorCheck();
+            Console.WriteLine("!");
 
-                    Console.WriteLine("The Fighter");
+        } while (_characterClass == "1" || _characterName == "1");
 
-                    Console.ForegroundColor = ConsoleColor.Red;
+    } while (_characterClass == "1" || _characterName == "1");
 
-                    Console.Write($"HP: {_healthPoints} ");
-
-                    Console.ForegroundColor = ConsoleColor.Gray;
-
-                    Console.Write($"AP: {_armorPoints} ");
-
-                    Console.ForegroundColor = ConsoleColor.Yellow;
-
-                    Console.WriteLine($"SPD: {_speedPoints}");
-
-                    Console.ForegroundColor = ConsoleColor.White;
-
-                    Console.WriteLine("The fighter is the most basic of the classes. Armed with sword, shield, and plate armor, it is a balanced class that can take on any foe. Highest constitution of the classes.");
-                }
-                if (_response == "2")
-                {
-                    _healthPoints = 10;
-                    _armorPoints = 5;
-                    _speedPoints = 10;
-                    _characterClass = "Rogue";
-
-                    CharacterClassColorCheck();
-
-                    Console.WriteLine("The Rogue");
-
-                    Console.ForegroundColor = ConsoleColor.Red;
-
-                    Console.Write($"HP: {_healthPoints} ");
-
-                    Console.ForegroundColor = ConsoleColor.Gray;
-
-                    Console.Write($"AP: {_armorPoints} ");
-
-                    Console.ForegroundColor = ConsoleColor.Yellow;
-
-                    Console.WriteLine($"SPD: {_speedPoints}");
-
-                    Console.ForegroundColor = ConsoleColor.White;
-
-                    Console.WriteLine("The rogue uses stealth and tricky to misdirect and evade foes. Weaker in consitution with lesser armor compared to a fighter, but stronger than a mage, and quicker than both.");
-                }
-                if (_response == "3")
-                {
-                    _healthPoints = 5;
-                    _armorPoints = 3;
-                    _speedPoints = 5;
-                    _characterClass = "Grammaturge";
-
-                    CharacterClassColorCheck();
-
-                    Console.WriteLine("The Grammaturge");
-
-                    Console.ForegroundColor = ConsoleColor.Red;
-
-                    Console.Write($"HP: {_healthPoints} ");
-
-                    Console.ForegroundColor = ConsoleColor.Gray;
-
-                    Console.Write($"AP: {_armorPoints} ");
-
-                    Console.ForegroundColor = ConsoleColor.Yellow;
-
-                    Console.WriteLine($"SPD: {_speedPoints}");
-
-                    Console.ForegroundColor = ConsoleColor.White;
-
-                    Console.WriteLine("The grammaturge is a master of grammaturgy: using words as a medium for magick powers. Though weaker and slower than the fighter and rogue, the grammaturge makes up for it with both offensive and defensive healing magicks, assuming you find the right words!");
-                }
-
-                Console.Write("Are thy sure this is the class thy choseth? (y or n): ");
-
-                _response = Console.ReadLine();
-
-                Console.Beep(800, 100);
-
-                if (_response == "N" || _response == "n")
-                {
-                    continue;
-                }
-
-                Console.Write($"Welcome to the lands of Textica, ");
-
-                CharacterClassColorCheck();
-
-                Console.Write($"{_characterName} the {_characterClass}");
-
-                Console.ForegroundColor = ConsoleColor.White;
-
-                Console.WriteLine("!");
-
-            } while (_characterClass == null || _characterName == null);
-
-        } while (_characterClass == null || _characterName == null);
-
-    }
+}
 
     // Handles current character level and EXP gain
 
-    public void CharacterLevelAndExperience()
+    private protected void CharacterLevelAndExperience()
     {
         // Intial character level
 
@@ -277,12 +285,17 @@ class Character
 }
 
 // Allows the user to interact with and take quests from NPCs in the city
-
-class TownHub : Character
+public class TownHub : Character
 {
+
     public TownHub()
     {
-        CharacterCreation();
+        // CharacterCreation();
+
+        // Fields are already initialized for testing purposes
+
+        _characterName = "Testman"; _characterClass = "Fighter"; _healthPoints = 10; _armorPoints = 10; _speedPoints = 10;
+
         CharacterClassColorCheck();
         CharacterLevelAndExperience();
         CharacterStatus();
@@ -294,7 +307,49 @@ class TownHub : Character
         Console.WriteLine("2 - City Watch");
         Console.WriteLine("3 - Mayor's Office");
         Console.WriteLine("4 - Merchant");
+        Console.WriteLine("5 - King's Castle");
 
         _response = Console.ReadLine();
+
+        switch (_response)
+        {
+            case "1": new Tavern();
+            break;
+            case "2": new CityWatch();
+            break;
+            case "3": new MayorOffice();
+            break;
+            case "4": new Merchant();
+            break;
+            case "5": new KingCastle();
+            break;
+            default: Console.WriteLine("Input does not appear to be working!");
+            break;
+        }   
     }
+}
+
+public class Tavern 
+{
+    public Tavern()
+    {
+        Console.WriteLine("You enter the tavern. You see people of all different races and cultures scattered about, playing games, talking to each other, or dancing.");
+        Console.WriteLine("You approach the tavernkeeper and he eyes you curiously.");
+    }
+}
+class CityWatch
+{
+
+}
+class MayorOffice
+{
+
+}
+class Merchant
+{
+
+}
+class KingCastle
+{
+
 }
