@@ -1,4 +1,7 @@
-﻿// Handles anything important in regards to the user's character, including character creation and stats
+﻿// Entry point to get the whole game running
+// Serves as the main menu of the game - user can press any key to continue to character creation 
+// Handles anything important in regards to the user's character, including character creation and stats
+
 public class Character
 {
     // Declares important fields for the user's character in the game
