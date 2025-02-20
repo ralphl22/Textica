@@ -1,4 +1,7 @@
-﻿// Handles anything important in regards to the user's character, including character creation and stats
+﻿// Handles anything important in regards to the user's character and NPCs
+
+// Responsible for managing the player character
+
 public class Character
 {
     // Declares important fields for the user's character in the game
@@ -9,9 +12,10 @@ public class Character
     private protected int _characterLevel;
     private protected int _currentExperiencePoints;
     private protected int _experiencePointsToLevelUp;
-    private protected float _healthPoints;
-    private protected float _armorPoints;
-    private protected float _speedPoints;
+    private protected float _characterHealthPoints;
+    private protected float _characterArmorPoints;
+    private protected float _characterSpeedPoints;
+    private protected int _goldAmount;
 
 
     // Allows the user to choose their name and character class
@@ -50,9 +54,9 @@ public class Character
 
                 if (_response == "1")
                 {
-                    _healthPoints = 15;
-                    _armorPoints = 10;
-                    _speedPoints = 3;
+                    _characterHealthPoints = 15;
+                    _characterArmorPoints = 10;
+                    _characterSpeedPoints = 3;
                     _characterClass = "Fighter";
 
                     CharacterClassColorCheck();
@@ -61,25 +65,25 @@ public class Character
 
                     Console.ForegroundColor = ConsoleColor.Red;
 
-                    Console.Write($"HP: {_healthPoints} ");
+                    Console.Write($"HP: {_characterHealthPoints} ");
 
                     Console.ForegroundColor = ConsoleColor.Gray;
 
-                    Console.Write($"AP: {_armorPoints} ");
+                    Console.Write($"AP: {_characterArmorPoints} ");
 
                     Console.ForegroundColor = ConsoleColor.Yellow;
 
-                    Console.WriteLine($"SPD: {_speedPoints}");
+                    Console.WriteLine($"SPD: {_characterSpeedPoints}");
 
-                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.ResetColor();
 
                     Console.WriteLine("The fighter is the most basic of the classes. Armed with sword, shield, and plate armor, it is a balanced class that can take on any foe. Highest constitution of the classes.");
                 }
                 if (_response == "2")
                 {
-                    _healthPoints = 10;
-                    _armorPoints = 5;
-                    _speedPoints = 10;
+                    _characterHealthPoints = 10;
+                    _characterArmorPoints = 5;
+                    _characterSpeedPoints = 10;
                     _characterClass = "Rogue";
 
                     CharacterClassColorCheck();
@@ -88,25 +92,25 @@ public class Character
 
                     Console.ForegroundColor = ConsoleColor.Red;
 
-                    Console.Write($"HP: {_healthPoints} ");
+                    Console.Write($"HP: {_characterHealthPoints} ");
 
                     Console.ForegroundColor = ConsoleColor.Gray;
 
-                    Console.Write($"AP: {_armorPoints} ");
+                    Console.Write($"AP: {_characterArmorPoints} ");
 
                     Console.ForegroundColor = ConsoleColor.Yellow;
 
-                    Console.WriteLine($"SPD: {_speedPoints}");
+                    Console.WriteLine($"SPD: {_characterSpeedPoints}");
 
-                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.ResetColor();
 
                     Console.WriteLine("The rogue uses stealth and tricky to misdirect and evade foes. Weaker in consitution with lesser armor compared to a fighter, but stronger than a mage, and quicker than both.");
                 }
                 if (_response == "3")
                 {
-                    _healthPoints = 5;
-                    _armorPoints = 3;
-                    _speedPoints = 5;
+                    _characterHealthPoints = 5;
+                    _characterArmorPoints = 3;
+                    _characterSpeedPoints = 5;  
                     _characterClass = "Grammaturge";
 
                     CharacterClassColorCheck();
@@ -115,17 +119,17 @@ public class Character
 
                     Console.ForegroundColor = ConsoleColor.Red;
 
-                    Console.Write($"HP: {_healthPoints} ");
+                    Console.Write($"HP: {_characterHealthPoints} ");
 
                     Console.ForegroundColor = ConsoleColor.Gray;
 
-                    Console.Write($"AP: {_armorPoints} ");
+                    Console.Write($"AP: {_characterArmorPoints} ");
 
                     Console.ForegroundColor = ConsoleColor.Yellow;
 
-                    Console.WriteLine($"SPD: {_speedPoints}");
+                    Console.WriteLine($"SPD: {_characterSpeedPoints}");
 
-                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.ResetColor();                
 
                     Console.WriteLine("The grammaturge is a master of grammaturgy: using words as a medium for magick powers. Though weaker and slower than the fighter and rogue, the grammaturge makes up for it with both offensive and defensive healing magicks, assuming you find the right words!");
                 }
@@ -147,9 +151,11 @@ public class Character
 
                 Console.Write($"{_characterName} the {_characterClass}");
 
-                Console.ForegroundColor = ConsoleColor.White;
+                Console.ResetColor();
 
                 Console.WriteLine("!");
+
+                Thread.Sleep(2000);
 
             } while (_characterClass == "1" || _characterName == "1");
 
@@ -196,12 +202,13 @@ public class Character
         }
     }
 
+
     // Displays what the character's status is: name, class, HP, AP, and SPD
     private protected void CharacterStatus()
     {
         Console.WriteLine($"{_characterName} the {_characterClass} ");
 
-        Console.ForegroundColor = ConsoleColor.White;
+        Console.ResetColor();
 
         Console.Write($"Level: {_characterLevel} ");
 
@@ -209,21 +216,23 @@ public class Character
 
         Console.ForegroundColor = ConsoleColor.Red;
 
-        Console.Write($"HP: {_healthPoints} ");
+        Console.Write($"HP: {_characterHealthPoints} ");
 
         Console.ForegroundColor = ConsoleColor.Gray;
 
-        Console.Write($"AP: {_armorPoints} ");
+        Console.Write($"AP: {_characterArmorPoints} ");
 
         Console.ForegroundColor = ConsoleColor.Yellow;
 
-        Console.WriteLine($"SPD: {_speedPoints}");
+        Console.Write($"SPD: {_characterSpeedPoints}");
 
-        Console.ForegroundColor = ConsoleColor.White;
+        Console.ResetColor();
+
+        Console.WriteLine($" Gold: {_goldAmount} G");
+
     }
 
     // Makes it so the character's name and class in CharacterStatus() changes color based on what class the user chooses in CharacterCreation()
-
     private protected void CharacterClassColorCheck()
     {
         if (_characterClass == "Fighter")
@@ -240,5 +249,45 @@ public class Character
         {
             Console.ForegroundColor = ConsoleColor.Blue;
         }
+    }
+}
+
+
+// Responsible for hostile NPC monsters
+public class Monster
+{
+    private protected string _monsterClass;
+
+    private protected float _monsterHealthPoints;
+
+    private protected float _monsterArmorPoints;
+
+    private protected float _monsterSpeedhPoints;
+
+    public Monster(string monsterClass, float monsterHealthPoints, float monsterArmorPoints, float monsterSpeedPoints)
+    {
+        _monsterClass = monsterClass;
+
+        _monsterHealthPoints = monsterHealthPoints;
+
+        _monsterArmorPoints = monsterArmorPoints;
+
+        _monsterSpeedhPoints = monsterSpeedPoints;
+    }
+}
+
+public class GoblinFighter : Monster
+{
+    public GoblinFighter() : base("GoblinFighter", 10, 0, 1)
+    {
+
+    }
+
+}
+public class GoblinArcher : Monster
+{
+    public GoblinArcher() : base("GoblinArcher", 5, 0, 3)
+    {
+
     }
 }

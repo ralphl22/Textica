@@ -11,7 +11,5 @@ public class Main
 
         new Character();
         new TownHub();
-
-    
      }
 }
