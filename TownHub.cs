@@ -1,20 +1,28 @@
 ﻿// Allows the user to interact with and take quests from NPCs in the city
-public class TownHub : Character
+public class TownHub
 {
-    public static bool _forestAccess;
+    public static bool ForestAccess { get; set; }
 
     public TownHub()
     {
-        // CharacterCreation();
+        Character character = new Character();
+
+        character.IsCharacterCreated = true;
+
+        if (character.IsCharacterCreated == false)
+        {
+            character.CharacterCreation();
+        }
 
         // Fields are already initialized for testing purposes
 
-      _characterName = "Testman"; _characterClass = "Fighter"; _characterHealthPoints = 15; _characterArmorPoints = 10; _characterSpeedPoints = 5;
+        character.CharacterName = "Testman";  character.CharacterClass = "Fighter"; character.CharacterHealthPoints = 15; character.CharacterArmorPoints = 10; character.CharacterSpeedPoints = 5; ForestAccess = true;
 
         // Intial access to forest not granted until player accepts a quest in the city watch area
 
-        if (_forestAccess == true)
+        if (ForestAccess == true)
         {
+            /*
             Console.ForegroundColor = ConsoleColor.Blue;
 
             Console.WriteLine("New area unlocked!");
@@ -23,15 +31,15 @@ public class TownHub : Character
 
             Thread.Sleep(2000);
 
-            Console.Clear();
+            Console.Clear();*/
 
-            CharacterClassColorCheck();
-            CharacterLevelAndExperience();
-            CharacterStatus();
+            character.CharacterClassColorCheck();
+            character.CharacterLevelAndExperience();
+            character.CharacterStatus();
 
             Console.ResetColor();
 
-            Console.WriteLine($"Welcome to the city of Textica, {_characterName}! Where do you want to go?");
+            Console.WriteLine($"Welcome to the city of Textica, {character.CharacterName}! Where do you want to go?");
             Console.WriteLine("1 - Tavern");
             Console.WriteLine("2 - City Watch");
             Console.WriteLine("3 - Mayor's Office (Not available)");
@@ -39,10 +47,10 @@ public class TownHub : Character
             Console.WriteLine("5 - King's Castle (Not available)");
             Console.WriteLine("6 -  Forest");
 
-            _response = Console.ReadLine();
+            character.Response = "6";
             Console.Beep(800, 100);
 
-            switch (_response)
+            switch (character.Response)
             {
                 case "1":
                     Console.Clear();
@@ -75,17 +83,17 @@ public class TownHub : Character
         }
         else
         {
-            Console.WriteLine($"Welcome to the city of Textica, {_characterName}! Where do you want to go?");
+            Console.WriteLine($"Welcome to the city of Textica, {character.CharacterName}! Where do you want to go?");
             Console.WriteLine("1 - Tavern");
             Console.WriteLine("2 - City Watch");
             Console.WriteLine("3 - Mayor's Office (Not available)");
             Console.WriteLine("4 - Merchant (Not available)");
             Console.WriteLine("5 - King's Castle (Not available)");
 
-            _response = Console.ReadLine();
+            character.Response = Console.ReadLine();
             Console.Beep(800, 100);
 
-            switch (_response)
+            switch (character.Response)
             {
                 case "1":
                     Console.Clear();
@@ -114,7 +122,6 @@ public class TownHub : Character
 public class Tavern
 {
     private protected string _response;
-
     public Tavern()
     {
         Console.WriteLine("You enter the tavern. You see people of all different races and cultures scattered about.");
@@ -199,7 +206,7 @@ public class CityWatch
 
                 Console.Clear();
 
-                TownHub._forestAccess = true;
+                TownHub.ForestAccess = true;
                 
                 new TownHub();
 
@@ -211,17 +218,35 @@ public class CityWatch
 }
 class Forest
 {
+    public string _response; 
 
+   public Forest()
+   {
+        Console.WriteLine("You see yourself before a dense forest teeming with life. Where do you want to go?");
+
+        Console.WriteLine("1 - Goblin Tribe Huts");
+        Console.WriteLine("2 - I'll be leaving.");
+
+        _response = Console.ReadLine();
+
+        if (_response == "1")
+        {
+            Console.Clear();
+            new Combat();
+
+        }
+        else new TownHub();
+   }
 }
-class MayorOffice
+public class MayorOffice
 {
 
 }
-class Merchant
+public class Merchant
 {
 
 }
-class KingCastle
+public class KingCastle
 {
 
 }
