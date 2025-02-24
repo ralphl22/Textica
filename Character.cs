@@ -9,9 +9,9 @@ public class Character
     public float CharacterDamage { get; set; }
     public int CharacterAccurarcy { get; set; }
     public string Response { get; set; }
-    public int CharacterLevel { get; set; }
-    public int CurrentExperiencePoints { get; set; }
-    public int ExperiencePointsToLevelUp { get; set; }
+    public static int CharacterLevel { get; set; }
+    public static int CurrentExperiencePoints { get; set; }
+    public static int ExperiencePointsToLevelUp { get; set; }
     public float CharacterHealthPoints { get; set; }
     public float CharacterArmorPoints { get; set; }
     public float CharacterSpeedPoints { get; set; }
@@ -190,21 +190,28 @@ public class Character
         {
             // 10 EXP for level 2, 20 for level 2, 30 for level 3, 40 for level 4, and 40 for level 5
 
-
             case 10:
                 CharacterLevel = 2;
+                CurrentExperiencePoints = 0;
+                Console.WriteLine($"You leveled up to {CharacterLevel}!");
                 ExperiencePointsToLevelUp = 20;
                 break;
             case 20:
                 CharacterLevel = 3;
+                CurrentExperiencePoints = 0;
+                Console.WriteLine($"You leveled up to {CharacterLevel}!");
                 ExperiencePointsToLevelUp = 30;
                 break;
             case 30:
                 CharacterLevel = 4;
+                CurrentExperiencePoints = 0;
+                Console.WriteLine($"You leveled up to {CharacterLevel}!");
                 ExperiencePointsToLevelUp = 40;
                 break;
             case 40:
+                CurrentExperiencePoints = 0;
                 CharacterLevel = 5;
+                Console.WriteLine($"You leveled up to {CharacterLevel}!");
                 break;
         }
     }
@@ -236,7 +243,6 @@ public class Character
         Console.WriteLine($" Gold: {GoldAmount} G");
 
     }
-
     // Makes it so the character's name and class in CharacterStatus() changes color based on what class the user chooses in CharacterCreation()
     public void CharacterClassColorCheck()
     {
@@ -305,7 +311,7 @@ public class Monster
 }
 public class GoblinFighter : Monster
 {
-    public GoblinFighter() : base("Goblin Fighter", 10, 0, 0)
+    public GoblinFighter() : base("Goblin Fighter", 10, 0, 1)
     {
 
     }

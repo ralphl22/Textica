@@ -218,18 +218,35 @@ public class CityWatch
 }
 class Forest
 {
-    public string _response; 
+    public string Response { get; set; }
 
    public Forest()
    {
+        Character character = new Character();
+
+        character.CharacterName = "Testman"; character.CharacterClass = "Fighter"; character.CharacterHealthPoints = 15; character.CharacterArmorPoints = 10; character.CharacterSpeedPoints = 3; TownHub.ForestAccess = true;
+
+        character.CharacterLevelAndExperience();
+
+        Console.WriteLine("--------------------------------------------------");
+
+        character.CharacterClassColorCheck();
+        character.CharacterStatus();
+
+        Console.WriteLine("--------------------------------------------------");
+
+
         Console.WriteLine("You see yourself before a dense forest teeming with life. Where do you want to go?");
 
         Console.WriteLine("1 - Goblin Tribe Huts");
+
         Console.WriteLine("2 - I'll be leaving.");
 
-        _response = Console.ReadLine();
+        Response = Console.ReadLine();
+        Console.Beep(800, 100);
 
-        if (_response == "1")
+
+        if (Response == "1")
         {
             Console.Clear();
             new Combat();
