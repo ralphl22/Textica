@@ -3,6 +3,8 @@ public class Combat
 {
     public int Round { get; set; }
     public string Response { get; set; }
+    public bool MonsterInitiative { get; set; }
+    public bool CharacterInitiative { get; set; }
     public Combat()
     {
         Round = 1;
@@ -17,7 +19,7 @@ public class Combat
 
         Random random = new Random();
 
-        goblinFighter.MonsterHealthPoints = 0;
+       // goblinFighter.MonsterHealthPoints = 0;
 
         character.CharacterDamage = random.Next(1, 11);
 
@@ -97,262 +99,167 @@ public class Combat
                 new Forest();
             }
 
-            if (goblinFighter.MonsterSpeedPoints > character.CharacterSpeedPoints)
+            CharacterCombat();
+
+            void CharacterCombat()
             {
-
-                while (Round == 1)
+                while (true) 
                 {
-                    Console.WriteLine($"{goblinFighter.MonsterClass} goes first!");
-                    Thread.Sleep(2000);
-                    break;
-                }
-
-
-                if (goblinFighter.MonsterAccurarcy >= 30)
-                {
-                    Console.Beep(800, 100);
-                    Console.Beep(1000, 100);
-                    Console.WriteLine($"{goblinFighter.MonsterClass} attacks with its sword, doing {goblinFighter.MonsterDamage} DMG!");
-                    Round++;
-                    continue;
-                }
-                else
-                {
-                    Console.Beep(300, 100);
-                    Console.Beep(200, 100);
-                    Console.WriteLine($"{goblinFighter.MonsterClass} misses its attack!");
-                    Round++;
-                    continue;
-                }
-            }
-            else
-            {
-                if (Round == 1)
-                {
-                    Console.WriteLine("You go first!");
-                    Thread.Sleep(2000);
-                }
-
-                Console.WriteLine("What do you want do do?");
-                Console.WriteLine("1 - Attack");
-                Console.WriteLine("2 - Defend");
-                Console.WriteLine("3 - Flee");
-
-                Response = Console.ReadLine();
-
-                switch (Response)
-                {
-                    case "1":
-                        if (character.CharacterAccurarcy >= 30)
+                    if (character.CharacterSpeedPoints > goblinFighter.MonsterSpeedPoints || MonsterInitiative == true)
+                    {
+                        if (Round == 1)
                         {
-                            if (character.CharacterDamage >= 7)
+                            Console.WriteLine("You go first!");
+                            CharacterInitiative = true;
+                            Thread.Sleep(2000);
+                        }
+
+                        Console.WriteLine("What do you want do do?");
+                        Console.WriteLine("1 - Attack");
+                        Console.WriteLine("2 - Defend");
+                        Console.WriteLine("3 - Flee");
+
+                        Response = Console.ReadLine();
+
+                        if (Response == "1")
+                        {
+                            if (character.CharacterAccurarcy >= 30)
                             {
-                                Console.Beep(1000, 100);
-                                Console.Beep(1200, 100);
-                                Console.Beep(1400, 150);
-
-                                Console.ForegroundColor = ConsoleColor.DarkRed;
-
-                                Console.WriteLine("CRITICAL HIT!");
-
-                                Thread.Sleep(2000);
-
-                                Console.ResetColor();
-
-                                Console.WriteLine($"You hit the {goblinFighter.MonsterClass} for {character.CharacterDamage} DMG!");
-
-                                goblinFighter.MonsterHealthPoints = goblinFighter.MonsterHealthPoints - character.CharacterDamage;
-
-                                if (goblinFighter.MonsterHealthPoints <= 0)
+                                if (character.CharacterDamage >= 7)
                                 {
-                                    Thread.Sleep(2000);
-                                    continue;
-                                }
-
-                                if (goblinFighter.MonsterAccurarcy >= 30)
-                                {
-                                    Thread.Sleep(2000);
-
-                                    Console.Beep(800, 100);
                                     Console.Beep(1000, 100);
-                                    Console.WriteLine($"{goblinFighter.MonsterClass} attacks with its sword, doing {goblinFighter.MonsterDamage} DMG!");
+                                    Console.Beep(1200, 100);
+                                    Console.Beep(1400, 150);
 
-                                    character.CharacterArmorPoints = character.CharacterArmorPoints - goblinFighter.MonsterDamage;
+                                    Console.ForegroundColor = ConsoleColor.DarkRed;
 
-                                    if (character.CharacterArmorPoints <= 0)
+                                    Console.WriteLine("CRITICAL HIT!");
+
+                                    Thread.Sleep(2000);
+
+                                    Console.ResetColor();
+
+                                    Console.WriteLine($"You hit the {goblinFighter.MonsterClass} for {character.CharacterDamage} DMG!");
+
+                                    goblinFighter.MonsterHealthPoints = goblinFighter.MonsterHealthPoints - character.CharacterDamage;
+
+                                    Round++;
+                                 
+                                    if (goblinFighter.MonsterHealthPoints <= 0)
                                     {
-                                        character.CharacterArmorPoints = 0;
-
-                                        if (character.CharacterHealthPoints > 0)
-                                        {
-                                            character.CharacterHealthPoints = character.CharacterHealthPoints - goblinFighter.MonsterDamage;
-                                            Round++;
-                                            Thread.Sleep(2000);
-                                            continue;
-                                        }
-                                        if (character.CharacterHealthPoints <= 0)
-                                        {
-                                            Round++;
-                                            Thread.Sleep(2000);
-                                            continue;
-                                        }
-
+                                        Thread.Sleep(2000);
+                                        break;
                                     }
-
-                                    Thread.Sleep(2000);
-
-                                    Console.Beep(300, 100);
-                                    Console.Beep(200, 100);
-                                    Console.WriteLine($"The {goblinFighter.MonsterClass} hits your armor! Your armor was reduced to {character.CharacterArmorPoints}!");
-                                    Thread.Sleep(2000);
-                                    continue;
+                                    break;
                                 }
                                 else
                                 {
-                                    Thread.Sleep(2000);
+                                    Console.Beep(800, 100);
+                                    Console.Beep(1000, 100);
 
-                                    Console.Beep(300, 100);
-                                    Console.Beep(200, 100);
-                                    Console.WriteLine($"{goblinFighter.MonsterClass} misses its attack!");
+                                    Console.WriteLine($"You hit the {goblinFighter.MonsterClass} for {character.CharacterDamage} DMG!");
+
+                                    goblinFighter.MonsterHealthPoints = goblinFighter.MonsterHealthPoints - character.CharacterDamage;
 
                                     Round++;
 
-                                    Thread.Sleep(2000);
-
-                                    continue;
+                                    if (goblinFighter.MonsterHealthPoints <= 0)
+                                    {
+                                        Thread.Sleep(2000);
+                                        break;
+                                    }
+                                    break;
                                 }
                             }
                             else
                             {
-                                Console.Beep(800, 100);
+                                Console.Beep(300, 100);
+                                Console.Beep(200, 100);
 
-                                Console.Beep(1000, 100);
+                                Console.WriteLine("You miss your attack!");
 
-                                Console.WriteLine($"You hit the {goblinFighter.MonsterClass} for {character.CharacterDamage} DMG!");
+                                Thread.Sleep(2000);
 
-                                goblinFighter.MonsterHealthPoints = goblinFighter.MonsterHealthPoints - character.CharacterDamage;
+                                Round++;
 
-                                if (goblinFighter.MonsterHealthPoints <= 0)
-                                {
-                                    continue;
-                                }
+                                break;
 
-                                if (goblinFighter.MonsterAccurarcy >= 30)
-                                {
-                                    Thread.Sleep(2000);
-
-                                    Console.Beep(800, 100);
-                                    Console.Beep(1000, 100);
-                                    Console.WriteLine($"{goblinFighter.MonsterClass} attacks with its sword, doing {goblinFighter.MonsterDamage} DMG!");
-
-                                    character.CharacterArmorPoints = character.CharacterArmorPoints - goblinFighter.MonsterDamage;
-
-                                    if (character.CharacterArmorPoints <= 0)
-                                    {
-                                        character.CharacterArmorPoints = 0;
-
-                                        if (character.CharacterHealthPoints > 0)
-                                        {
-                                            character.CharacterHealthPoints = character.CharacterHealthPoints - goblinFighter.MonsterDamage;
-                                            Round++;
-                                            Thread.Sleep(2000);
-                                            continue;
-
-                                        }
-                                        if (character.CharacterHealthPoints <= 0)
-                                        {
-                                            Round++;
-                                            Thread.Sleep(2000);
-                                            continue;
-                                        }
-                                    }
-                                    Round++;
-                                    Thread.Sleep(2000);
-                                    Console.Beep(300, 100);
-                                    Console.Beep(200, 100);
-                                    Console.WriteLine($"The {goblinFighter.MonsterClass} hits your armor! Your armor was reduced to {character.CharacterArmorPoints}!");
-                                    Thread.Sleep(2000);
-                                    continue;
-                                }
-                                else
-                                {
-                                    Thread.Sleep(2000);
-                                    Console.Beep(300, 100);
-                                    Console.Beep(200, 100);
-                                    Console.WriteLine($"{goblinFighter.MonsterClass} misses its attack!");
-                                    Round++;
-                                    Thread.Sleep(2000);
-                                    continue;
-                                }
                             }
+                        }
+                    }
+                }
+                if (goblinFighter.MonsterSpeedPoints > character.CharacterSpeedPoints || CharacterInitiative == true)
+                {
+                    MonsterCombat();
+                }   
+            }
+            void MonsterCombat()
+            {
+                while (true)
+                {
+                    if (goblinFighter.MonsterSpeedPoints > character.CharacterSpeedPoints || CharacterInitiative == true)
+                    {
+                        if (Round == 1)
+                        {
+                            Console.WriteLine($"{goblinFighter.MonsterClass} goes first!");
+                            MonsterInitiative = true;
+                            Thread.Sleep(2000);
+                        }
+                        if (goblinFighter.MonsterAccurarcy >= 30)
+                        {
+                            Thread.Sleep(2000);
 
+                            Console.Beep(800, 100);
+                            Console.Beep(1000, 100);
+                            Console.WriteLine($"{goblinFighter.MonsterClass} attacks with its sword, doing {goblinFighter.MonsterDamage} DMG!");
+
+                            character.CharacterArmorPoints = character.CharacterArmorPoints - goblinFighter.MonsterDamage;
+
+                            if (character.CharacterArmorPoints <= 0)
+                            {
+                                character.CharacterArmorPoints = 0;
+
+                                if (character.CharacterHealthPoints > 0)
+                                {
+                                    character.CharacterHealthPoints = character.CharacterHealthPoints - goblinFighter.MonsterDamage;
+                                    Console.WriteLine($"The {goblinFighter.MonsterClass} hits through your armor! Your armor was reduced to {character.CharacterArmorPoints} and you receive {goblinFighter.MonsterDamage}!");
+                                    Round++;
+                                    Thread.Sleep(2000);
+                                    break;
+                                }
+                                if (character.CharacterHealthPoints <= 0)
+                                {
+                                    Thread.Sleep(2000);
+                                    break;
+                                }
+
+                            }
+                            Thread.Sleep(2000);
+
+                            Console.Beep(300, 100);
+                            Console.Beep(200, 100);
+                            Console.WriteLine($"The {goblinFighter.MonsterClass} hits your armor! Your armor was reduced to {character.CharacterArmorPoints}!");
+                            Round++;
+                            Thread.Sleep(2000);
+                            break;
                         }
                         else
                         {
+                            Thread.Sleep(2000);
+
                             Console.Beep(300, 100);
                             Console.Beep(200, 100);
+                            Console.WriteLine($"{goblinFighter.MonsterClass} misses its attack!");
 
-                            Console.WriteLine("You miss your attack!");
+                            Round++;
 
-                            if (goblinFighter.MonsterAccurarcy >= 30)
-                            {
-                                Thread.Sleep(2000);
+                            Thread.Sleep(2000);
 
-                                Console.Beep(800, 100);
-                                Console.Beep(1000, 100);
-                                Console.WriteLine($"{goblinFighter.MonsterClass} attacks with its sword, doing {goblinFighter.MonsterDamage} DMG!");
-
-                                character.CharacterArmorPoints = character.CharacterArmorPoints - goblinFighter.MonsterDamage;
-
-                                if (character.CharacterArmorPoints <= 0)
-                                {
-                                    character.CharacterArmorPoints = 0;
-
-                                    if (character.CharacterHealthPoints > 0)
-                                    {
-                                        character.CharacterHealthPoints = character.CharacterHealthPoints - goblinFighter.MonsterDamage;
-                                        Round++;
-                                        continue;
-                                    }
-                                    if (character.CharacterHealthPoints <= 0)
-                                    {
-                                        Round++;
-                                        Thread.Sleep(2000);
-                                        continue;
-                                    }
-                                }
-                                Round++;
-                                Thread.Sleep(2000);
-                                Console.WriteLine($"The {goblinFighter.MonsterClass} hits your armor! Your armor was reduced to {character.CharacterArmorPoints}!");
-                                Thread.Sleep(2000);
-                                continue;
-                            }
-                            else
-                            {
-                                Thread.Sleep(2000);
-
-                                Console.Beep(300, 100);
-                                Console.Beep(200, 100);
-                                Console.WriteLine($"{goblinFighter.MonsterClass} misses its attack!");
-
-                                Round++;
-
-                                Thread.Sleep(2000);
-
-                                continue;
-                            }
+                            break;
                         }
-                    break;
-                    case "2":
-
-                        break;
-                    case "3":
-
-
-                    break;
+                    }
                 }
             }
-            break;
         }
     }
 }
