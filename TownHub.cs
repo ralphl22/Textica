@@ -2,126 +2,177 @@
 public class TownHub
 {
     public static bool ForestAccess { get; set; }
-
+    private string Response { get; set; }
+    private int MessageCount { get; set; }
     public TownHub()
     {
         Character character = new Character();
 
-        character.IsCharacterCreated = true;
+        Character.IsCharacterCreated = true;
 
-        if (character.IsCharacterCreated == false)
+        List<Inventory> inventory = new List<Inventory>() { new Sword(), new LeatherArmor() };
+
+        if (Character.IsCharacterCreated == false)
         {
             character.CharacterCreation();
         }
-
-        // Fields are already initialized for testing purposes
-
-        character.CharacterName = "Testman";  character.CharacterClass = "Fighter"; character.CharacterHealthPoints = 15; character.CharacterArmorPoints = 10; character.CharacterSpeedPoints = 5; ForestAccess = true;
-
-        // Intial access to forest not granted until player accepts a quest in the city watch area
-
-        if (ForestAccess == true)
+        else while (Character.CharacterName == null)
         {
-            /*
-            Console.ForegroundColor = ConsoleColor.Blue;
-
-            Console.WriteLine("New area unlocked!");
-
-            Console.ResetColor();
-
-            Thread.Sleep(2000);
-
-            Console.Clear();*/
-
-            character.CharacterClassColorCheck();
-            character.CharacterLevelAndExperience();
-            character.CharacterStatus();
-
-            Console.ResetColor();
-
-            Console.WriteLine($"Welcome to the city of Textica, {character.CharacterName}! Where do you want to go?");
-            Console.WriteLine("1 - Tavern");
-            Console.WriteLine("2 - City Watch");
-            Console.WriteLine("3 - Mayor's Office (Not available)");
-            Console.WriteLine("4 - Merchant (Not available)");
-            Console.WriteLine("5 - King's Castle (Not available)");
-            Console.WriteLine("6 -  Forest");
-
-            character.Response = "6";
-            Console.Beep(800, 100);
-
-            switch (character.Response)
-            {
-                case "1":
-                    Console.Clear();
-                    new Tavern();
-                    break;
-                case "2":
-                    Console.Clear();
-                    new CityWatch();
-                    break;
-                case "3":
-                    Console.Clear();
-                    new MayorOffice();
-                    break;
-                case "4":
-                    Console.Clear();
-                    new Merchant();
-                    break;
-                case "5":
-                    Console.Clear();
-                    new KingCastle();
-                    break;
-                case "6":
-                    Console.Clear();
-                    new Forest();
-                    break;
-                default:
-                    Console.WriteLine("Input does not appear to be working!");
-                    break;
-            }
+            Character.CharacterClass = "Fighter"; character.AutoCharacterCreation();
         }
-        else
+
+        ForestAccess = true;
+
+        // Initial access to forest not granted until player accepts a quest in the city watch area
+
+        while (true)
         {
-            Console.WriteLine($"Welcome to the city of Textica, {character.CharacterName}! Where do you want to go?");
-            Console.WriteLine("1 - Tavern");
-            Console.WriteLine("2 - City Watch");
-            Console.WriteLine("3 - Mayor's Office (Not available)");
-            Console.WriteLine("4 - Merchant (Not available)");
-            Console.WriteLine("5 - King's Castle (Not available)");
-
-            character.Response = Console.ReadLine();
-            Console.Beep(800, 100);
-
-            switch (character.Response)
+            if (ForestAccess == true)
             {
-                case "1":
+                if (MessageCount == 0)
+                {
+                    Console.Beep(800, 100);
+
+                    Console.ForegroundColor = ConsoleColor.Blue;
+
+                    Console.WriteLine("New area unlocked!");
+
+                    Console.ResetColor();
+
+                    Thread.Sleep(2000);
+
                     Console.Clear();
-                    new Tavern();
-                    break;
-                case "2":
-                    Console.Clear();
-                    new CityWatch();
-                    break;
-                case "3":
-                    new MayorOffice();
-                    break;
-                case "4":
-                    new Merchant();
-                    break;
-                case "5":
-                    new KingCastle();
-                    break;
-                default:
-                    Console.WriteLine("Input does not appear to be working!");
-                    break;
+
+                    MessageCount++;
+                }
+
+                character.CharacterLevelAndExperience();
+                character.CharacterStatus();
+
+                Console.WriteLine($"Welcome to the city of Textica, {Character.CharacterName}! What do you want to do, or where do you want to go?");
+
+                Response = Console.ReadLine();
+                Console.Beep(800, 100);
+
+                switch (Response)
+                {
+                    case "tavern":
+                        Console.Clear();
+                        new Tavern();
+                        break;
+                    case "city watch":
+                    case "watch":
+                        Console.Clear();
+                        new CityWatch();
+                        break;
+                    case "mayor office":
+                    case "mayor":
+                        Console.Clear();
+                        new MayorOffice();
+                        break;
+                    case "merchant":
+                        Console.Clear();
+                        new Merchant();
+                        break;
+                    case "king castle":
+                        Console.Clear();
+                        new KingCastle();
+                        break;
+                    case "forest":
+                        Console.Clear();
+                        new Forest();
+                        break;
+                    case "inventory":
+                        Console.WriteLine($"Inventory ({inventory.Count} Items):");
+
+                        foreach (Item inventoryItem in inventory)
+                        {
+                            Console.WriteLine($"{inventoryItem}");
+                        }
+                        Console.ReadKey(true);
+                        Console.Clear();
+                        break;
+                    case "help":
+                        Console.WriteLine("If you want to go somewhere or do something, type that in lowercase and nothing else. Consider the tavern, merchant, city watch, or your inventory.");
+                        Console.ReadKey(true);
+                        Console.Clear();
+                        break;
+                    default:
+                        Console.WriteLine("That doesn't seem to work!");
+                        Console.ReadKey(true);
+                        Console.Clear();
+                        break;
+                }
+            }
+            else
+            {
+                while (true)
+                {
+                    character.CharacterLevelAndExperience();
+                    character.CharacterStatus();
+
+                    Console.WriteLine($"Welcome to the city of Textica, {Character.CharacterName}! What do you want to do, or where do you want to go?");
+
+                    Response = Console.ReadLine();
+                    Console.Beep(800, 100);
+
+                    switch (Response)
+                    {
+                        case "tavern":
+                            Console.Clear();
+                            new Tavern();
+                            break;
+                        case "city watch":
+                        case "watch":
+                            Console.Clear();
+                            new CityWatch();
+                            break;
+                        case "mayor office":
+                        case "mayor":
+                            Console.Clear();
+                            new MayorOffice();
+                            break;
+                        case "merchant":
+                            Console.Clear();
+                            new Merchant();
+                            break;
+                        case "king castle":
+                            Console.Clear();
+                            new KingCastle();
+                            break;
+                        case "forest":
+                            Console.Clear();
+                            new Forest();
+                            break;
+                        case "inventory":
+                            Console.WriteLine($"Inventory ({inventory.Count} Items):");
+
+                            foreach (Item inventoryItem in inventory)
+                            {
+                                Console.WriteLine($"{inventoryItem}");
+                            }
+                            Console.ReadKey(true);
+                            Console.Clear();
+                            break;
+                        case "help":
+                            Console.WriteLine("If you want to go somewhere or do something, type that in lowercase and nothing else. Consider the tavern, merchant, city watch, or your inventory.");
+                            Console.ReadKey(true);
+                            Console.Clear();
+                            break;
+                        default:
+                            Console.WriteLine("That doesn't seem to work!");
+                            Console.ReadKey(true);
+                            Console.Clear();
+                            break;
+                    }
+                }
             }
         }
     }
 }
 public class Tavern
 {
-    private protected string _response;
+    private protected string Response { get; set; }
     public Tavern()
     {
         Console.WriteLine("You enter the tavern. You see people of all different races and cultures scattered about.");
@@ -138,22 +189,22 @@ public class Tavern
             Console.WriteLine("3 - Any quests for me to partake in?");
             Console.WriteLine("4 - I'll be leaving.");
 
-            _response = Console.ReadLine();
+            Response = Console.ReadLine();
             Console.Beep(800, 100);
 
-            if (_response == "1")
+            if (Response == "1")
             {
                 Console.WriteLine("Tavernkeeper: Information, eh? Word is that a bunch of monsters have been terroizing travelers in the forest outside town. The city watch is looking for anyone interested in dealing with 'em. Anything else?");
             }
-            if (_response == "2")
+            if (Response == "2")
             {
                 Console.WriteLine("Tavernkeeper: No, I've got nothing for you.");
             }
-            if (_response == "3")
+            if (Response == "3")
             {
                 Console.WriteLine("Tavernkeeper: No, I've got nothing for you.");
             }
-            if (_response == "4")
+            if (Response == "4")
             {
                 Console.Clear();
                 new TownHub();
@@ -163,7 +214,7 @@ public class Tavern
 }
 public class CityWatch
 {
-    private protected string _response;
+    private string Response { get; set; }
 
     public CityWatch()
     {
@@ -175,10 +226,10 @@ public class CityWatch
         Console.WriteLine("1 - Do you have any quests for me?");
         Console.WriteLine("2 - I'll be leaving.");
 
-        _response = Console.ReadLine();
+        Response = Console.ReadLine();
         Console.Beep(800, 100);
 
-        if (_response == "1")
+        if (Response == "1")
         {
             Console.WriteLine("Watchman: We do in fact have something for you.");
             Thread.Sleep(2000);
@@ -189,10 +240,10 @@ public class CityWatch
             Console.WriteLine("1 - I'm interested.");
             Console.WriteLine("2 - No thanks.");
 
-            _response = Console.ReadLine();
+            Response = Console.ReadLine();
             Console.Beep(800, 100);
 
-            if (_response == "1")
+            if (Response == "1")
             {
                 Console.WriteLine("Glad to have ye around. Get back to me with those golbin heads when you can.");
 
@@ -213,18 +264,22 @@ public class CityWatch
             }
             else Console.WriteLine("That's too bad. I'll see ya around, I guess."); Thread.Sleep(2000); Console.Clear(); new TownHub();
         }
-        if (_response == "2") Console.Clear(); new TownHub();
+        if (Response == "2") Console.Clear(); new TownHub();
     }
 }
-class Forest
+public class Merchant
 {
-    public string Response { get; set; }
+    public Merchant()
+    {
 
+    }
+}
+public class Forest
+{
+   private string Response { get; set; }
    public Forest()
    {
         Character character = new Character();
-
-        character.CharacterName = "Testman"; character.CharacterClass = "Fighter"; character.CharacterHealthPoints = 15; character.CharacterArmorPoints = 10; character.CharacterSpeedPoints = 3; TownHub.ForestAccess = true;
 
         character.CharacterLevelAndExperience();
 
@@ -243,8 +298,8 @@ class Forest
         Console.WriteLine("2 - I'll be leaving.");
 
         Response = Console.ReadLine();
+        //Response = "1";
         Console.Beep(800, 100);
-
 
         if (Response == "1")
         {
@@ -256,10 +311,6 @@ class Forest
    }
 }
 public class MayorOffice
-{
-
-}
-public class Merchant
 {
 
 }

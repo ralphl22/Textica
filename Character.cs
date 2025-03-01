@@ -3,25 +3,23 @@
 // Responsible for managing the player character
 public class Character
 {
-    // Declares important fields for the user's character in the game
-    public string CharacterName { get; set; }
-    public string CharacterClass { get; set; }
+    // Declares important properties for the user's character in the game
+    public static string CharacterName { get; set; }
+    public static string CharacterClass { get; set; }
     public float CharacterDamage { get; set; }
     public int CharacterAccurarcy { get; set; }
-    public string Response { get; set; }
+    private string Response { get; set; }
     public static int CharacterLevel { get; set; }
     public static int CurrentExperiencePoints { get; set; }
     public static int ExperiencePointsToLevelUp { get; set; }
-    public float CharacterHealthPoints { get; set; }
-    public float CharacterArmorPoints { get; set; }
-    public float CharacterSpeedPoints { get; set; }
+    public static float CharacterHealthPoints { get; set; }
+    public static float CharacterArmorPoints { get; set; }
+    public static float CharacterSpeedPoints { get; set; }
     public int GoldAmount { get; set; }
-    public bool IsCharacterCreated { get; set; }
-
+    public static bool IsCharacterCreated { get; set; }
 
     // Allows the user to choose their name and character class
-
-    public void CharacterCreation()
+    public void  CharacterCreation()
     {
         do
         {
@@ -78,8 +76,6 @@ public class Character
 
                     Console.ResetColor();
 
-                    Thread.Sleep(2000);
-
                     Console.WriteLine("The fighter is the most basic of the classes. Armed with sword, shield, and plate armor, it is a balanced class that can take on any foe. Highest constitution of the classes.");
                 }
                 if (Response == "2")
@@ -106,8 +102,6 @@ public class Character
                     Console.WriteLine($"SPD: {CharacterSpeedPoints}");
 
                     Console.ResetColor();
-
-                    Thread.Sleep(2000);
 
                     Console.WriteLine("The rogue uses stealth and tricky to misdirect and evade foes. Weaker in consitution with lesser armor compared to a fighter, but stronger than a mage, and quicker than both.");
                 }
@@ -136,9 +130,7 @@ public class Character
 
                     Console.ResetColor();
 
-                    Thread.Sleep(2000);
-
-                    Console.WriteLine("The grammaturge is a master of grammaturgy: using words as a medium for magick powers. Though weaker and slower than the fighter and rogue, the grammaturge makes up for it with both offensive and defensive healing magicks, assuming you find the right words!");
+                    Console.WriteLine("The grammaturge is a master of grammaturgy: using words as a medium for magick powers. Though weaker and slower than the fighter and rogue, the grammaturge makes up for it with both offensive and defensive magick, assuming you find the right words!");
                 }
 
                 Console.Write("Are thy sure this is the class thy choseth? (y or n): ");
@@ -171,13 +163,38 @@ public class Character
         } while (CharacterClass == "1" || CharacterName == "1");
 
     }
+    // Automatically creates a character for testing purposes
+    public void AutoCharacterCreation()
+    {
+        if (CharacterClass == "Fighter")
+        {
+            CharacterName = "John Smith";
+            CharacterHealthPoints = 10;
+          //  CharacterArmorPoints = 10;
+            CharacterSpeedPoints = 3;
+
+        }
+        if (CharacterClass == "Rogue")
+        {
+            CharacterName = "Testman";
+            CharacterHealthPoints = 10;
+            CharacterArmorPoints = 5;
+            CharacterSpeedPoints = 10;
+        }
+        if (CharacterClass == "Grammaturge")
+        {
+            CharacterName = "Testman";
+            CharacterHealthPoints = 5;
+            CharacterArmorPoints = 3;
+            CharacterSpeedPoints = 5;
+        }
+    }
     // Handles current character level and EXP gain
     public void CharacterLevelAndExperience()
     {
-        // Intial character level
+        // Initial character level
 
         CharacterLevel = 1;
-
 
         // Intial EXP required to level up
 
@@ -224,23 +241,27 @@ public class Character
 
         Console.Write($"Level: {CharacterLevel} ");
 
+        Console.ForegroundColor = ConsoleColor.Cyan;
+
         Console.Write($"EXP: {CurrentExperiencePoints}/{ExperiencePointsToLevelUp} ");
 
         Console.ForegroundColor = ConsoleColor.Red;
 
         Console.Write($"HP: {CharacterHealthPoints} ");
 
-        Console.ForegroundColor = ConsoleColor.Gray;
+        Console.ForegroundColor = ConsoleColor.DarkGray;
 
         Console.Write($"AP: {CharacterArmorPoints} ");
 
-        Console.ForegroundColor = ConsoleColor.Yellow;
+        Console.ForegroundColor = ConsoleColor.DarkYellow;
 
         Console.Write($"SPD: {CharacterSpeedPoints}");
 
-        Console.ResetColor();
+        Console.ForegroundColor = ConsoleColor.Yellow;
 
         Console.WriteLine($" Gold: {GoldAmount} G");
+
+        Console.ResetColor();
 
     }
     // Makes it so the character's name and class in CharacterStatus() changes color based on what class the user chooses in CharacterCreation()
@@ -262,20 +283,19 @@ public class Character
         }
     }
 }
+public class Inventory
+{
+ 
+}
 // Responsible for hostile NPC monsters
 public class Monster
 {
     public string MonsterClass { get; set; }
-
     public float MonsterHealthPoints { get; set; }
-
     public float MonsterArmorPoints { get; set; }
-
     public float MonsterSpeedPoints { get; set; }
-
     public float MonsterDamage { get; set; }
-
-    public int MonsterAccurarcy { get; set; }
+    public float MonsterAccurarcy { get; set; }
 
     public Monster(string monsterClass, float monsterHealthPoints, float monsterArmorPoints, float monsterSpeedPoints)
     {
@@ -287,7 +307,6 @@ public class Monster
 
         MonsterSpeedPoints = monsterSpeedPoints;
     }
-
     public void MonsterStatus()
     {
         Console.ForegroundColor = ConsoleColor.Green;
@@ -298,11 +317,11 @@ public class Monster
 
         Console.Write($"HP: {MonsterHealthPoints} ");
 
-        Console.ForegroundColor = ConsoleColor.Gray;
+        Console.ForegroundColor = ConsoleColor.DarkGray;
 
         Console.Write($"AP: {MonsterArmorPoints} ");
 
-        Console.ForegroundColor = ConsoleColor.Yellow;
+        Console.ForegroundColor = ConsoleColor.DarkYellow;
 
         Console.WriteLine($"SPD: {MonsterSpeedPoints} ");
 
