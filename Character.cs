@@ -15,12 +15,14 @@ public class Character
     public static float CharacterHealthPoints { get; set; }
     public static float CharacterArmorPoints { get; set; }
     public static float CharacterSpeedPoints { get; set; }
-    public int GoldAmount { get; set; }
+    public static int GoldAmount { get; set; }
     public static bool IsCharacterCreated { get; set; }
 
     // Allows the user to choose their name and character class
     public void  CharacterCreation()
     {
+        GoldAmount = 25;
+
         do
         {
             Console.Write("What is thy name, adventurer? ");
@@ -170,8 +172,10 @@ public class Character
         {
             CharacterName = "John Smith";
             CharacterHealthPoints = 10;
-          //  CharacterArmorPoints = 10;
+            GoldAmount = 25;
             CharacterSpeedPoints = 3;
+            Inventory.InventoryList.Add(new Sword());
+            Inventory.InventoryList.Add(new LeatherArmor());
 
         }
         if (CharacterClass == "Rogue")
@@ -190,7 +194,7 @@ public class Character
         }
     }
     // Handles current character level and EXP gain
-    public void CharacterLevelAndExperience()
+    public static void CharacterLevelAndExperience()
     {
         // Initial character level
 
@@ -233,13 +237,13 @@ public class Character
         }
     }
     // Displays what the character's status is: name, class, HP, AP, and SPD
-    public void CharacterStatus()
+    public static void CharacterStatus()
     {
-        Console.WriteLine($"{CharacterName} the {CharacterClass} ");
+        Console.WriteLine($"{CharacterName}");
 
         Console.ResetColor();
 
-        Console.Write($"Level: {CharacterLevel} ");
+        Console.Write($"Lvl {CharacterLevel} ");
 
         Console.ForegroundColor = ConsoleColor.Cyan;
 
@@ -259,10 +263,9 @@ public class Character
 
         Console.ForegroundColor = ConsoleColor.Yellow;
 
-        Console.WriteLine($" Gold: {GoldAmount} G");
+        Console.WriteLine($" {GoldAmount} G");
 
         Console.ResetColor();
-
     }
     // Makes it so the character's name and class in CharacterStatus() changes color based on what class the user chooses in CharacterCreation()
     public void CharacterClassColorCheck()
@@ -285,7 +288,44 @@ public class Character
 }
 public class Inventory
 {
- 
+    public static List<Inventory> InventoryList = new List<Inventory>();
+    public static void InventoryCheck()
+    {
+        string response;
+
+        while (true)
+        {
+            Console.WriteLine($"Inventory ({InventoryList.Count} Items):");
+
+            foreach (Item inventoryItem in InventoryList)
+            {
+                Console.WriteLine($"{inventoryItem}");
+            }
+     
+            Console.WriteLine("Type the name of the item for more information, or type exit to exit the inventory.");
+    
+            response = Console.ReadLine();
+            Console.Beep(800, 100);
+
+            if (response == "exit")
+            {
+                Console.Clear();
+                break;
+            }
+            if (response == "sword" || response == "Sword")
+            {
+                Weapon sword = new Sword();
+
+                Console.WriteLine($"A common sword. Deals {sword.WeaponDamage} DMG.");
+            }
+            if (response == "leatherarmor" || response == "LeatherArmor")
+            {
+                Armor leatherArmor = new LeatherArmor();
+                Console.WriteLine($"Typical leather armor that offers full body protection. It provides {leatherArmor.ArmorPoints} AP.");
+            }
+            Console.ReadKey(true);
+        }
+    }
 }
 // Responsible for hostile NPC monsters
 public class Monster

@@ -4,13 +4,12 @@ public class TownHub
     public static bool ForestAccess { get; set; }
     private string Response { get; set; }
     private int MessageCount { get; set; }
+    public static bool VisitedArea { get; set; }
     public TownHub()
     {
-        Character character = new Character();
+       Character character = new Character();
 
         Character.IsCharacterCreated = true;
-
-        List<Inventory> inventory = new List<Inventory>() { new Sword(), new LeatherArmor() };
 
         if (Character.IsCharacterCreated == false)
         {
@@ -24,11 +23,11 @@ public class TownHub
         ForestAccess = true;
 
         // Initial access to forest not granted until player accepts a quest in the city watch area
-
         while (true)
         {
             if (ForestAccess == true)
             {
+                /*
                 if (MessageCount == 0)
                 {
                     Console.Beep(800, 100);
@@ -44,10 +43,15 @@ public class TownHub
                     Console.Clear();
 
                     MessageCount++;
-                }
+                }*/
 
-                character.CharacterLevelAndExperience();
-                character.CharacterStatus();
+                Character.CharacterLevelAndExperience();
+
+                Console.WriteLine("--------------------------------------------------");
+
+                Character.CharacterStatus();
+
+                Console.WriteLine("--------------------------------------------------");
 
                 Console.WriteLine($"Welcome to the city of Textica, {Character.CharacterName}! What do you want to do, or where do you want to go?");
 
@@ -56,10 +60,6 @@ public class TownHub
 
                 switch (Response)
                 {
-                    case "tavern":
-                        Console.Clear();
-                        new Tavern();
-                        break;
                     case "city watch":
                     case "watch":
                         Console.Clear();
@@ -74,23 +74,12 @@ public class TownHub
                         Console.Clear();
                         new Merchant();
                         break;
-                    case "king castle":
-                        Console.Clear();
-                        new KingCastle();
-                        break;
                     case "forest":
                         Console.Clear();
                         new Forest();
                         break;
                     case "inventory":
-                        Console.WriteLine($"Inventory ({inventory.Count} Items):");
-
-                        foreach (Item inventoryItem in inventory)
-                        {
-                            Console.WriteLine($"{inventoryItem}");
-                        }
-                        Console.ReadKey(true);
-                        Console.Clear();
+                        Inventory.InventoryCheck();
                         break;
                     case "help":
                         Console.WriteLine("If you want to go somewhere or do something, type that in lowercase and nothing else. Consider the tavern, merchant, city watch, or your inventory.");
@@ -108,8 +97,13 @@ public class TownHub
             {
                 while (true)
                 {
-                    character.CharacterLevelAndExperience();
-                    character.CharacterStatus();
+                    Character.CharacterLevelAndExperience();
+
+                    Console.WriteLine("--------------------------------------------------");
+
+                    Character.CharacterStatus();
+
+                    Console.WriteLine("--------------------------------------------------");
 
                     Console.WriteLine($"Welcome to the city of Textica, {Character.CharacterName}! What do you want to do, or where do you want to go?");
 
@@ -118,10 +112,6 @@ public class TownHub
 
                     switch (Response)
                     {
-                        case "tavern":
-                            Console.Clear();
-                            new Tavern();
-                            break;
                         case "city watch":
                         case "watch":
                             Console.Clear();
@@ -136,23 +126,12 @@ public class TownHub
                             Console.Clear();
                             new Merchant();
                             break;
-                        case "king castle":
-                            Console.Clear();
-                            new KingCastle();
-                            break;
                         case "forest":
                             Console.Clear();
                             new Forest();
                             break;
                         case "inventory":
-                            Console.WriteLine($"Inventory ({inventory.Count} Items):");
-
-                            foreach (Item inventoryItem in inventory)
-                            {
-                                Console.WriteLine($"{inventoryItem}");
-                            }
-                            Console.ReadKey(true);
-                            Console.Clear();
+                            Inventory.InventoryCheck();
                             break;
                         case "help":
                             Console.WriteLine("If you want to go somewhere or do something, type that in lowercase and nothing else. Consider the tavern, merchant, city watch, or your inventory.");
@@ -170,57 +149,20 @@ public class TownHub
         }
     }
 }
-public class Tavern
-{
-    private protected string Response { get; set; }
-    public Tavern()
-    {
-        Console.WriteLine("You enter the tavern. You see people of all different races and cultures scattered about.");
-        Thread.Sleep(2000);
-        Console.WriteLine("You approach the tavernkeeper, and he eyes you curiously.");
-        Thread.Sleep(2000);
-        Console.WriteLine("Tavernkeeper: Greetings, adventurer. Welcome to my humble tavern. What brings you here?");
-        Thread.Sleep(2000);
-
-        while (true)
-        {
-            Console.WriteLine("1 - I'm here looking for information.");
-            Console.WriteLine("2 - Got anything for me to drink?");
-            Console.WriteLine("3 - Any quests for me to partake in?");
-            Console.WriteLine("4 - I'll be leaving.");
-
-            Response = Console.ReadLine();
-            Console.Beep(800, 100);
-
-            if (Response == "1")
-            {
-                Console.WriteLine("Tavernkeeper: Information, eh? Word is that a bunch of monsters have been terroizing travelers in the forest outside town. The city watch is looking for anyone interested in dealing with 'em. Anything else?");
-            }
-            if (Response == "2")
-            {
-                Console.WriteLine("Tavernkeeper: No, I've got nothing for you.");
-            }
-            if (Response == "3")
-            {
-                Console.WriteLine("Tavernkeeper: No, I've got nothing for you.");
-            }
-            if (Response == "4")
-            {
-                Console.Clear();
-                new TownHub();
-            }
-        }
-    }
-}
 public class CityWatch
 {
     private string Response { get; set; }
-
     public CityWatch()
     {
-        Console.WriteLine("You enter the city watch building and see a watchman in leather armor and armed with a sword on his hip. He turns to look at you.");
+        Character.CharacterLevelAndExperience();
+        Character.CharacterStatus();
+
+        Console.WriteLine("You enter the city watch building and see a watchman in chainmail, armed with a sword on his hip. He turns to look at you.");
+
         Thread.Sleep(2000);
+
         Console.WriteLine("Watchman: You don't seem to be from around here. What do you want?");
+
         Thread.Sleep(2000); 
 
         Console.WriteLine("1 - Do you have any quests for me?");
@@ -269,9 +211,169 @@ public class CityWatch
 }
 public class Merchant
 {
+    private string Response { get; set; }
     public Merchant()
     {
+        while (true)
+        {
+            Character.CharacterLevelAndExperience();
+            Character.CharacterStatus();
 
+            Console.WriteLine("Merchant: Greetings, adventurer! Looking to buy some of my wares?");
+
+            Response = Console.ReadLine();
+            Console.Beep(800, 100);
+
+            if (Response == "yes")
+            {
+                while (true)
+                {
+                    Console.WriteLine($"Here are my wares:");
+
+                    Console.WriteLine("Bow - 10 G");
+                    Console.WriteLine("HealthPotion - 15 G");
+                    Console.WriteLine("LeatherArmor - 25 G");
+                    Console.WriteLine("ChainmailArmor - 30 G");
+                    Console.WriteLine("Type an item's name for more information.");
+
+                    Response = Console.ReadLine();
+
+                    if (Response == "bow" || Response == "Bow")
+                    {
+                        Weapon bow = new Bow();
+
+                        Console.WriteLine($"Common bow used by hunters. Deals {bow.WeaponDamage} DMG.");
+
+                        Console.ReadKey(true);
+
+                        Console.WriteLine($"Purchase item?");
+
+                        Response = Console.ReadLine();
+
+                        if (Response == "yes" && Character.GoldAmount >= 10)
+                        {
+                            Console.WriteLine("Item purchased!");
+                            Inventory.InventoryList.Add(new Bow());
+                            Character.GoldAmount = Character.GoldAmount - 10;
+                            Console.ReadKey(true);
+                            Console.Clear();
+                            break;
+                        }
+                        if (Response == "yes" && Character.GoldAmount < 10)
+                        {
+                            Console.WriteLine($"Not enough gold! You have {Character.GoldAmount} G!");
+                            Console.ReadKey(true);
+                            Console.Clear();
+                            break;
+                        }
+                        if (Response == "no") continue;
+                    }
+                    if (Response == "leatherarmor" || Response == "LeatherArmor")
+                    {
+                        Armor leatherArmor = new LeatherArmor();
+
+                        Console.WriteLine($"Typical leather armor that offers full body protection. It provides {leatherArmor.ArmorPoints} AP.");
+
+                        Console.ReadKey(true);
+
+                        Console.WriteLine($"Purchase item?");
+
+                        Response = Console.ReadLine();
+
+                        foreach (Inventory inventoryItem in Inventory.InventoryList)
+                        {
+                            if (Response == "yes" && Character.GoldAmount >= 25 && inventoryItem != new LeatherArmor())
+                            {
+                                Console.WriteLine("Item purchased!");
+                                Inventory.InventoryList.Add(new LeatherArmor());
+                                Character.GoldAmount = Character.GoldAmount - 25;
+                                Console.ReadKey(true);
+                                Console.Clear();
+                                break;
+                            }
+                            if (Response == "yes" && Character.GoldAmount >= 25 && inventoryItem == new LeatherArmor())
+                            {
+                                Console.WriteLine("You already have leather armor!");
+                                Console.ReadKey(true);
+                                Console.Clear();
+                                break;
+                            }
+                            if (Response == "yes" && Character.GoldAmount < 25)
+                            {
+                                Console.WriteLine($"Not enough gold! You have {Character.GoldAmount} G!");
+                                Console.ReadKey(true);
+                                Console.Clear();
+                                break;
+                            }
+                            break;
+                        }
+                        if (Response == "no") continue;
+                        break;
+                    }
+                    if (Response == "healthpotion" || Response == "HealthPotion")
+                    {
+                        Console.WriteLine("A red health potion. Heals 5 HP.");
+
+                        Console.ReadKey(true);
+
+                        Console.WriteLine($"Purchase item?");
+
+                        Response = Console.ReadLine();
+
+                        if (Response == "yes" && Character.GoldAmount >= 15)
+                        {
+                            Console.WriteLine("Item purchased!");
+                            Inventory.InventoryList.Add(new HealthPotion());
+                            Character.GoldAmount = Character.GoldAmount - 15;
+                            Console.ReadKey(true);
+                            Console.Clear();
+                            break;
+                        }
+                        if (Response == "yes" && Character.GoldAmount < 15)
+                        {
+                            Console.WriteLine($"Not enough gold! You have {Character.GoldAmount} G!");
+                            Console.ReadKey(true);
+                            Console.Clear();
+                            break;
+                        }
+                        if (Response == "no") continue;
+                    }
+                    if (Response == "ChainmailArmor" || Response == "chainmailarmor")
+                    {
+                        Armor chainmailArmor = new ChainmailArmor();
+
+                        Console.WriteLine($"Armor made of interlocking metal rings that provides excellent protection against blows. It provides {chainmailArmor.ArmorPoints} AP.");
+
+                        Console.ReadKey(true);
+
+                        Console.WriteLine($"Purchase item?");
+
+                        Response = Console.ReadLine();
+                        if (Response == "yes" && Character.GoldAmount >= 30)
+                        {
+                            Console.WriteLine("Item purchased!");
+                            Inventory.InventoryList.Add(new ChainmailArmor());
+                            Character.GoldAmount = Character.GoldAmount - 30;
+                            Console.ReadKey(true);
+                            Console.Clear();
+                            break;
+                        }
+                        if (Response == "yes" && Character.GoldAmount < 30)
+                        {
+                            Console.WriteLine($"Not enough gold! You have {Character.GoldAmount} G!");
+                            Console.ReadKey(true);
+                            Console.Clear();
+                            break;
+                        }
+                        if (Response == "no") continue;
+                    }
+                }
+            }
+            if (Response == "no")
+            {
+                Console.WriteLine("Come back if you ever want to buy anything!"); Console.ReadKey(true); Console.Clear(); new TownHub();
+            }
+        }
     }
 }
 public class Forest
@@ -281,40 +383,44 @@ public class Forest
    {
         Character character = new Character();
 
-        character.CharacterLevelAndExperience();
+        while (true) {
 
-        Console.WriteLine("--------------------------------------------------");
+            Character.CharacterLevelAndExperience();
 
-        character.CharacterClassColorCheck();
-        character.CharacterStatus();
+            Console.WriteLine("--------------------------------------------------");
 
-        Console.WriteLine("--------------------------------------------------");
+            Character.CharacterStatus();
 
+            Console.WriteLine("--------------------------------------------------");
 
-        Console.WriteLine("You see yourself before a dense forest teeming with life. Where do you want to go?");
+            Console.WriteLine("You see yourself before a dense forest teeming with life. Where do you want to go, or what do you want to do?");
 
-        Console.WriteLine("1 - Goblin Tribe Huts");
+            Response = Console.ReadLine();
+            Console.Beep(800, 100);
 
-        Console.WriteLine("2 - I'll be leaving.");
+            if (Response == "goblin huts" || Response == "huts")
+            {
+                Console.Clear();
+                new Combat();
 
-        Response = Console.ReadLine();
-        //Response = "1";
-        Console.Beep(800, 100);
-
-        if (Response == "1")
-        {
-            Console.Clear();
-            new Combat();
-
+            }
+            if (Response == "look" || Response == "look around")
+            {
+                Console.WriteLine("You see what appear to be goblin huts far off in the distance. This is where the goblins have likely set up camp.");
+                Console.ReadKey(true);
+                Console.Clear();
+                continue;
+            }
+            if (Response == "inventory")
+            {
+                Inventory.InventoryCheck();
+                continue;
+            }
+            else Console.Clear(); new TownHub();
         }
-        else new TownHub();
    }
 }
 public class MayorOffice
-{
-
-}
-public class KingCastle
 {
 
 }

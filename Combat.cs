@@ -54,9 +54,8 @@ public class Combat
 
             Console.WriteLine("-----------------------------------------------------------------------");
 
-            character.CharacterClassColorCheck();
-            character.CharacterLevelAndExperience();
-            character.CharacterStatus();
+            Character.CharacterLevelAndExperience();
+            Character.CharacterStatus();
 
             Console.WriteLine("-----------------------------------------------------------------------");
 
