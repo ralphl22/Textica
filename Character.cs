@@ -21,7 +21,7 @@ public class Character
     // Allows the user to choose their name and character class
     public void  CharacterCreation()
     {
-        GoldAmount = 25;
+        GoldAmount = 0;
 
         do
         {
@@ -42,180 +42,52 @@ public class Character
                 continue;
             }
 
-            do
-            {
-                Console.WriteLine("Choose thy class, adventurer: ");
-                Console.WriteLine("1 - Fighter");
-                Console.WriteLine("2 - Rogue");
-                Console.WriteLine("3 - Grammaturge");
+            Console.Clear();
 
-                Response = Console.ReadLine();
+            Console.Write($"Welcome to the lands of Textica, ");
 
-                Console.Beep(800, 100);
+            Console.Write($"{CharacterName} the {CharacterClass}");
 
-                if (Response == "1")
-                {
-                    CharacterHealthPoints = 15;
-                    CharacterArmorPoints = 10;
-                    CharacterSpeedPoints = 3;
-                    CharacterClass = "Fighter";
+            Console.ResetColor();
 
-                    CharacterClassColorCheck();
+            Console.WriteLine("!");
 
-                    Console.WriteLine("The Fighter");
+            Thread.Sleep(2000);
 
-                    Console.ForegroundColor = ConsoleColor.Red;
-
-                    Console.Write($"HP: {CharacterHealthPoints} ");
-
-                    Console.ForegroundColor = ConsoleColor.Gray;
-
-                    Console.Write($"AP: {CharacterArmorPoints} ");
-
-                    Console.ForegroundColor = ConsoleColor.Yellow;
-
-                    Console.WriteLine($"SPD: {CharacterSpeedPoints}");
-
-                    Console.ResetColor();
-
-                    Console.WriteLine("The fighter is the most basic of the classes. Armed with sword, shield, and plate armor, it is a balanced class that can take on any foe. Highest constitution of the classes.");
-                }
-                if (Response == "2")
-                {
-                    CharacterHealthPoints = 10;
-                    CharacterArmorPoints = 5;
-                    CharacterSpeedPoints = 10;
-                    CharacterClass = "Rogue";
-
-                    CharacterClassColorCheck();
-
-                    Console.WriteLine("The Rogue");
-
-                    Console.ForegroundColor = ConsoleColor.Red;
-
-                    Console.Write($"HP: {CharacterHealthPoints} ");
-
-                    Console.ForegroundColor = ConsoleColor.Gray;
-
-                    Console.Write($"AP: {CharacterArmorPoints} ");
-
-                    Console.ForegroundColor = ConsoleColor.Yellow;
-
-                    Console.WriteLine($"SPD: {CharacterSpeedPoints}");
-
-                    Console.ResetColor();
-
-                    Console.WriteLine("The rogue uses stealth and tricky to misdirect and evade foes. Weaker in consitution with lesser armor compared to a fighter, but stronger than a mage, and quicker than both.");
-                }
-                if (Response == "3")
-                {
-                    CharacterHealthPoints = 5;
-                    CharacterArmorPoints = 3;
-                    CharacterSpeedPoints = 5;  
-                    CharacterClass = "Grammaturge";
-
-                    CharacterClassColorCheck();
-
-                    Console.WriteLine("The Grammaturge");
-
-                    Console.ForegroundColor = ConsoleColor.Red;
-
-                    Console.Write($"HP: {CharacterHealthPoints} ");
-
-                    Console.ForegroundColor = ConsoleColor.Gray;
-
-                    Console.Write($"AP: {CharacterArmorPoints} ");
-
-                    Console.ForegroundColor = ConsoleColor.Yellow;
-
-                    Console.WriteLine($"SPD: {CharacterSpeedPoints}");
-
-                    Console.ResetColor();
-
-                    Console.WriteLine("The grammaturge is a master of grammaturgy: using words as a medium for magick powers. Though weaker and slower than the fighter and rogue, the grammaturge makes up for it with both offensive and defensive magick, assuming you find the right words!");
-                }
-
-                Console.Write("Are thy sure this is the class thy choseth? (y or n): ");
-
-                Response = Console.ReadLine();
-
-                Console.Beep(800, 100);
-
-                if (Response == "N" || Response == "n")
-                {
-                    continue;
-                }
-
-                Console.Clear();
-
-                Console.Write($"Welcome to the lands of Textica, ");
-
-                CharacterClassColorCheck();
-
-                Console.Write($"{CharacterName} the {CharacterClass}");
-
-                Console.ResetColor();
-
-                Console.WriteLine("!");
-
-                Thread.Sleep(2000);
-
-            } while (CharacterClass == "1" || CharacterName == "1");
-
-        } while (CharacterClass == "1" || CharacterName == "1");
-
+        } while (CharacterName == null);
     }
     // Automatically creates a character for testing purposes
     public void AutoCharacterCreation()
     {
-        if (CharacterClass == "Fighter")
+        if (CharacterName == null)
         {
             CharacterName = "John Smith";
             CharacterHealthPoints = 10;
-            GoldAmount = 25;
+            GoldAmount = 0;
             CharacterSpeedPoints = 3;
-            Inventory.InventoryList.Add(new Sword());
-            Inventory.InventoryList.Add(new LeatherArmor());
-
-        }
-        if (CharacterClass == "Rogue")
-        {
-            CharacterName = "Testman";
-            CharacterHealthPoints = 10;
-            CharacterArmorPoints = 5;
-            CharacterSpeedPoints = 10;
-        }
-        if (CharacterClass == "Grammaturge")
-        {
-            CharacterName = "Testman";
-            CharacterHealthPoints = 5;
-            CharacterArmorPoints = 3;
-            CharacterSpeedPoints = 5;
         }
     }
     // Handles current character level and EXP gain
     public static void CharacterLevelAndExperience()
     {
         // Initial character level
-
         CharacterLevel = 1;
 
         // Intial EXP required to level up
 
-        ExperiencePointsToLevelUp = 10;
+        ExperiencePointsToLevelUp = 25;
 
         // EXP required to level up based on what the user's current EXP is
-
 
         switch (CurrentExperiencePoints)
         {
             // 10 EXP for level 2, 20 for level 2, 30 for level 3, 40 for level 4, and 40 for level 5
 
-            case 10:
+            case 25:
                 CharacterLevel = 2;
                 CurrentExperiencePoints = 0;
                 Console.WriteLine($"You leveled up to {CharacterLevel}!");
-                ExperiencePointsToLevelUp = 20;
+                ExperiencePointsToLevelUp = 45;
                 break;
             case 20:
                 CharacterLevel = 3;
@@ -267,34 +139,58 @@ public class Character
 
         Console.ResetColor();
     }
-    // Makes it so the character's name and class in CharacterStatus() changes color based on what class the user chooses in CharacterCreation()
-    public void CharacterClassColorCheck()
-    {
-        if (CharacterClass == "Fighter")
-        {
-            Console.ForegroundColor = ConsoleColor.DarkRed;
-
-        }
-        if (CharacterClass == "Rogue")
-        {
-            Console.ForegroundColor = ConsoleColor.DarkGray;
-
-        }
-        if (CharacterClass == "Grammaturge")
-        {
-            Console.ForegroundColor = ConsoleColor.Blue;
-        }
-    }
 }
 public class Inventory
 {
-    public static List<Inventory> InventoryList = new List<Inventory>();
+    public static List<Inventory> InventoryList = new List<Inventory>() { new Sword(), new HealthPotion(), new LeatherArmor()};
     public static void InventoryCheck()
     {
         string response;
 
         while (true)
         {
+            if (Combat.IsInCombat == true)
+            {
+                Console.WriteLine($"Inventory ({InventoryList.Count} Items):");
+
+                foreach (Item inventoryItem in InventoryList)
+                {
+                    if (inventoryItem != new LeatherArmor() && inventoryItem != new ChainmailArmor() && inventoryItem != new Sword() && inventoryItem != new Bow())
+                    {
+                        Console.WriteLine($"{inventoryItem}");
+                    }
+                }
+
+                Console.WriteLine("Type the name of the item for more information, or type exit to exit the inventory.");
+
+                response = Console.ReadLine();
+
+                if (response == "exit")
+                {
+                    break;
+                }
+                if (response == "healthpotion" || response == "HealthPotion")
+                {
+                    Console.WriteLine("A red health potion. Heals 5 HP.");
+
+                    Console.ReadKey(true);
+
+                    Console.WriteLine("Do you want to use the health potion?");
+
+                    response = Console.ReadLine();
+
+                    if (response == "yes")
+                    {
+                        Console.WriteLine("Health potion used! You restore 5 HP!");
+                        Character.CharacterHealthPoints = Character.CharacterHealthPoints + 5;
+                    }
+                    if (response == "no")
+                    {
+                        continue;
+                    }
+                    Console.ReadKey(true);
+                }
+            }
             Console.WriteLine($"Inventory ({InventoryList.Count} Items):");
 
             foreach (Item inventoryItem in InventoryList)
@@ -309,7 +205,6 @@ public class Inventory
 
             if (response == "exit")
             {
-                Console.Clear();
                 break;
             }
             if (response == "sword" || response == "Sword")
@@ -322,6 +217,10 @@ public class Inventory
             {
                 Armor leatherArmor = new LeatherArmor();
                 Console.WriteLine($"Typical leather armor that offers full body protection. It provides {leatherArmor.ArmorPoints} AP.");
+            }
+            if (response == "healthpotion" || response == "HealthPotion")
+            {
+                Console.WriteLine("A red health potion. Heals 5 HP.");
             }
             Console.ReadKey(true);
         }
@@ -336,7 +235,6 @@ public class Monster
     public float MonsterSpeedPoints { get; set; }
     public float MonsterDamage { get; set; }
     public float MonsterAccurarcy { get; set; }
-
     public Monster(string monsterClass, float monsterHealthPoints, float monsterArmorPoints, float monsterSpeedPoints)
     {
         MonsterClass = monsterClass;
@@ -368,17 +266,23 @@ public class Monster
         Console.ResetColor();
     }
 }
+public class DefaultMonster : Monster
+{
+    public DefaultMonster(): base("Default Monster", 0, 0, 0)
+    {
+
+    }
+}
 public class GoblinFighter : Monster
 {
     public GoblinFighter() : base("Goblin Fighter", 10, 0, 1)
     {
 
     }
-
 }
 public class GoblinArcher : Monster
 {
-    public GoblinArcher() : base("GoblinArcher", 5, 0, 3)
+    public GoblinArcher() : base("Goblin Archer", 5, 0, 5)
     {
 
     }
