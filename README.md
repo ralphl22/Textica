@@ -8,16 +8,19 @@ Below is an overview and usage guide based on the files and structure found in t
 
 - **Entry Point (Main.cs):**  
   The game starts in `Main.cs`, which instantiates core components such as a new character and the main game hub. Notably, the code briefly mentions a `MainMenu` (currently commented out for debugging) and directly creates a new `Character` and a new `TownHub` instance to kick things off.  
+  citeturn1fetch0
 
 - **User Interface (MainMenu.cs):**  
   The `MainMenu.cs` file handles the welcome screen. It sets the console title, displays a title banner ("LEGEND OF TEXTICA"), and waits for a key press before clearing the screen and proceeding.  
+  citeturn2fetch0
 
 - **Game World Navigation (TownHub.cs):**  
   The `TownHub.cs` file acts as the central hub for the player. Here, the game continuously displays the character’s status and presents navigational options. Depending on the user’s input, players can enter areas such as the city watch, the merchant’s shop, or venture into the forest. This file also contains nested classes (e.g., `CityWatch` and `Forest`) that manage specific interactions like quest assignments and combat scenarios.  
+  citeturn3fetch0
 
 - **Other Components:**  
   Additional files like `Character.cs`, `Combat.cs`, and `Item.cs` (not viewed in detail here) likely define the game’s core mechanics—character creation, combat handling (including fights with goblins), and item management, respectively. There is also a `Merchant.cs` that would manage interactions with in-game merchants.
-  
+
 ---
 
 ## Usage Instructions
