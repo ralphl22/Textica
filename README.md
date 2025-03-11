@@ -1,5 +1,3 @@
----
-
 ## Overview
 
 **Textica** is a simple, console-based text adventure game written in C#. The project is structured as a typical C# solution, complete with a project file (`Textica.csproj`) and solution file (`Textica.sln`). The source code is organized into several files, each responsible for different aspects of the game:
