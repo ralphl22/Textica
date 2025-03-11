@@ -1,3 +1,5 @@
+Below is an overview and usage guide based on the files and structure found in the Textica repository.
+
 ---
 
 ## Overview
