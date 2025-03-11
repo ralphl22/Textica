@@ -12,7 +12,7 @@
   The `TownHub.cs` file acts as the central hub for the player. Here, the game continuously displays the character’s status and presents navigational options. Depending on the user’s input, players can enter areas such as the city watch, the merchant’s shop, or venture into the forest. This file also contains nested classes (e.g., `CityWatch` and `Forest`) that manage specific interactions like quest assignments and combat scenarios.  
 
 - **Other Components:**  
-  Additional files like `Character.cs`, `Combat.cs`, and `Item.cs` (likely define the game’s core mechanics—character creation, combat handling (including fights with goblins), and item management, respectively.  `Merchant.cs` manages interactions with the in-game merchant.
+  Additional files like `Character.cs`, `Combat.cs`, and `Item.cs` (not viewed in detail here) likely define the game’s core mechanics—character creation, combat handling (including fights with goblins), and item management, respectively. There is also a `Merchant.cs` that would manage interactions with in-game merchants.
   
 ---
 
