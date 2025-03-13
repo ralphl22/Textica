@@ -21,9 +21,7 @@ public class Character
     // Allows the user to choose their name and character class
     public void  CharacterCreation()
     {
-        GoldAmount = 0;
-
-        do
+        while (true) 
         {
             Console.Write("What is thy name, adventurer? ");
 
@@ -34,27 +32,26 @@ public class Character
             Console.Write("Are thy sure this is the name thy choseth? (y or n): ");
 
             Response = Console.ReadLine();
-
             Console.Beep(800, 100);
 
-            if (Response == "N" || Response == "n")
+            if (Response == "y" && CharacterName != "" && CharacterName != null || Response == "Y" && CharacterName != "" && CharacterName != null)
             {
+                Console.Write($"Welcome to the lands of Textica, {CharacterName}!");
+
+                GoldAmount = 50;
+
+                Console.ReadKey(true);
+
+                Console.Clear();
+
+                break;
+            }
+            else
+            {
+                Console.Clear();
                 continue;
             }
-
-            Console.Clear();
-
-            Console.Write($"Welcome to the lands of Textica, ");
-
-            Console.Write($"{CharacterName} the {CharacterClass}");
-
-            Console.ResetColor();
-
-            Console.WriteLine("!");
-
-            Thread.Sleep(2000);
-
-        } while (CharacterName == null);
+        }
     }
     // Automatically creates a character for testing purposes
     public void AutoCharacterCreation()
@@ -62,28 +59,46 @@ public class Character
         if (CharacterName == null)
         {
             CharacterName = "John Smith";
-            CharacterHealthPoints = 10;
-            GoldAmount = 0;
+            CharacterHealthPoints = 13;
+            GoldAmount = 50;
             CharacterSpeedPoints = 3;
+
+            Inventory.LeatherArmor = new LeatherArmor();
+
+            Inventory.Sword = new Sword();
+
+            Inventory.HealthPotion = new HealthPotion();
+
+            Inventory.Bow = new Bow();
+
+            Inventory.ChainmailArmor = new ChainmailArmor();
+
+            Inventory.GoblinHead = new GoblinHead();
+
+            Inventory.InventoryList = new List<Item>() { Inventory.Sword, Inventory.HealthPotion, Inventory.LeatherArmor };
         }
     }
     // Handles current character level and EXP gain
     public static void CharacterLevelAndExperience()
     {
+        if (CharacterLevel == 5)
+        {
+            CurrentExperiencePoints = 0;
+            ExperiencePointsToLevelUp = 0;
+        }
+
         // Initial character level
-        CharacterLevel = 1;
+        if (CharacterLevel == 0) CharacterLevel = 1;
 
         // Intial EXP required to level up
-
-        ExperiencePointsToLevelUp = 25;
+        ExperiencePointsToLevelUp = 10;
 
         // EXP required to level up based on what the user's current EXP is
-
         switch (CurrentExperiencePoints)
         {
             // 10 EXP for level 2, 20 for level 2, 30 for level 3, 40 for level 4, and 40 for level 5
 
-            case 25:
+            case 10:
                 CharacterLevel = 2;
                 CurrentExperiencePoints = 0;
                 Console.WriteLine($"You leveled up to {CharacterLevel}!");
@@ -103,6 +118,7 @@ public class Character
                 break;
             case 40:
                 CurrentExperiencePoints = 0;
+                ExperiencePointsToLevelUp = 0;
                 CharacterLevel = 5;
                 Console.WriteLine($"You leveled up to {CharacterLevel}!");
                 break;
@@ -142,7 +158,14 @@ public class Character
 }
 public class Inventory
 {
-    public static List<Inventory> InventoryList = new List<Inventory>() { new Sword(), new HealthPotion(), new LeatherArmor()};
+    public static Item LeatherArmor { get; set; }
+    public static  Item Sword { get; set; }
+    public static Item HealthPotion { get; set; }
+    public static Item Bow { get; set; }
+    public static Item ChainmailArmor { get; set; }
+    public static Item GoblinHead { get; set; }
+    public static bool IsEquipped { get; set; }
+    public static List<Item> InventoryList;
     public static void InventoryCheck()
     {
         string response;
@@ -155,10 +178,17 @@ public class Inventory
 
                 foreach (Item inventoryItem in InventoryList)
                 {
-                    if (inventoryItem != new LeatherArmor() && inventoryItem != new ChainmailArmor() && inventoryItem != new Sword() && inventoryItem != new Bow())
+                    if (inventoryItem == LeatherArmor || inventoryItem == Sword)
+                    {
+                        IsEquipped = true;
+                        Console.WriteLine($"{inventoryItem} (Equipped)");
+                        IsEquipped = false;
+                    }
+                    else if (inventoryItem == HealthPotion)
                     {
                         Console.WriteLine($"{inventoryItem}");
                     }
+                    else Console.WriteLine($"{inventoryItem} (Equipped)");
                 }
 
                 Console.WriteLine("Type the name of the item for more information, or type exit to exit the inventory.");
@@ -188,14 +218,24 @@ public class Inventory
                     {
                         continue;
                     }
-                    Console.ReadKey(true);
                 }
+                else Console.WriteLine("That item can't be used in combat!");
             }
             Console.WriteLine($"Inventory ({InventoryList.Count} Items):");
 
             foreach (Item inventoryItem in InventoryList)
             {
-                Console.WriteLine($"{inventoryItem}");
+                if (inventoryItem == LeatherArmor || inventoryItem == Sword)
+                {
+                    IsEquipped = true;
+                    Console.WriteLine($"{inventoryItem} (Equipped)");
+                    IsEquipped = false;
+                }
+                else if (inventoryItem == HealthPotion)
+                {
+                    Console.WriteLine($"{inventoryItem}");
+                }
+                else Console.WriteLine($"{inventoryItem} (Equipped)"); 
             }
      
             Console.WriteLine("Type the name of the item for more information, or type exit to exit the inventory.");
@@ -205,7 +245,14 @@ public class Inventory
 
             if (response == "exit")
             {
+                Console.Clear();
                 break;
+            }
+            if (response == "bow" || response == "Bow")
+            {
+                Weapon bow = new Bow();
+
+                Console.WriteLine($"Common bow used by hunters. Deals {bow.WeaponDamage} DMG.");
             }
             if (response == "sword" || response == "Sword")
             {
@@ -216,13 +263,19 @@ public class Inventory
             if (response == "leatherarmor" || response == "LeatherArmor")
             {
                 Armor leatherArmor = new LeatherArmor();
+
                 Console.WriteLine($"Typical leather armor that offers full body protection. It provides {leatherArmor.ArmorPoints} AP.");
+            }
+            if (response == "ChainmailArmor" || response == "chainmailarmor")
+            {
+                Armor chainmailArmor = new ChainmailArmor();
+
+                Console.WriteLine($"Armor made of interlocking metal rings that provides excellent protection against blows. It provides {chainmailArmor.ArmorPoints} AP.");
             }
             if (response == "healthpotion" || response == "HealthPotion")
             {
                 Console.WriteLine("A red health potion. Heals 5 HP.");
             }
-            Console.ReadKey(true);
         }
     }
 }
@@ -275,14 +328,14 @@ public class DefaultMonster : Monster
 }
 public class GoblinFighter : Monster
 {
-    public GoblinFighter() : base("Goblin Fighter", 10, 0, 1)
+    public GoblinFighter() : base("Goblin Fighter", 10, 0, 3)
     {
 
     }
 }
 public class GoblinArcher : Monster
 {
-    public GoblinArcher() : base("Goblin Archer", 5, 0, 5)
+    public GoblinArcher() : base("Goblin Archer", 5, 0, 4)
     {
 
     }
