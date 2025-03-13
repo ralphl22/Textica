@@ -1,5 +1,5 @@
 ﻿// Contains items useable by the player character
-public class Item : Inventory
+public class Item 
 {
 
 }
@@ -39,14 +39,14 @@ public class ChainmailArmor : Armor
 {
     public ChainmailArmor() : base(10)
     {
-        Character.CharacterArmorPoints = 10;
+        if (Character.CharacterArmorPoints == 0) Character.CharacterArmorPoints = 10;
     }
 }
 public class LeatherArmor : Armor
 {
     public LeatherArmor() : base(5)
     {
-        Character.CharacterArmorPoints = 5;
+        if (Character.CharacterArmorPoints == 0) Character.CharacterArmorPoints = 5;
     }
 }
 public class HealthPotion : Item
@@ -55,4 +55,9 @@ public class HealthPotion : Item
     {
 
     }
+}
+
+public class GoblinHead : Item
+{
+    public static int Amount { get; set; }
 }

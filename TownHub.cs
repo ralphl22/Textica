@@ -7,19 +7,21 @@ public class TownHub
     public static bool VisitedArea { get; set; }
     public TownHub()
     {
+       
        Character character = new Character();
-
-        Character.IsCharacterCreated = true;
 
         if (Character.IsCharacterCreated == false)
         {
             character.CharacterCreation();
+            Character.IsCharacterCreated = true;
         }
         else while (Character.CharacterName == null)
         {
             character.AutoCharacterCreation();
+            Character.IsCharacterCreated = true;
         }
-        ForestAccess = true;
+
+       // ForestAccess = true;
 
         // Initial access to forest not granted until player accepts a quest in the city watch area
         while (true)
@@ -44,13 +46,12 @@ public class TownHub
                     MessageCount++;
                 }*/
 
+                Console.WriteLine("----------------------------------------------");
+
                 Character.CharacterLevelAndExperience();
-
-                Console.WriteLine("--------------------------------------------------");
-
                 Character.CharacterStatus();
 
-                Console.WriteLine("--------------------------------------------------");
+                Console.WriteLine("----------------------------------------------");
 
                 Console.WriteLine($"Welcome to the city of Textica, {Character.CharacterName}! What do you want to do, or where do you want to go?");
 
@@ -91,13 +92,12 @@ public class TownHub
             {
                 while (true)
                 {
+                    Console.WriteLine("----------------------------------------------");
+
                     Character.CharacterLevelAndExperience();
-
-                    Console.WriteLine("--------------------------------------------------");
-
                     Character.CharacterStatus();
 
-                    Console.WriteLine("--------------------------------------------------");
+                    Console.WriteLine("----------------------------------------------");
 
                     Console.WriteLine($"Welcome to the city of Textica, {Character.CharacterName}! What do you want to do, or where do you want to go?");
 
@@ -114,10 +114,6 @@ public class TownHub
                         case "merchant":
                             Console.Clear();
                             new Merchant();
-                            break;
-                        case "forest":
-                            Console.Clear();
-                            new Forest();
                             break;
                         case "inventory":
                             Inventory.InventoryCheck();
@@ -141,61 +137,152 @@ public class TownHub
 public class CityWatch
 {
     private string Response { get; set; }
+    public static bool IsGoblinQuestAccepted { get; set; }
+    public static bool IsGoblinQuestCompleted { get; set; }
     public CityWatch()
     {
+        if (IsGoblinQuestAccepted == true && GoblinHead.Amount == 0 || GoblinHead.Amount > 0 && GoblinHead.Amount < 5)
+        {
+            Console.WriteLine("----------------------------------------------");
+
+            Character.CharacterLevelAndExperience();
+            Character.CharacterStatus();
+
+            Console.WriteLine("----------------------------------------------");
+
+            Console.WriteLine($"Watchman Karl: Welcome back, adventurer. I see that you have {GoblinHead.Amount} goblin heads.");
+
+            Console.ReadKey(true);
+            Console.Beep(800, 100);
+
+            Console.WriteLine("Watchman Karl: That's not enough for the reward. Come back when you have at least 5 goblin heads.");
+
+            IsGoblinQuestCompleted = true;
+
+            Console.ReadKey(true);
+            Console.Beep(800, 100);
+
+            Console.Clear();
+
+            new TownHub();
+        }
+        if (IsGoblinQuestAccepted == true && GoblinHead.Amount == 5)
+        {
+            Console.WriteLine("----------------------------------------------");
+
+            Character.CharacterLevelAndExperience();
+            Character.CharacterStatus();
+
+            Console.WriteLine("----------------------------------------------");
+
+            Console.WriteLine("Watchman Karl: Welcome back, adventurer. I see that you have 5 goblin heads.");
+
+            Console.ReadKey(true);
+            Console.Beep(800, 100);
+
+            Console.WriteLine("Watchman Karl: Here is your 250 G reward. Keep up the good work.");
+
+            Character.GoldAmount = Character.GoldAmount + 250;
+
+            IsGoblinQuestCompleted = true;
+
+            Console.ReadKey(true);
+            Console.Beep(800, 100);
+
+            Console.Clear();
+
+            new TownHub();
+        }
+        if (IsGoblinQuestAccepted == true && GoblinHead.Amount > 5)
+        {
+            Console.WriteLine("----------------------------------------------");
+
+            Character.CharacterLevelAndExperience();
+            Character.CharacterStatus();
+
+            Console.WriteLine("----------------------------------------------");
+
+            Character.GoldAmount = Character.GoldAmount + GoblinHead.Amount * 50;
+
+            Console.WriteLine($"Watchman Karl: Welcome back, adventurer. I see that you have {GoblinHead.Amount} goblin heads, which is more than I asked for. Adding up the 50 goblin bonus per head, you have {Character.GoldAmount} G as your reward.");
+
+            IsGoblinQuestCompleted = true;
+
+            Console.ReadKey(true);
+            Console.Beep(800, 100);
+
+            new TownHub();
+        }
+        Console.WriteLine("----------------------------------------------");
+
         Character.CharacterLevelAndExperience();
         Character.CharacterStatus();
 
-        Console.WriteLine("You enter the city watch building and see a watchman in chainmail, armed with a sword on his hip. He turns to look at you.");
+        Console.WriteLine("----------------------------------------------");
 
-        Thread.Sleep(2000);
+        Console.WriteLine("You see a watchman in chainmail, armed with a sword on his hip. He turns to look at you.");
 
-        Console.WriteLine("Watchman: You don't seem to be from around here. What do you want?");
+        Console.ReadKey(true);
 
-        Thread.Sleep(2000); 
-
-        Console.WriteLine("1 - Do you have any quests for me?");
-        Console.WriteLine("2 - I'll be leaving.");
-
-        Response = Console.ReadLine();
-        Console.Beep(800, 100);
-
-        if (Response == "1")
+        while (true)
         {
-            Console.WriteLine("Watchman: We do in fact have something for you.");
-            Thread.Sleep(2000);
-            Console.WriteLine("Watchman: There have been reports of goblins in the forest outside town attacking travelers. The city watch is understaffed, so we're looking for anyone who's willing to help.");
-            Thread.Sleep(2000);
-            Console.WriteLine("Watchman: Is that something you'd be interested in? We're offering 500 G if you manage to kill five goblins and give me their heads.");
-
-            Console.WriteLine("1 - I'm interested.");
-            Console.WriteLine("2 - No thanks.");
-
+            Console.WriteLine("Watchman Karl: You don't seem to be from around here. What do you want?");
+            
             Response = Console.ReadLine();
             Console.Beep(800, 100);
 
-            if (Response == "1")
+            if (Response == "quest")
             {
-                Console.WriteLine("Glad to have ye around. Get back to me with those golbin heads when you can.");
-
-                Thread.Sleep(2000);
-
-                Console.WriteLine("Press any key to continue.");
-
+                Console.WriteLine("Watchman Karl: We do in fact have something for you.");
                 Console.ReadKey(true);
+                Console.Beep(800, 100);
+                Console.WriteLine("Watchman karl: There have been reports of goblins in the forest outside town attacking travelers. We're looking for anyone who's willing to help.");
+                Console.ReadKey(true);
+                Console.Beep(800, 100);
 
-                Thread.Sleep(2000);
+                while (true)
+                {
+                    Console.WriteLine("Watchman Karl: Is that something you'd be interested in? We're offering 250 G if you manage to get five goblin heads.");
 
+                    Response = Console.ReadLine();
+                    Console.Beep(800, 100);
+
+                    if (Response == "yes")
+                    {
+                        Console.WriteLine("Watchman Karl: Glad to have you around. Get back to me with those golbin heads when you can.");
+
+                        Console.ReadKey(true);
+                        Console.Beep(800, 100);
+
+                        Console.Clear();
+
+                        IsGoblinQuestAccepted = true;
+
+                        TownHub.ForestAccess = true;
+
+                        new TownHub();
+
+                    }
+                    if (Response == "no")
+                    {
+                        Console.WriteLine("That's too bad. I'll see ya around, I guess.");
+
+                        Console.ReadKey(true);
+                        Console.Beep(800, 100);
+
+                        Console.Clear();
+
+                        new TownHub();
+                    }
+                }
+            }
+            if (Response == "leave")
+            {
                 Console.Clear();
 
-                TownHub.ForestAccess = true;
-                
                 new TownHub();
-
             }
-            else Console.WriteLine("That's too bad. I'll see ya around, I guess."); Thread.Sleep(2000); Console.Clear(); new TownHub();
         }
-        if (Response == "2") Console.Clear(); new TownHub();
     }
 }
 public class Forest
@@ -205,17 +292,16 @@ public class Forest
    {
         Character character = new Character();
 
-        while (true) {
+        while (true) 
+        {
+            Console.WriteLine("----------------------------------------------");
 
             Character.CharacterLevelAndExperience();
-
-            Console.WriteLine("--------------------------------------------------");
-
             Character.CharacterStatus();
 
-            Console.WriteLine("--------------------------------------------------");
+            Console.WriteLine("----------------------------------------------");
 
-            Console.WriteLine("You see yourself before a dense forest teeming with life. Where do you want to go, or what do you want to do?");
+            Console.WriteLine("You see yourself before a lush, dense forest. Where do you want to go, or what do you want to do?");
 
             Response = Console.ReadLine();
             Console.Beep(800, 100);
@@ -224,12 +310,12 @@ public class Forest
             {
                 Console.Clear();
                 new Combat();
-
             }
             if (Response == "look" || Response == "look around")
             {
                 Console.WriteLine("You see what appear to be goblin huts far off in the distance. This is where the goblins have likely set up camp.");
                 Console.ReadKey(true);
+                Console.Beep(800, 100);
                 Console.Clear();
                 continue;
             }
@@ -238,7 +324,14 @@ public class Forest
                 Inventory.InventoryCheck();
                 continue;
             }
-            else Console.Clear(); new TownHub();
+            if (Response == "leave")
+            {
+                Console.Clear(); 
+                
+                new TownHub(); 
+            }
+
+            Console.Clear();
         }
    }
 }
