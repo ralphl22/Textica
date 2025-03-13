@@ -28,7 +28,7 @@ public class TownHub
         {
             if (ForestAccess == true)
             {
-                /*
+                
                 if (MessageCount == 0)
                 {
                     Console.Beep(800, 100);
@@ -44,7 +44,7 @@ public class TownHub
                     Console.Clear();
 
                     MessageCount++;
-                }*/
+                }
 
                 Console.WriteLine("----------------------------------------------");
 
