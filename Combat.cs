@@ -1,8 +1,4 @@
 ﻿// Handles combat mechanics in the game
-public interface IMonsterCombat
-{
-   public void MonsterCombat();
-}
 public class Combat
 {
     private int Round { get; set; }
@@ -72,8 +68,6 @@ public class Combat
             {
                 IsInCombat = false; 
 
-                Character.CurrentExperiencePoints = Character.CurrentExperiencePoints + 5;
-
                 Thread.Sleep(2000);
 
                 Console.WriteLine($"{defaultMonster.MonsterClass} is dead!");
@@ -82,7 +76,9 @@ public class Combat
 
                 Console.ForegroundColor = ConsoleColor.DarkBlue;
 
-                Console.WriteLine($"You gained 5 EXP!");
+                Console.WriteLine($"You gained 10 EXP!");
+
+                Character.CurrentExperiencePoints = Character.CurrentExperiencePoints + 10;
 
                 Inventory.InventoryList.Add(Inventory.GoblinHead);
 

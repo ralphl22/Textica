@@ -40,6 +40,8 @@ public class Character
 
                 GoldAmount = 50;
 
+                Inventory inventory = new Inventory();
+
                 Console.ReadKey(true);
 
                 Console.Clear();
@@ -59,23 +61,11 @@ public class Character
         if (CharacterName == null)
         {
             CharacterName = "John Smith";
-            CharacterHealthPoints = 13;
+            CharacterHealthPoints = 10;
             GoldAmount = 50;
             CharacterSpeedPoints = 3;
 
-            Inventory.LeatherArmor = new LeatherArmor();
-
-            Inventory.Sword = new Sword();
-
-            Inventory.HealthPotion = new HealthPotion();
-
-            Inventory.Bow = new Bow();
-
-            Inventory.ChainmailArmor = new ChainmailArmor();
-
-            Inventory.GoblinHead = new GoblinHead();
-
-            Inventory.InventoryList = new List<Item>() { Inventory.Sword, Inventory.HealthPotion, Inventory.LeatherArmor };
+            Inventory inventory = new Inventory();
         }
     }
     // Handles current character level and EXP gain
@@ -91,32 +81,32 @@ public class Character
         if (CharacterLevel == 0) CharacterLevel = 1;
 
         // Intial EXP required to level up
-        ExperiencePointsToLevelUp = 10;
+        if (ExperiencePointsToLevelUp == 0) ExperiencePointsToLevelUp = 100;
 
-        // EXP required to level up based on what the user's current EXP is
+        // EXP required to level up based on what the user's current EXP is: current EXP is the default value of 0 intially 
         switch (CurrentExperiencePoints)
         {
-            // 10 EXP for level 2, 20 for level 2, 30 for level 3, 40 for level 4, and 40 for level 5
+            // 100 EXP for level 2, 200 for level 2, 300 for level 3, 400 for level 4, and 400 for level 5
 
-            case 10:
+            case 100:
                 CharacterLevel = 2;
                 CurrentExperiencePoints = 0;
                 Console.WriteLine($"You leveled up to {CharacterLevel}!");
-                ExperiencePointsToLevelUp = 45;
+                ExperiencePointsToLevelUp = 200;
                 break;
-            case 20:
+            case 200:
                 CharacterLevel = 3;
                 CurrentExperiencePoints = 0;
                 Console.WriteLine($"You leveled up to {CharacterLevel}!");
-                ExperiencePointsToLevelUp = 30;
+                ExperiencePointsToLevelUp = 300;
                 break;
-            case 30:
+            case 300:
                 CharacterLevel = 4;
                 CurrentExperiencePoints = 0;
                 Console.WriteLine($"You leveled up to {CharacterLevel}!");
-                ExperiencePointsToLevelUp = 40;
+                ExperiencePointsToLevelUp = 400;
                 break;
-            case 40:
+            case 400:
                 CurrentExperiencePoints = 0;
                 ExperiencePointsToLevelUp = 0;
                 CharacterLevel = 5;
@@ -154,129 +144,6 @@ public class Character
         Console.WriteLine($" {GoldAmount} G");
 
         Console.ResetColor();
-    }
-}
-public class Inventory
-{
-    public static Item LeatherArmor { get; set; }
-    public static  Item Sword { get; set; }
-    public static Item HealthPotion { get; set; }
-    public static Item Bow { get; set; }
-    public static Item ChainmailArmor { get; set; }
-    public static Item GoblinHead { get; set; }
-    public static bool IsEquipped { get; set; }
-    public static List<Item> InventoryList;
-    public static void InventoryCheck()
-    {
-        string response;
-
-        while (true)
-        {
-            if (Combat.IsInCombat == true)
-            {
-                Console.WriteLine($"Inventory ({InventoryList.Count} Items):");
-
-                foreach (Item inventoryItem in InventoryList)
-                {
-                    if (inventoryItem == LeatherArmor || inventoryItem == Sword)
-                    {
-                        IsEquipped = true;
-                        Console.WriteLine($"{inventoryItem} (Equipped)");
-                        IsEquipped = false;
-                    }
-                    else if (inventoryItem == HealthPotion)
-                    {
-                        Console.WriteLine($"{inventoryItem}");
-                    }
-                    else Console.WriteLine($"{inventoryItem} (Equipped)");
-                }
-
-                Console.WriteLine("Type the name of the item for more information, or type exit to exit the inventory.");
-
-                response = Console.ReadLine();
-
-                if (response == "exit")
-                {
-                    break;
-                }
-                if (response == "healthpotion" || response == "HealthPotion")
-                {
-                    Console.WriteLine("A red health potion. Heals 5 HP.");
-
-                    Console.ReadKey(true);
-
-                    Console.WriteLine("Do you want to use the health potion?");
-
-                    response = Console.ReadLine();
-
-                    if (response == "yes")
-                    {
-                        Console.WriteLine("Health potion used! You restore 5 HP!");
-                        Character.CharacterHealthPoints = Character.CharacterHealthPoints + 5;
-                    }
-                    if (response == "no")
-                    {
-                        continue;
-                    }
-                }
-                else Console.WriteLine("That item can't be used in combat!");
-            }
-            Console.WriteLine($"Inventory ({InventoryList.Count} Items):");
-
-            foreach (Item inventoryItem in InventoryList)
-            {
-                if (inventoryItem == LeatherArmor || inventoryItem == Sword)
-                {
-                    IsEquipped = true;
-                    Console.WriteLine($"{inventoryItem} (Equipped)");
-                    IsEquipped = false;
-                }
-                else if (inventoryItem == HealthPotion)
-                {
-                    Console.WriteLine($"{inventoryItem}");
-                }
-                else Console.WriteLine($"{inventoryItem} (Equipped)"); 
-            }
-     
-            Console.WriteLine("Type the name of the item for more information, or type exit to exit the inventory.");
-    
-            response = Console.ReadLine();
-            Console.Beep(800, 100);
-
-            if (response == "exit")
-            {
-                Console.Clear();
-                break;
-            }
-            if (response == "bow" || response == "Bow")
-            {
-                Weapon bow = new Bow();
-
-                Console.WriteLine($"Common bow used by hunters. Deals {bow.WeaponDamage} DMG.");
-            }
-            if (response == "sword" || response == "Sword")
-            {
-                Weapon sword = new Sword();
-
-                Console.WriteLine($"A common sword. Deals {sword.WeaponDamage} DMG.");
-            }
-            if (response == "leatherarmor" || response == "LeatherArmor")
-            {
-                Armor leatherArmor = new LeatherArmor();
-
-                Console.WriteLine($"Typical leather armor that offers full body protection. It provides {leatherArmor.ArmorPoints} AP.");
-            }
-            if (response == "ChainmailArmor" || response == "chainmailarmor")
-            {
-                Armor chainmailArmor = new ChainmailArmor();
-
-                Console.WriteLine($"Armor made of interlocking metal rings that provides excellent protection against blows. It provides {chainmailArmor.ArmorPoints} AP.");
-            }
-            if (response == "healthpotion" || response == "HealthPotion")
-            {
-                Console.WriteLine("A red health potion. Heals 5 HP.");
-            }
-        }
     }
 }
 // Responsible for hostile NPC monsters

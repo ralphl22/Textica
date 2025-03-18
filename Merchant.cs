@@ -2,11 +2,13 @@
 public class Merchant
 {
     private string Response { get; set; }
-    public static List<Item> MerchantList = new List<Item>() { Inventory.Bow, Inventory.Sword, Inventory.HealthPotion, Inventory.HealthPotion, Inventory.HealthPotion, Inventory.HealthPotion, Inventory.HealthPotion, Inventory.LeatherArmor, Inventory.ChainmailArmor };
+    private static List<Item> MerchantList = new List<Item>() { Inventory.Bow, Inventory.Sword, Inventory.HealthPotion, Inventory.HealthPotion, Inventory.HealthPotion, Inventory.HealthPotion, Inventory.HealthPotion, Inventory.LeatherArmor, Inventory.ChainmailArmor };
     public Merchant()
     {
         while (true)
         {
+            Console.Clear();
+
             Console.WriteLine("----------------------------------------------");
 
             Character.CharacterLevelAndExperience();
@@ -23,6 +25,15 @@ public class Merchant
             {
                 while (true)
                 {
+                    Console.Clear();
+
+                    Console.WriteLine("----------------------------------------------");
+
+                    Character.CharacterLevelAndExperience();
+                    Character.CharacterStatus();
+
+                    Console.WriteLine("----------------------------------------------");
+
                     Console.WriteLine($"Merchant Alicia: Here are my wares:");
 
                     foreach (Item merchantItem in MerchantList)
@@ -34,7 +45,7 @@ public class Merchant
                         else if (merchantItem == Inventory.ChainmailArmor) Console.WriteLine($"{merchantItem} - 30 G");
                         else Console.WriteLine($"{merchantItem}");
                     }
-                    Console.WriteLine("Type an item's name for more information, or type exit to exit.");
+                    Console.WriteLine("Type an item's name for more information, or type 'exit' to exit.");
 
                     Response = Console.ReadLine();
 
@@ -46,28 +57,33 @@ public class Merchant
 
                         Console.ReadKey(true);
 
-                        Console.WriteLine($"Purchase item?");
-
-                        Response = Console.ReadLine();
-
-                        if (Response == "yes" && Character.GoldAmount >= 15)
+                        while (true)
                         {
-                            Console.WriteLine("Item purchased!");
-                            Inventory.InventoryList.Add(Inventory.Bow);
-                            MerchantList.Remove(Inventory.Bow);
-                            Character.GoldAmount = Character.GoldAmount - 15;
-                            Console.ReadKey(true);
-                            Console.Clear();
-                            break;
+                            Console.WriteLine($"Purchase item?");
+
+                            Response = Console.ReadLine();
+
+                            if (Response == "yes" && Character.GoldAmount >= 15)
+                            {
+                                Console.WriteLine("Item purchased!");
+                                Inventory.InventoryList.Add(Inventory.Bow);
+                                MerchantList.Remove(Inventory.Bow);
+                                Character.GoldAmount = Character.GoldAmount - 15;
+                                Console.ReadKey(true);
+                                Console.Clear();
+                                break;
+                            }
+                            if (Response == "yes" && Character.GoldAmount < 15)
+                            {
+                                Console.WriteLine($"Not enough gold! You have {Character.GoldAmount} G!");
+                                Console.ReadKey(true);
+                                Console.Clear();
+                                break;
+                            }
+                            if (Response == "no") break;
+                            else continue;
                         }
-                        if (Response == "yes" && Character.GoldAmount < 15)
-                        {
-                            Console.WriteLine($"Not enough gold! You have {Character.GoldAmount} G!");
-                            Console.ReadKey(true);
-                            Console.Clear();
-                            break;
-                        }
-                        if (Response == "no") continue;
+                        continue;
                     }
                     if (Response == "sword" && MerchantList.Contains(Inventory.Sword) || Response == "Sword" && MerchantList.Contains(Inventory.Sword))
                     {
@@ -77,27 +93,32 @@ public class Merchant
 
                         Console.ReadKey(true);
 
-                        Console.WriteLine($"Purchase item?");
-
-                        Response = Console.ReadLine();
-
-                        if (Response == "yes" && Character.GoldAmount >= 15)
+                        while (true)
                         {
-                            Console.WriteLine("Item purchased!");
-                            Inventory.InventoryList.Add(Inventory.Sword);
-                            Character.GoldAmount = Character.GoldAmount - 15;
-                            Console.ReadKey(true);
-                            Console.Clear();
-                            break;
+                            Console.WriteLine($"Purchase item?");
+
+                            Response = Console.ReadLine();
+
+                            if (Response == "yes" && Character.GoldAmount >= 15)
+                            {
+                                Console.WriteLine("Item purchased!");
+                                Inventory.InventoryList.Add(Inventory.Sword);
+                                Character.GoldAmount = Character.GoldAmount - 15;
+                                Console.ReadKey(true);
+                                Console.Clear();
+                                break;
+                            }
+                            if (Response == "yes" && Character.GoldAmount < 15)
+                            {
+                                Console.WriteLine($"Not enough gold! You have {Character.GoldAmount} G!");
+                                Console.ReadKey(true);
+                                Console.Clear();
+                                break;
+                            }
+                            if (Response == "no") break;
+                            else continue;
                         }
-                        if (Response == "yes" && Character.GoldAmount < 15)
-                        {
-                            Console.WriteLine($"Not enough gold! You have {Character.GoldAmount} G!");
-                            Console.ReadKey(true);
-                            Console.Clear();
-                            break;
-                        }
-                        if (Response == "no") continue;
+                        continue;
                     }
                     if (Response == "leatherarmor" && MerchantList.Contains(Inventory.LeatherArmor) || Response == "LeatherArmor" && MerchantList.Contains(Inventory.LeatherArmor))
                     {
@@ -107,37 +128,43 @@ public class Merchant
 
                         Console.ReadKey(true);
 
-                        Console.WriteLine($"Purchase item?");
-
-                        Response = Console.ReadLine();
-
-                        foreach (Item inventoryItem in Inventory.InventoryList)
+                        while (true)
                         {
-                            if (Response == "yes" && Character.GoldAmount >= 20 && inventoryItem != Inventory.LeatherArmor)
+                            Console.WriteLine($"Purchase item?");
+
+                            Response = Console.ReadLine();
+
+                            foreach (Item inventoryItem in Inventory.InventoryList)
                             {
-                                Console.WriteLine("Item purchased!");
-                                Inventory.InventoryList.Add(Inventory.LeatherArmor);
-                                Character.GoldAmount = Character.GoldAmount - 20;
-                                Console.ReadKey(true);
-                                Console.Clear();
-                                break;
+                                if (Response == "yes" && Character.GoldAmount >= 20 && inventoryItem != Inventory.LeatherArmor)
+                                {
+                                    Console.WriteLine("Item purchased!");
+                                    Inventory.InventoryList.Add(Inventory.LeatherArmor);
+                                    Character.GoldAmount = Character.GoldAmount - 20;
+                                    Console.ReadKey(true);
+                                    Console.Clear();
+                                    break;
+                                }
+                                if (Response == "yes" && Character.GoldAmount >= 20 && inventoryItem == Inventory.LeatherArmor)
+                                {
+                                    Console.WriteLine("You already have leather armor!");
+                                    Console.ReadKey(true);
+                                    Console.Clear();
+                                    continue;
+                                }
+                                if (Response == "yes" && Character.GoldAmount < 20)
+                                {
+                                    Console.WriteLine($"Not enough gold! You have {Character.GoldAmount} G!");
+                                    Console.ReadKey(true);
+                                    Console.Clear();
+                                    continue;
+                                }
+                                if (Response == "no") break;
+                                else continue;
                             }
-                            if (Response == "yes" && Character.GoldAmount >= 20 && inventoryItem == Inventory.LeatherArmor)
-                            {
-                                Console.WriteLine("You already have leather armor!");
-                                Console.ReadKey(true);
-                                Console.Clear();
-                                continue;
-                            }
-                            if (Response == "yes" && Character.GoldAmount < 20)
-                            {
-                                Console.WriteLine($"Not enough gold! You have {Character.GoldAmount} G!");
-                                Console.ReadKey(true);
-                                Console.Clear();
-                                continue;
-                            }
+                            break;
                         }
-                        if (Response == "no") continue;
+                        continue;
                     }
                     if (Response == "healthpotion" && MerchantList.Contains(Inventory.HealthPotion) || Response == "HealthPotion" && MerchantList.Contains(Inventory.HealthPotion))
                     {
@@ -145,27 +172,32 @@ public class Merchant
 
                         Console.ReadKey(true);
 
-                        Console.WriteLine($"Purchase item?");
-
-                        Response = Console.ReadLine();
-
-                        if (Response == "yes" && Character.GoldAmount >= 10)
+                        while (true)
                         {
-                            Console.WriteLine("Item purchased!");
-                            Inventory.InventoryList.Add(Inventory.HealthPotion);
-                            Character.GoldAmount = Character.GoldAmount - 10;
-                            Console.ReadKey(true);
-                            Console.Clear();
-                            break;
+                            Console.WriteLine($"Purchase item?");
+
+                            Response = Console.ReadLine();
+
+                            if (Response == "yes" && Character.GoldAmount >= 10)
+                            {
+                                Console.WriteLine("Item purchased!");
+                                Inventory.InventoryList.Add(Inventory.HealthPotion);
+                                Character.GoldAmount = Character.GoldAmount - 10;
+                                Console.ReadKey(true);
+                                Console.Clear();
+                                break;
+                            }
+                            if (Response == "yes" && Character.GoldAmount < 10)
+                            {
+                                Console.WriteLine($"Not enough gold! You have {Character.GoldAmount} G!");
+                                Console.ReadKey(true);
+                                Console.Clear();
+                                break;
+                            }
+                            if (Response == "no") break;
+                            else continue;
                         }
-                        if (Response == "yes" && Character.GoldAmount < 10)
-                        {
-                            Console.WriteLine($"Not enough gold! You have {Character.GoldAmount} G!");
-                            Console.ReadKey(true);
-                            Console.Clear();
-                            break;
-                        }
-                        if (Response == "no") continue;
+                        continue;
                     }
                     if (Response == "ChainmailArmor" && MerchantList.Contains(Inventory.ChainmailArmor) || Response == "chainmailarmor" && MerchantList.Contains(Inventory.ChainmailArmor))
                     {
@@ -175,34 +207,45 @@ public class Merchant
 
                         Console.ReadKey(true);
 
-                        Console.WriteLine($"Purchase item?");
+                        while (true)
+                        {
+                            Console.WriteLine($"Purchase item?");
 
-                        Response = Console.ReadLine();
-                        if (Response == "yes" && Character.GoldAmount >= 30)
-                        {
-                            Console.WriteLine("Item purchased!");
-                            Inventory.InventoryList.Add(Inventory.ChainmailArmor);
-                            Character.GoldAmount = Character.GoldAmount - 30;
-                            Console.ReadKey(true);
-                            Console.Clear();
-                            break;
+                            Response = Console.ReadLine();
+                            if (Response == "yes" && Character.GoldAmount >= 30)
+                            {
+                                Console.WriteLine("Item purchased!");
+                                Inventory.InventoryList.Add(Inventory.ChainmailArmor);
+                                Character.GoldAmount = Character.GoldAmount - 30;
+                                Console.ReadKey(true);
+                                Console.Clear();
+                                break;
+                            }
+                            if (Response == "yes" && Character.GoldAmount < 30)
+                            {
+                                Console.WriteLine($"Not enough gold! You have {Character.GoldAmount} G!");
+                                Console.ReadKey(true);
+                                Console.Clear();
+                                break;
+                            }
+                            if (Response == "no") break;
+                            else continue;
                         }
-                        if (Response == "yes" && Character.GoldAmount < 30)
-                        {
-                            Console.WriteLine($"Not enough gold! You have {Character.GoldAmount} G!");
-                            Console.ReadKey(true);
-                            Console.Clear();
-                            break;
-                        }
-                        if (Response == "no") continue;
+                        continue;
                     }
                     if (Response == "exit")
                     {
                         Console.Beep(800, 100); 
 
-                        Console.Clear();
+                        Response = null;
 
                         break;
+                    }
+                    if (Response == "inventory")
+                    {
+                        Inventory.InventoryCheck();
+
+                        continue;
                     }
                 }
             }
@@ -210,6 +253,8 @@ public class Merchant
             {
                 while (true)
                 {
+                    Console.Clear();
+
                     Console.WriteLine($"Inventory ({Inventory.InventoryList.Count} Items):");
 
                     foreach (Item inventoryItem in Inventory.InventoryList)
@@ -221,7 +266,6 @@ public class Merchant
                         else if (inventoryItem == Inventory.ChainmailArmor) Console.WriteLine($"{inventoryItem} - 30 G");
                         else Console.WriteLine($"{inventoryItem}");
                     }
-
                     Console.WriteLine("Type the name of the item to sell it, or type exit to exit the sell menu.");
 
                     Response = Console.ReadLine();
@@ -234,20 +278,24 @@ public class Merchant
 
                         Console.ReadKey(true);
 
-                        Console.WriteLine($"Sell item for 15 G?");
-
-                        Response = Console.ReadLine();
-
-                        if (Response == "yes")
+                        while (true)
                         {
-                            Console.WriteLine("Item sold for 15 G!");
-                            Inventory.InventoryList.Remove(Inventory.Bow);
-                            Character.GoldAmount = Character.GoldAmount + 15;
-                            Console.ReadKey(true);
-                            Console.Clear();
-                            break;
+                            Console.WriteLine($"Sell item for 15 G?");
+
+                            Response = Console.ReadLine();
+                            if (Response == "yes")
+                            {
+                                Console.WriteLine("Item sold for 15 G!");
+                                Inventory.InventoryList.Remove(Inventory.ChainmailArmor);
+                                Character.GoldAmount = Character.GoldAmount + 15;
+                                Console.ReadKey(true);
+                                Console.Clear();
+                                break;
+                            }
+                            if (Response == "no") break;
+                            else continue;
                         }
-                        if (Response == "no") continue;
+                        continue;
                     }
                     if (Response == "sword" || Response == "Sword")
                     {
@@ -257,20 +305,24 @@ public class Merchant
 
                         Console.ReadKey(true);
 
-                        Console.WriteLine($"Sell item for 15 G?");
-
-                        Response = Console.ReadLine();
-
-                        if (Response == "yes")
+                        while (true)
                         {
-                            Console.WriteLine("Item sold for 15 G!");
-                            Inventory.InventoryList.Remove(Inventory.Sword);
-                            Character.GoldAmount = Character.GoldAmount + 15;
-                            Console.ReadKey(true);
-                            Console.Clear();
-                            break;
+                            Console.WriteLine($"Sell item for 15 G?");
+
+                            Response = Console.ReadLine();
+                            if (Response == "yes")
+                            {
+                                Console.WriteLine("Item sold for 15 G!");
+                                Inventory.InventoryList.Remove(Inventory.Sword);
+                                Character.GoldAmount = Character.GoldAmount + 15;
+                                Console.ReadKey(true);
+                                Console.Clear();
+                                break;
+                            }
+                            if (Response == "no") break;
+                            else continue;
                         }
-                        if (Response == "no") continue;
+                        continue;
                     }
                     if (Response == "leatherarmor" || Response == "LeatherArmor")
                     {
@@ -280,22 +332,24 @@ public class Merchant
 
                         Console.ReadKey(true);
 
-                        Console.WriteLine($"Sell item for 20 G?");
-
-                        Response = Console.ReadLine();
-
-                        if (Response == "yes")
+                        while (true)
                         {
-                            Console.WriteLine("Item sold for 20 G!");
-            
-                            Inventory.InventoryList.Remove(Inventory.LeatherArmor);
-                            
-                            Character.GoldAmount = Character.GoldAmount + 20;
-                            Console.ReadKey(true);
-                            Console.Clear();
-                            break;
+                            Console.WriteLine($"Sell item for 20 G?");
+
+                            Response = Console.ReadLine();
+                            if (Response == "yes")
+                            {
+                                Console.WriteLine("Item sold for 20 G!");
+                                Inventory.InventoryList.Remove(Inventory.LeatherArmor);
+                                Character.GoldAmount = Character.GoldAmount + 20;
+                                Console.ReadKey(true);
+                                Console.Clear();
+                                break;
+                            }
+                            if (Response == "no") break;
+                            else continue;
                         }
-                        if (Response == "no") continue;
+                        continue;
                     }
                     if (Response == "healthpotion" || Response == "HealthPotion")
                     {
@@ -303,20 +357,24 @@ public class Merchant
 
                         Console.ReadKey(true);
 
-                        Console.WriteLine($"Sell item for 10 G?");
-
-                        Response = Console.ReadLine();
-
-                        if (Response == "yes")
+                        while (true)
                         {
-                            Console.WriteLine("Item sold for 10 G!");
-                            Inventory.InventoryList.Remove(Inventory.HealthPotion);
-                            Character.GoldAmount = Character.GoldAmount + 10;
-                            Console.ReadKey(true);
-                            Console.Clear();
-                            break;
+                            Console.WriteLine($"Sell item for 10 G?");
+
+                            Response = Console.ReadLine();
+                            if (Response == "yes")
+                            {
+                                Console.WriteLine("Item sold for 10 G!");
+                                Inventory.InventoryList.Remove(Inventory.HealthPotion);
+                                Character.GoldAmount = Character.GoldAmount + 10;
+                                Console.ReadKey(true);
+                                Console.Clear();
+                                break;
+                            }
+                            if (Response == "no") break;
+                            else continue;
                         }
-                        if (Response == "no") continue;
+                        continue;
                     }
                     if (Response == "ChainmailArmor" || Response == "chainmailarmor")
                     {
@@ -326,25 +384,38 @@ public class Merchant
 
                         Console.ReadKey(true);
 
-                        Console.WriteLine($"Sell item for 30 G?");
-
-                        Response = Console.ReadLine();
-                        if (Response == "yes")
+                        while (true)
                         {
-                            Console.WriteLine("Item sold for 30 G!");
-                            Inventory.InventoryList.Remove(Inventory.ChainmailArmor);
-                            Character.GoldAmount = Character.GoldAmount + 30;
-                            Console.ReadKey(true);
-                            Console.Clear();
-                            break;
+                            Console.WriteLine($"Sell item for 30 G?");
+
+                            Response = Console.ReadLine();
+                            if (Response == "yes")
+                            {
+                                Console.WriteLine("Item sold for 30 G!");
+                                Inventory.InventoryList.Remove(Inventory.ChainmailArmor);
+                                Character.GoldAmount = Character.GoldAmount + 30;
+                                Console.ReadKey(true);
+                                Console.Clear();
+                                break;
+                            }
+                            if (Response == "no") break;
+                            else continue;
                         }
-                        if (Response == "no") continue;
+                        continue;
+                    }
+                    if (Response == "inventory")
+                    {
+                        Inventory.InventoryCheck();
+
+                        continue;
                     }
                     if (Response == "exit")
                     {
                         Console.Beep(800, 100); 
 
-                        Console.Clear(); 
+                        Console.Clear();
+
+                        Response = null;
 
                         break;
                     }
@@ -363,6 +434,5 @@ public class Merchant
                 continue;
             }
         }
-
     }
 }

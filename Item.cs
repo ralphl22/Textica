@@ -39,14 +39,23 @@ public class ChainmailArmor : Armor
 {
     public ChainmailArmor() : base(10)
     {
-        if (Character.CharacterArmorPoints == 0) Character.CharacterArmorPoints = 10;
+        if (Inventory.IsEquipped)
+        {
+            Character.CharacterArmorPoints = 10;
+        }
+        Character.CharacterArmorPoints = 0;
+
     }
 }
 public class LeatherArmor : Armor
 {
     public LeatherArmor() : base(5)
     {
-        if (Character.CharacterArmorPoints == 0) Character.CharacterArmorPoints = 5;
+        if (Inventory.IsEquipped)
+        {
+            Character.CharacterArmorPoints = 5;
+        }
+        Character.CharacterArmorPoints = 0;
     }
 }
 public class HealthPotion : Item
@@ -56,7 +65,6 @@ public class HealthPotion : Item
 
     }
 }
-
 public class GoblinHead : Item
 {
     public static int Amount { get; set; }
