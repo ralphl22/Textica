@@ -6,37 +6,37 @@ public class Combat
     private bool MonsterInitiative { get; set; }
     private bool CharacterInitiative { get; set; }
     private int MonsterChance { get; set; }
-    public static bool IsInCombat { get; set; }
+    private Monster MonsterChoice { get; set; } 
+    public static bool IsInCombat { get; private set; }
     private int TiebreakerNumber { get; set; }
     private int FleeChance { get; set; }
     public Combat()
-    {
+    {                                                                           
         if (Round == 0) Round = 1;
 
         Random random = new Random();
 
-        Character character = new Character() { CharacterDamage = random.Next(1, 11), CharacterAccurarcy = random.Next(31) };
-
-        Monster defaultMonster = new DefaultMonster();
+        Character character = new Character() { CharacterDamage = random.Next(1, 11), CharacterAccuracy = random.Next(31) };
 
         MonsterChance = random.Next(0, 101);
 
         if (MonsterChance > 50)
         {
-            defaultMonster = new GoblinFighter();
+            MonsterChoice = new GoblinFighter();
         }
-        else defaultMonster = new GoblinArcher();
+        else MonsterChoice = new GoblinArcher();
 
-        defaultMonster.MonsterDamage = random.Next(1, 11);
+        MonsterChoice.MonsterDamage = random.Next(1, 11);
 
-        defaultMonster.MonsterAccurarcy = random.Next(31);
+        MonsterChoice.MonsterAccuracy = random.Next(31);
 
         while (true)
         {
+            // Message telling the player what monster they have encountered
             if (Round == 1)
             {
                 Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine($"You encounter a {Console.ForegroundColor = ConsoleColor.Green} {defaultMonster.MonsterClass}!");
+                Console.WriteLine($"You encounter a {Console.ForegroundColor = ConsoleColor.Green} {MonsterChoice.MonsterClass}!");
                 Console.Beep(300, 200);
                 Console.Beep(450, 200);
                 Console.Beep(300, 200);
@@ -48,7 +48,8 @@ public class Combat
 
             IsInCombat = true;
 
-            if (defaultMonster.MonsterHealthPoints <= 0) defaultMonster.MonsterHealthPoints = 0;
+            // Makes it so character or monster HP stays at 0 if an attack makes HP less than 0
+            if (MonsterChoice.MonsterHealthPoints <= 0) MonsterChoice.MonsterHealthPoints = 0;
             if (Character.CharacterHealthPoints <= 0) Character.CharacterHealthPoints = 0;
 
             Console.WriteLine($"Round: {Round}");
@@ -60,17 +61,18 @@ public class Combat
 
             Console.WriteLine("-----------------------------------------------------------------------");
 
-            defaultMonster.MonsterStatus();
+            MonsterChoice.MonsterStatus();
 
             Console.WriteLine("-----------------------------------------------------------------------");
 
-            if (defaultMonster.MonsterHealthPoints <= 0)
+            // Checks to see if monster HP is less or equal to 0: if so, displays that monster is dead, adds EXP, and goblin head to player's inventory, and to the amount
+            if (MonsterChoice.MonsterHealthPoints <= 0)
             {
                 IsInCombat = false; 
 
                 Thread.Sleep(2000);
 
-                Console.WriteLine($"{defaultMonster.MonsterClass} is dead!");
+                Console.WriteLine($"{MonsterChoice.MonsterClass} is dead!");
 
                 Thread.Sleep(2000);
 
@@ -78,15 +80,23 @@ public class Combat
 
                 Console.WriteLine($"You gained 10 EXP!");
 
-                Character.CurrentExperiencePoints = Character.CurrentExperiencePoints + 10;
+                Character.CurrentExperiencePoints += 10;
 
-                Inventory.InventoryList.Add(Inventory.GoblinHead);
-
-                GoblinHead.Amount = GoblinHead.Amount + 1;
+                Thread.Sleep(2000);
 
                 Console.ResetColor();
 
+                Console.ForegroundColor = ConsoleColor.Green;
+
+                Console.WriteLine("You got 1 GoblinHead!");
+
+                Inventory.InventoryList.Add(Inventory.GoblinHead);
+
+                GoblinHead.Amount += 1;
+
                 Thread.Sleep(2000);
+
+                Console.ResetColor();
 
                 Console.WriteLine("Press any key to continue.");
 
@@ -97,6 +107,7 @@ public class Combat
                 new Forest();
             }
 
+            // Checks to see if player HP is less or equal to 0; if so, player is considered dead, and prompts the player to try again and go back to the area from the begining
             if (Character.CharacterHealthPoints <= 0)
             {
                 Thread.Sleep(2000);
@@ -115,14 +126,15 @@ public class Combat
 
                 new Forest();
             }
+
             CharacterCombat();
             Round++;
 
             void CharacterCombat()
             {
-                while (Character.CharacterSpeedPoints > defaultMonster.MonsterSpeedPoints || MonsterInitiative == true || Character.CharacterSpeedPoints == defaultMonster.MonsterSpeedPoints) 
+                while (Character.CharacterSpeedPoints > MonsterChoice.MonsterSpeedPoints || MonsterInitiative == true || Character.CharacterSpeedPoints == MonsterChoice.MonsterSpeedPoints) 
                 {
-                    if (Character.CharacterSpeedPoints == defaultMonster.MonsterSpeedPoints && Round == 1)
+                    if (Character.CharacterSpeedPoints == MonsterChoice.MonsterSpeedPoints && Round == 1)
                     {
                         TiebreakerNumber = random.Next(1, 101);
 
@@ -134,7 +146,7 @@ public class Combat
                         else
                         {
                             // Monster goes first
-                            Console.WriteLine($"TiebreakerNumber is {TiebreakerNumber}. {defaultMonster.MonsterClass} goes first!");
+                            Console.WriteLine($"TiebreakerNumber is {TiebreakerNumber}. {MonsterChoice.MonsterClass} goes first!");
                             break;
 
                         }
@@ -152,7 +164,7 @@ public class Combat
 
                     if (Response == "attack")
                     {
-                        if (character.CharacterAccurarcy > 10)
+                        if (character.CharacterAccuracy > 10)
                         {
                             if (character.CharacterDamage >= 7)
                             {
@@ -168,11 +180,11 @@ public class Combat
 
                                 Console.ResetColor();
 
-                                Console.WriteLine($"You hit the {defaultMonster.MonsterClass} for {character.CharacterDamage} DMG!");
+                                Console.WriteLine($"You hit the {MonsterChoice.MonsterClass} for {character.CharacterDamage} DMG!");
 
-                                defaultMonster.MonsterHealthPoints = defaultMonster.MonsterHealthPoints - character.CharacterDamage;
+                                MonsterChoice.MonsterHealthPoints = MonsterChoice.MonsterHealthPoints - character.CharacterDamage;
 
-                                if (defaultMonster.MonsterHealthPoints <= 0)
+                                if (MonsterChoice.MonsterHealthPoints <= 0)
                                 {
                                     Thread.Sleep(2000);
                                     break;
@@ -184,11 +196,11 @@ public class Combat
                                 Console.Beep(800, 100);
                                 Console.Beep(1000, 100);
 
-                                Console.WriteLine($"You hit the {defaultMonster.MonsterClass} for {character.CharacterDamage} DMG!");
+                                Console.WriteLine($"You hit the {MonsterChoice.MonsterClass} for {character.CharacterDamage} DMG!");
 
-                                defaultMonster.MonsterHealthPoints = defaultMonster.MonsterHealthPoints - character.CharacterDamage;
+                                MonsterChoice.MonsterHealthPoints = MonsterChoice.MonsterHealthPoints - character.CharacterDamage;
 
-                                if (defaultMonster.MonsterHealthPoints <= 0)
+                                if (MonsterChoice.MonsterHealthPoints <= 0)
                                 {
                                     Thread.Sleep(2000);
                                     break;
@@ -210,7 +222,7 @@ public class Combat
                     }
                     if (Response == "inventory")
                     {
-                        Inventory.InventoryCheck();
+                        Inventory.InventoryMenu();
                         continue;
                     }
                     if (Response == "defend")
@@ -266,7 +278,8 @@ public class Combat
                                 Character.CharacterHealthPoints = 0;
                                 break;
                             }
-                            else break;
+                            if (Response == "N" || Response == "n") break;
+                            else continue;
                         }
                         if (Character.CharacterHealthPoints == 0) break;
                         continue;
@@ -291,109 +304,226 @@ public class Combat
                         }
                     }
                 }
-                if (defaultMonster.MonsterSpeedPoints > Character.CharacterSpeedPoints || CharacterInitiative == true && Character.CharacterHealthPoints > 0 || defaultMonster.MonsterSpeedPoints == Character.CharacterSpeedPoints)
+                if (MonsterChoice.MonsterSpeedPoints > Character.CharacterSpeedPoints || CharacterInitiative == true && Character.CharacterHealthPoints > 0 || MonsterChoice.MonsterSpeedPoints == Character.CharacterSpeedPoints)
                 {
-                    MonsterCombat();
+                    if (MonsterChoice == new GoblinFighter())
+                    {
+                        GoblinFighterCombat goblinFighterCombat = new GoblinFighterCombat();    
+
+                        goblinFighterCombat.MonsterCombat(this, MonsterChoice);
+                    }
+                    if (MonsterChoice == new GoblinArcher()) 
+                    {
+                        GoblinArcherCombat goblinArcherCombat = new GoblinArcherCombat();
+
+                        goblinArcherCombat.MonsterCombat(this, MonsterChoice); 
+                    }
                 }
             }
-            void MonsterCombat()
+        }
+    }
+    private interface IMonsterCombat
+    {
+        void MonsterCombat(Combat combat, Monster monsterChoice) { }
+    }
+    private class GoblinFighterCombat : IMonsterCombat
+    {
+        public void MonsterCombat(Combat combat, Monster monsterChoice)
+        {
+            while (monsterChoice.MonsterSpeedPoints > Character.CharacterSpeedPoints || combat.CharacterInitiative == true || combat.MonsterInitiative == false)
             {
-                while (defaultMonster.MonsterSpeedPoints > Character.CharacterSpeedPoints || CharacterInitiative == true || MonsterInitiative == false)
+                if (combat.MonsterInitiative == false && combat.CharacterInitiative == false)
                 {
-                    if (CharacterInitiative == false)
+                    Console.WriteLine($"{monsterChoice.MonsterClass} goes first!");
+                    combat.MonsterInitiative = true;
+                    Thread.Sleep(2000);
+                }
+                if (monsterChoice.MonsterHealthPoints <= 0)
+                {
+                    break;
+                }
+                if (monsterChoice.MonsterAccuracy > 10)
+                {
+                    Thread.Sleep(2000);
+
+                    if (monsterChoice.MonsterDamage >= 7)
                     {
-                        Console.WriteLine($"{defaultMonster.MonsterClass} goes first!");
-                        MonsterInitiative = true;
-                        Thread.Sleep(2000);
-                    }
-                    if (defaultMonster.MonsterHealthPoints <= 0)
-                    {
-                        break;
-                    }
-                    if (defaultMonster.MonsterAccurarcy > 10)
-                    {
+                        Console.Beep(1000, 100);
+                        Console.Beep(1200, 100);
+                        Console.Beep(1400, 150);
+
+                        Console.ForegroundColor = ConsoleColor.DarkRed;
+
+                        Console.WriteLine("CRITICAL HIT!");
+
                         Thread.Sleep(2000);
 
-                        if (defaultMonster.MonsterDamage >= 7)
+                        Console.ResetColor();
+
+                        if (combat.Response == "defend")
                         {
-                            Console.Beep(1000, 100);
-                            Console.Beep(1200, 100);
-                            Console.Beep(1400, 150);
+                            monsterChoice.MonsterDamage = monsterChoice.MonsterDamage / 2;
 
-                            Console.ForegroundColor = ConsoleColor.DarkRed;
+                            combat.Response = null;
+                        }   
 
-                            Console.WriteLine("CRITICAL HIT!");
+                        Character.CharacterArmorPoints = Character.CharacterArmorPoints - monsterChoice.MonsterDamage;
 
-                            Thread.Sleep(2000);
-
-                            Console.ResetColor();
-
-                            if (Response == "2")
-                            {
-                                defaultMonster.MonsterDamage = defaultMonster.MonsterDamage / 2; 
-
-                                Response = null;
-                            }
-                            
-                            Character.CharacterArmorPoints = Character.CharacterArmorPoints - defaultMonster.MonsterDamage;
-
-                            if (defaultMonster == new GoblinFighter()) Console.WriteLine($"{defaultMonster.MonsterClass} attacks with its sword, doing {defaultMonster.MonsterDamage} DMG! Your armor was reduced to {Character.CharacterArmorPoints} AP!");
-                            if (defaultMonster == new GoblinArcher()) Console.WriteLine($"{defaultMonster.MonsterClass} attacks with its bow, doing {defaultMonster.MonsterDamage} DMG! Your armor was reduced to {Character.CharacterArmorPoints} AP!");
-                        }
-                        else
-                        {
-                            Thread.Sleep(2000);
-
-                            Console.Beep(800, 100);
-                            Console.Beep(1000, 100);
-
-                            if (Response == "2")
-                            {
-                                defaultMonster.MonsterDamage = defaultMonster.MonsterDamage / 2; 
-
-                                Response = null;
-                            }
-
-                            Character.CharacterArmorPoints = Character.CharacterArmorPoints - defaultMonster.MonsterDamage;
-
-                            if (defaultMonster == new GoblinFighter()) Console.WriteLine($"{defaultMonster.MonsterClass} attacks with its sword, doing {defaultMonster.MonsterDamage} DMG! Your armor was reduced to {Character.CharacterArmorPoints} AP!");
-                            if (defaultMonster == new GoblinArcher()) Console.WriteLine($"{defaultMonster.MonsterClass} attacks with its bow, doing {defaultMonster.MonsterDamage} DMG! Your armor was reduced to {Character.CharacterArmorPoints} AP!");
-                        }
-                        if (Character.CharacterArmorPoints <= 0)
-                        {
-                            Character.CharacterArmorPoints = 0;
-
-                            if (Character.CharacterHealthPoints > 0)
-                            {
-                                Character.CharacterHealthPoints = Character.CharacterHealthPoints - defaultMonster.MonsterDamage;
-
-                                Console.WriteLine($"The {defaultMonster.MonsterClass} hits through your armor! You receive {defaultMonster.MonsterDamage} DMG!");
-
-                                Thread.Sleep(2000);
-                                break;
-                            }
-                            if (Character.CharacterHealthPoints <= 0)
-                            {
-                                Thread.Sleep(2000);
-                                Character.CharacterHealthPoints = 0;
-                                break;
-                            }
-                        }
-                        Thread.Sleep(2000);
-                        break;
+                        Console.WriteLine($"{monsterChoice.MonsterClass} attacks with its sword, doing {monsterChoice.MonsterDamage} DMG! Your armor was reduced to {Character.CharacterArmorPoints} AP!");
                     }
                     else
                     {
                         Thread.Sleep(2000);
 
-                        Console.Beep(300, 100);
-                        Console.Beep(200, 100);
-                        Console.WriteLine($"{defaultMonster.MonsterClass} misses its attack!");
+                        Console.Beep(800, 100);
+                        Console.Beep(1000, 100);
+
+                        if (combat.Response == "defend")
+                        {
+                            monsterChoice.MonsterDamage = monsterChoice.MonsterDamage / 2;
+
+                            combat.Response = null;
+                        }
+
+                        Character.CharacterArmorPoints = Character.CharacterArmorPoints - monsterChoice.MonsterDamage;
+
+                        Console.WriteLine($"{monsterChoice.MonsterClass} attacks with its sword, doing {monsterChoice.MonsterDamage} DMG! Your armor was reduced to {Character.CharacterArmorPoints} AP!");
+                    }
+                    if (Character.CharacterArmorPoints <= 0)
+                    {
+                        Character.CharacterArmorPoints = 0;
+
+                        if (Character.CharacterHealthPoints > 0)
+                        {
+                            Character.CharacterHealthPoints = Character.CharacterHealthPoints - monsterChoice.MonsterDamage;
+
+                            Console.WriteLine($"The {monsterChoice.MonsterClass} hits through your armor! You receive {monsterChoice.MonsterDamage} DMG!");
+
+                            Thread.Sleep(2000);
+                            break;
+                        }
+                        if (Character.CharacterHealthPoints <= 0)
+                        {
+                            Thread.Sleep(2000);
+                            Character.CharacterHealthPoints = 0;
+                            break;
+                        }
+                    }
+                    Thread.Sleep(2000);
+                    break;
+                }
+                else
+                {
+                    Thread.Sleep(2000);
+
+                    Console.Beep(300, 100);
+                    Console.Beep(200, 100);
+                    Console.WriteLine($"{monsterChoice.MonsterClass} misses its attack!");
+
+                    Thread.Sleep(2000);
+
+                    break;
+                }
+            }
+        }
+    }
+    private class GoblinArcherCombat : IMonsterCombat
+    {
+        public void MonsterCombat(Combat combat, Monster monsterChoice)
+        {
+            while (monsterChoice.MonsterSpeedPoints > Character.CharacterSpeedPoints || combat.CharacterInitiative == true || combat.MonsterInitiative == false)
+            {
+                if (combat.MonsterInitiative == false && combat.CharacterInitiative == false)
+                {
+                    Console.WriteLine($"{monsterChoice.MonsterClass} goes first!");
+                    combat.MonsterInitiative = true;
+                    Thread.Sleep(2000);
+                }
+                if (monsterChoice.MonsterHealthPoints <= 0)
+                {
+                    break;
+                }
+                if (monsterChoice.MonsterAccuracy > 10)
+                {
+                    Thread.Sleep(2000);
+
+                    if (monsterChoice.MonsterDamage >= 7)
+                    {
+                        Console.Beep(1000, 100);
+                        Console.Beep(1200, 100);
+                        Console.Beep(1400, 150);
+
+                        Console.ForegroundColor = ConsoleColor.DarkRed;
+
+                        Console.WriteLine("CRITICAL HIT!");
 
                         Thread.Sleep(2000);
 
-                        break;
+                        Console.ResetColor();
+
+                        if (combat.Response == "defend")
+                        {
+                            monsterChoice.MonsterDamage = monsterChoice.MonsterDamage / 2;
+
+                            combat.Response = null;
+                        }
+
+                        Character.CharacterArmorPoints = Character.CharacterArmorPoints - monsterChoice.MonsterDamage;
+
+                        Console.WriteLine($"{monsterChoice.MonsterClass} attacks with its bow, doing {monsterChoice.MonsterDamage} DMG! Your armor was reduced to {Character.CharacterArmorPoints} AP!");
                     }
+                    else
+                    {
+                        Thread.Sleep(2000);
+
+                        Console.Beep(800, 100);
+                        Console.Beep(1000, 100);
+
+                        if (combat.Response == "defend")
+                        {
+                            monsterChoice.MonsterDamage = monsterChoice.MonsterDamage / 2;
+
+                            combat.Response = null;
+                        }
+
+                        Character.CharacterArmorPoints = Character.CharacterArmorPoints - monsterChoice.MonsterDamage;
+
+                        Console.WriteLine($"{monsterChoice.MonsterClass} attacks with its sword, doing {monsterChoice.MonsterDamage} DMG! Your armor was reduced to {Character.CharacterArmorPoints} AP!");
+                    }
+                    if (Character.CharacterArmorPoints <= 0)
+                    {
+                        Character.CharacterArmorPoints = 0;
+
+                        if (Character.CharacterHealthPoints > 0)
+                        {
+                            Character.CharacterHealthPoints = Character.CharacterHealthPoints - monsterChoice.MonsterDamage;
+
+                            Console.WriteLine($"The {monsterChoice.MonsterClass} hits through your armor! You receive {monsterChoice.MonsterDamage} DMG!");
+
+                            Thread.Sleep(2000);
+                            break;
+                        }
+                        if (Character.CharacterHealthPoints <= 0)
+                        {
+                            Thread.Sleep(2000);
+                            Character.CharacterHealthPoints = 0;
+                            break;
+                        }
+                    }
+                    Thread.Sleep(2000);
+                    break;
+                }
+                else
+                {
+                    Thread.Sleep(2000);
+
+                    Console.Beep(300, 100);
+                    Console.Beep(200, 100);
+                    Console.WriteLine($"{monsterChoice.MonsterClass} misses its attack!");
+
+                    Thread.Sleep(2000);
+
+                    break;
                 }
             }
         }

@@ -1,8 +1,5 @@
 ﻿// Contains items useable by the player character
-public class Item 
-{
-
-}
+public class Item {}
 public class Weapon : Item
 {
     public float WeaponDamage { get; set; }
@@ -14,17 +11,11 @@ public class Weapon : Item
 }
 public class Sword : Weapon
 {
-    public Sword() : base(10, 10)
-    {
-
-    }
+    public Sword() : base(10, 10) { }
 }
 public class Bow : Weapon
 {
-    public Bow() : base(5, 5)
-    {
-
-    }
+    public Bow() : base(5, 5) { }
 }
 public class Armor : Item
 {
@@ -35,35 +26,18 @@ public class Armor : Item
         ArmorPoints = armorPoints;
     }
 }
-public class ChainmailArmor : Armor
-{
-    public ChainmailArmor() : base(10)
-    {
-        if (Inventory.IsEquipped)
-        {
-            Character.CharacterArmorPoints = 10;
-        }
-        Character.CharacterArmorPoints = 0;
-
-    }
-}
 public class LeatherArmor : Armor
 {
-    public LeatherArmor() : base(5)
-    {
-        if (Inventory.IsEquipped)
-        {
-            Character.CharacterArmorPoints = 5;
-        }
-        Character.CharacterArmorPoints = 0;
-    }
+    public LeatherArmor() : base(5) { }
+}
+public class ChainmailArmor : Armor
+{
+    public ChainmailArmor() : base(10) { }
+
 }
 public class HealthPotion : Item
 {
-    public HealthPotion()
-    {
-
-    }
+    public HealthPotion() { }
 }
 public class GoblinHead : Item
 {
