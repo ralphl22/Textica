@@ -1,7 +1,8 @@
-﻿// Allows the user to buy and sell items from the merchant
+﻿// Area where the player can buy and sell items from the merchant
 public class Merchant
 {
     private string Response { get; set; }
+    // Contains the items that the merchant has in stock - it will automatically update as the merchant gains or loses items
     private static List<Item> MerchantList = new List<Item>() { Inventory.Bow, Inventory.Sword, Inventory.HealthPotion, Inventory.HealthPotion, Inventory.HealthPotion, Inventory.HealthPotion, Inventory.HealthPotion, Inventory.LeatherArmor, Inventory.ChainmailArmor };
     public Merchant()
     {
@@ -43,7 +44,7 @@ public class Merchant
                         else if (merchantItem == Inventory.HealthPotion) Console.WriteLine($"{merchantItem} - 10 G");
                         else if (merchantItem == Inventory.LeatherArmor) Console.WriteLine($"{merchantItem} - 20 G");
                         else if (merchantItem == Inventory.ChainmailArmor) Console.WriteLine($"{merchantItem} - 30 G");
-                        else Console.WriteLine($"{merchantItem}");
+                        else Console.WriteLine($"{merchantItem} - ??? G");
                     }
                     Console.WriteLine("Type an item's name for more information, or type 'exit' to exit.");
 
@@ -103,6 +104,7 @@ public class Merchant
                             {
                                 Console.WriteLine("Item purchased!");
                                 Inventory.InventoryList.Add(Inventory.Sword);
+                                MerchantList.Remove(Inventory.Sword);
                                 Character.GoldAmount = Character.GoldAmount - 15;
                                 Console.ReadKey(true);
                                 Console.Clear();
@@ -140,7 +142,9 @@ public class Merchant
                                 {
                                     Console.WriteLine("Item purchased!");
                                     Inventory.InventoryList.Add(Inventory.LeatherArmor);
+                                    MerchantList.Remove(Inventory.LeatherArmor);
                                     Character.GoldAmount = Character.GoldAmount - 20;
+                                    Inventory.InventoryMenu();
                                     Console.ReadKey(true);
                                     Console.Clear();
                                     break;
@@ -182,6 +186,7 @@ public class Merchant
                             {
                                 Console.WriteLine("Item purchased!");
                                 Inventory.InventoryList.Add(Inventory.HealthPotion);
+                                MerchantList.Remove(Inventory.HealthPotion);   
                                 Character.GoldAmount = Character.GoldAmount - 10;
                                 Console.ReadKey(true);
                                 Console.Clear();
@@ -216,6 +221,7 @@ public class Merchant
                             {
                                 Console.WriteLine("Item purchased!");
                                 Inventory.InventoryList.Add(Inventory.ChainmailArmor);
+                                MerchantList.Remove(Inventory.ChainmailArmor);
                                 Character.GoldAmount = Character.GoldAmount - 30;
                                 Console.ReadKey(true);
                                 Console.Clear();
@@ -243,7 +249,7 @@ public class Merchant
                     }
                     if (Response == "inventory")
                     {
-                        Inventory.InventoryCheck();
+                        Inventory.InventoryMenu();
 
                         continue;
                     }
@@ -266,7 +272,7 @@ public class Merchant
                         else if (inventoryItem == Inventory.ChainmailArmor) Console.WriteLine($"{inventoryItem} - 30 G");
                         else Console.WriteLine($"{inventoryItem}");
                     }
-                    Console.WriteLine("Type the name of the item to sell it, or type exit to exit the sell menu.");
+                    Console.WriteLine("Type the name of the item to sell, or type exit to exit the sell menu.");
 
                     Response = Console.ReadLine();
 
@@ -342,6 +348,7 @@ public class Merchant
                                 Console.WriteLine("Item sold for 20 G!");
                                 Inventory.InventoryList.Remove(Inventory.LeatherArmor);
                                 Character.GoldAmount = Character.GoldAmount + 20;
+                                Inventory.IsInInventory();
                                 Console.ReadKey(true);
                                 Console.Clear();
                                 break;
@@ -393,6 +400,7 @@ public class Merchant
                             {
                                 Console.WriteLine("Item sold for 30 G!");
                                 Inventory.InventoryList.Remove(Inventory.ChainmailArmor);
+                                Inventory.IsInInventory();
                                 Character.GoldAmount = Character.GoldAmount + 30;
                                 Console.ReadKey(true);
                                 Console.Clear();
@@ -405,7 +413,7 @@ public class Merchant
                     }
                     if (Response == "inventory")
                     {
-                        Inventory.InventoryCheck();
+                        Inventory.InventoryMenu();
 
                         continue;
                     }
@@ -429,7 +437,7 @@ public class Merchant
             }
             if (Response == "inventory")
             {
-                Inventory.InventoryCheck();
+                Inventory.InventoryMenu();
 
                 continue;
             }

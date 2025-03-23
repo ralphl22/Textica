@@ -1,11 +1,14 @@
-﻿// Allows the user to interact with and take quests from NPCs in the city
+﻿// Area where the player can accept their first quest
 public class CityWatch
 {
     private string Response { get; set; }
+    public static bool VisitedCityWatch { get; set; }
     public static bool IsGoblinQuestAccepted { get; set; }
     public static bool IsGoblinQuestCompleted { get; set; }
     public CityWatch()
     {
+        // Checks to see if player has accepted the quest, and if the amount of goblin heads they have equals 0, or is greather than 0 but less than 5
+        // If true, the NPC will let player know that they don't have enough heads, and player will return to the town hub
         if (IsGoblinQuestAccepted == true && GoblinHead.Amount == 0 || IsGoblinQuestAccepted == true && GoblinHead.Amount > 0 && GoblinHead.Amount < 5)
         {
             Console.WriteLine("----------------------------------------------");
@@ -22,8 +25,6 @@ public class CityWatch
 
             Console.WriteLine("Watchman Karl: That's not enough for the reward. Come back when you have at least 5 goblin heads.");
 
-            IsGoblinQuestCompleted = true;
-
             Console.ReadKey(true);
             Console.Beep(800, 100);
 
@@ -31,6 +32,7 @@ public class CityWatch
 
             new TownHub();
         }
+        // Checks to see if the quest has been accepted and player has 5 goblin heads: if true, player will receive 250 G award and return to town hub
         if (IsGoblinQuestAccepted == true && GoblinHead.Amount == 5)
         {
             Console.WriteLine("----------------------------------------------");
@@ -58,6 +60,7 @@ public class CityWatch
 
             new TownHub();
         }
+        // Checks to see if quest has been accepted and there are more than 5 goblin heads: player will receive a gold bonus and return to town hub
         if (IsGoblinQuestAccepted == true && GoblinHead.Amount > 5)
         {
             Console.WriteLine("----------------------------------------------");
@@ -78,6 +81,50 @@ public class CityWatch
 
             new TownHub();
         }
+        // Only works if player has visited city watch but has not accepted the goblin quest
+        if (VisitedCityWatch && IsGoblinQuestAccepted == false)
+        {
+            while (true)
+            {
+                Console.WriteLine("Watchman Karl: Welcome back, adventurer. Are you interested in taking the quest?");
+
+                Response = Console.ReadLine();
+                Console.Beep(800, 100);
+
+                if (Response == "yes")
+                {
+                    Console.WriteLine("Watchman Karl: One of our scout informed us that the goblin camp coordinates are (300, 300). Good luck.");
+
+                    Console.ReadKey(true);
+                    Console.Beep(800, 100);
+
+                    Console.Clear();
+
+                    IsGoblinQuestAccepted = true;
+
+                    TownHub.ForestAccess = true;
+
+                    new TownHub();
+
+                }
+                if (Response == "no")
+                {
+                    Console.WriteLine("Watchman Karl: Come back whenever you want to accept the quest, adventurer.");
+
+                    VisitedCityWatch = true;
+
+                    Console.ReadKey(true);
+                    Console.Beep(800, 100);
+
+                    Console.Clear();
+
+                    new TownHub();
+                }
+            }
+        }
+
+        // This is the player's introduction to the area: the player can ask the watchman for the quest, and then accept or deny the quest
+        // Or they can just leave the area immediately
         Console.WriteLine("----------------------------------------------");
 
         Character.CharacterLevelAndExperience();
@@ -131,6 +178,8 @@ public class CityWatch
                     if (Response == "no")
                     {
                         Console.WriteLine("That's too bad. I'll see ya around, I guess.");
+
+                        VisitedCityWatch = true;
 
                         Console.ReadKey(true);
                         Console.Beep(800, 100);

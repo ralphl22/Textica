@@ -1,4 +1,4 @@
-﻿// Allows the user to interact with and take quests from NPCs in the city
+﻿// Hub area where the player can enter into other areas
 public class TownHub
 {
     public static bool ForestAccess { get; set; }
@@ -9,25 +9,23 @@ public class TownHub
     {
        Character character = new Character();
 
-        Character.IsCharacterCreated = true;
+        character.IsCharacterCreated = true;
 
-        if (Character.IsCharacterCreated == false)
+        if (character.IsCharacterCreated == false)
         {
             character.CharacterCreation();
-            Character.IsCharacterCreated = true;
+            character.IsCharacterCreated = true;
         }
-        else if (Character.CharacterName == null)
+        if (Character.CharacterName == null && character.IsCharacterCreated == true) 
         {
             character.AutoCharacterCreation();
-            Character.IsCharacterCreated = true;
         }
-
-
+       
         ForestAccess = true;    
 
-        // Initial access to forest not granted until player accepts a quest in the city watch area
         while (true)
         {
+            // Initial access to forest not granted until player accepts a quest in the city watch area
             if (ForestAccess == true)
             {
                 /*
@@ -76,7 +74,7 @@ public class TownHub
                         new Forest();
                         break;
                     case "inventory":
-                        Inventory.InventoryCheck();
+                        Inventory.InventoryMenu();
                         break;
                     case "help":
                         Console.WriteLine("If you want to go somewhere or do something, type that in lowercase and nothing else. Consider the tavern, merchant, city watch, or your inventory.");
@@ -118,7 +116,7 @@ public class TownHub
                             new Merchant();
                             break;
                         case "inventory":
-                            Inventory.InventoryCheck();
+                            Inventory.InventoryMenu();
                             break;
                         case "help":
                             Console.WriteLine("If you want to go somewhere or do something, type that in lowercase and nothing else. Consider the tavern, merchant, city watch, or your inventory.");

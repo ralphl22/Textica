@@ -33,6 +33,7 @@ public class Combat
 
         while (true)
         {
+            // Message telling the player what monster they have encountered
             if (Round == 1)
             {
                 Console.ForegroundColor = ConsoleColor.Green;
@@ -48,6 +49,7 @@ public class Combat
 
             IsInCombat = true;
 
+            // Makes it so character or monster HP stays at 0 if an attack makes HP less than 0
             if (defaultMonster.MonsterHealthPoints <= 0) defaultMonster.MonsterHealthPoints = 0;
             if (Character.CharacterHealthPoints <= 0) Character.CharacterHealthPoints = 0;
 
@@ -64,6 +66,7 @@ public class Combat
 
             Console.WriteLine("-----------------------------------------------------------------------");
 
+            // Checks to see if monster HP is less or equal to 0: if so, displays that monster is dead, adds EXP, and goblin head to player's inventory, and to the amount
             if (defaultMonster.MonsterHealthPoints <= 0)
             {
                 IsInCombat = false; 
@@ -78,11 +81,11 @@ public class Combat
 
                 Console.WriteLine($"You gained 10 EXP!");
 
-                Character.CurrentExperiencePoints = Character.CurrentExperiencePoints + 10;
+                Character.CurrentExperiencePoints += 10;
 
                 Inventory.InventoryList.Add(Inventory.GoblinHead);
 
-                GoblinHead.Amount = GoblinHead.Amount + 1;
+                GoblinHead.Amount += 1;
 
                 Console.ResetColor();
 
@@ -97,6 +100,7 @@ public class Combat
                 new Forest();
             }
 
+            // Checks to see if player HP is less or equal to 0; if so, player is considered dead, and prompts the player to try again and go back to the area from the begining
             if (Character.CharacterHealthPoints <= 0)
             {
                 Thread.Sleep(2000);
@@ -115,6 +119,7 @@ public class Combat
 
                 new Forest();
             }
+
             CharacterCombat();
             Round++;
 
@@ -210,7 +215,7 @@ public class Combat
                     }
                     if (Response == "inventory")
                     {
-                        Inventory.InventoryCheck();
+                        Inventory.InventoryMenu();
                         continue;
                     }
                     if (Response == "defend")
@@ -300,7 +305,7 @@ public class Combat
             {
                 while (defaultMonster.MonsterSpeedPoints > Character.CharacterSpeedPoints || CharacterInitiative == true || MonsterInitiative == false)
                 {
-                    if (CharacterInitiative == false)
+                    if (MonsterInitiative == false && CharacterInitiative == false)
                     {
                         Console.WriteLine($"{defaultMonster.MonsterClass} goes first!");
                         MonsterInitiative = true;

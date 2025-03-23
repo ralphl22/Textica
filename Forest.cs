@@ -1,19 +1,18 @@
-﻿// Allows the user to interact with and take quests from NPCs in the city
+﻿// Area where the player can explore the forest using X and Y coordinates, and engage in combat encounters
 public class Forest
 {
     private string Response { get; set; }
     private int X { get; set; }
     private int Y { get; set; }
-    private bool AreCoordinatesInitialized {  get; set; }  
+    private bool AreCoordinatesInitialized { get; set; }  
     public Forest()
     {
-        Character character = new Character();
-
         while (true)
         {
             if (AreCoordinatesInitialized == false)
             {
-                X = 500; Y = -500;
+                // Starting coordinates of player: they start in quadrant I in a Cartesian plane
+                X = 500; Y = 500;
                 AreCoordinatesInitialized = true;
             }
    
@@ -26,7 +25,17 @@ public class Forest
 
             Console.WriteLine($"You see yourself before a lush, dense forest. What do you want to do? Your current position is ({X}, {Y}).");
 
-            if (AreCoordinatesInitialized == true && X > 500)
+            // Defines the boundaries of the forest: the player cannot go any further than these numbers
+            if (X > 500 && Y > 500 || X < -500 && Y < -500)
+            {
+                Console.WriteLine("You can't go any further! Try again!");
+                X = 500;
+                Y = 500;
+                Console.ReadKey(true);
+                Console.Clear();
+                continue;
+            }
+            if (X > 500 || X < -500)
             {
                 Console.WriteLine("You can't go any further! Try again!");
                 X = 500;
@@ -34,22 +43,16 @@ public class Forest
                 Console.Clear();
                 continue;
             }
-            if (AreCoordinatesInitialized == true && Y < -500)
+            if (Y > 500 || Y < -500)
             {
                 Console.WriteLine("You can't go any further! Try again!");
-                Y = -500;
+                Y = 500;
                 Thread.Sleep(3000);
                 Console.Clear();
                 continue;
             }
-            if (AreCoordinatesInitialized == true && X > 500 && Y < -500)
-            {
-                Console.WriteLine("You can't go any further! Try again!");
-                X = 500; Y = -500;
-                Console.ReadKey(true);
-                Console.Clear();
-                continue;
-            }
+
+            // Looking around at specific coordinates gives specific dialogue; player can change their position in the forest, use their inventory, or exit the forest.
             Response = Console.ReadLine();
             Console.Beep(800, 100);
 
@@ -65,26 +68,33 @@ public class Forest
                         Console.WriteLine("Enter goblin camp?");
 
                         Response = Console.ReadLine();
-                        if (Response == "y") 
+                        Console.Beep(800, 100);
+
+                        if (Response == "y" || Response == "yes") 
                         {
                             Console.Clear();
                             new Combat(); 
                         }
-                        if (Response == "n") break;
+                        if (Response == "n" || Response == "no") break;
                         else continue;
                     }
                 }
+                else if (X == 500 && Y == 500)
+                {
+                    Console.WriteLine("You are at the forest entrance. You see nothing here other than endless forest and greenery.");
+                    Console.ReadKey(true);
+                }
                 else
                 {
-                    Console.WriteLine("Nothing you can see here other than endless forest and greenery.");
-                    Console.ReadKey(true);                
+                    Console.WriteLine("You see nothing here other than endless forest and greenery.");
+                    Console.ReadKey(true);
                 }
             }
-            if (Response == "move up") Y = Y + 100;
-            if (Response == "move down") Y = Y - 100;
-            if (Response == "move left") X = X - 100;
-            if (Response == "move right") X = X + 100;
-            if (Response == "go to")
+            if (Response == "move up" || Response == "up") Y += 100;
+            if (Response == "move down" || Response == "down") Y -= 100;
+            if (Response == "move left" || Response == "left") X -= 100;
+            if (Response == "move right" || Response == "right") X += 100;
+            if (Response == "go to" || Response == "goto")
             {
                 Console.Write("X coordinate: ");
                 Response = Console.ReadLine();
@@ -95,7 +105,7 @@ public class Forest
             }
             if (Response == "inventory")
             {
-                Inventory.InventoryCheck();
+                Inventory.InventoryMenu();
                 continue;
             }
             if (Response == "exit")
