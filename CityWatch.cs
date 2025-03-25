@@ -11,12 +11,8 @@ public class CityWatch
         // If true, the NPC will let player know that they don't have enough heads, and player will return to the town hub
         if (IsGoblinQuestAccepted == true && GoblinHead.Amount == 0 || IsGoblinQuestAccepted == true && GoblinHead.Amount > 0 && GoblinHead.Amount < 5)
         {
-            Console.WriteLine("----------------------------------------------");
-
             Character.CharacterLevelAndExperience();
             Character.CharacterStatus();
-
-            Console.WriteLine("----------------------------------------------");
 
             Console.WriteLine($"Watchman Karl: Welcome back, adventurer. I see that you have {GoblinHead.Amount} goblin heads.");
 
@@ -35,12 +31,8 @@ public class CityWatch
         // Checks to see if the quest has been accepted and player has 5 goblin heads: if true, player will receive 250 G award and return to town hub
         if (IsGoblinQuestAccepted == true && GoblinHead.Amount == 5)
         {
-            Console.WriteLine("----------------------------------------------");
-
             Character.CharacterLevelAndExperience();
             Character.CharacterStatus();
-
-            Console.WriteLine("----------------------------------------------");
 
             Console.WriteLine("Watchman Karl: Welcome back, adventurer. I see that you have 5 goblin heads.");
 
@@ -63,12 +55,8 @@ public class CityWatch
         // Checks to see if quest has been accepted and there are more than 5 goblin heads: player will receive a gold bonus and return to town hub
         if (IsGoblinQuestAccepted == true && GoblinHead.Amount > 5)
         {
-            Console.WriteLine("----------------------------------------------");
-
             Character.CharacterLevelAndExperience();
             Character.CharacterStatus();
-
-            Console.WriteLine("----------------------------------------------");
 
             Character.GoldAmount = Character.GoldAmount + GoblinHead.Amount * 50;
 
@@ -93,7 +81,7 @@ public class CityWatch
 
                 if (Response == "yes")
                 {
-                    Console.WriteLine("Watchman Karl: One of our scout informed us that the goblin camp coordinates are (300, 300). Good luck.");
+                    Console.WriteLine("Watchman Karl: The coordinates of the goblin camp are (300, 300). Good luck.");
 
                     Console.ReadKey(true);
                     Console.Beep(800, 100);
@@ -125,12 +113,8 @@ public class CityWatch
 
         // This is the player's introduction to the area: the player can ask the watchman for the quest, and then accept or deny the quest
         // Or they can just leave the area immediately
-        Console.WriteLine("----------------------------------------------");
-
         Character.CharacterLevelAndExperience();
         Character.CharacterStatus();
-
-        Console.WriteLine("----------------------------------------------");
 
         Console.WriteLine("You see a watchman in chainmail, armed with a sword on his hip. He turns to look at you.");
 
@@ -148,7 +132,7 @@ public class CityWatch
                 Console.WriteLine("Watchman Karl: We do in fact have something for you.");
                 Console.ReadKey(true);
                 Console.Beep(800, 100);
-                Console.WriteLine("Watchman karl: There have been reports of goblins in the forest outside town attacking travelers. We're looking for anyone who's willing to help.");
+                Console.WriteLine("Watchman Karl: There have been reports of goblins in the forest outside town attacking travelers. We're looking for anyone who's willing to help.");
                 Console.ReadKey(true);
                 Console.Beep(800, 100);
 

@@ -3,8 +3,8 @@ public class Monster
 {
     public string MonsterClass { get; private set; }
     public float MonsterHealthPoints { get; set; }
-    public float MonsterArmorPoints { get; set; }
-    public float MonsterSpeedPoints { get; set; }
+    public float MonsterArmorPoints { get; private set; }
+    public float MonsterSpeedPoints { get; private set; }
     public float MonsterDamage { get; set; }
     public float MonsterAccuracy { get; set; }
     public Monster(string monsterClass, float monsterHealthPoints, float monsterArmorPoints, float monsterSpeedPoints)
@@ -36,19 +36,15 @@ public class Monster
         Console.WriteLine($"SPD: {MonsterSpeedPoints} ");
 
         Console.ResetColor();
+
+        Console.WriteLine("----------------------------------------------");
     }
 }
 public class GoblinFighter : Monster
 {
-    public GoblinFighter() : base("Goblin Fighter", 10, 0, 3)
-    {
-
-    }
+    public GoblinFighter() : base("Goblin Fighter", 10, 0, 2) { }
 }
 public class GoblinArcher : Monster
 {
-    public GoblinArcher() : base("Goblin Archer", 5, 0, 4)
-    {
-
-    }
+    public GoblinArcher() : base("Goblin Archer", 7, 0, 4) { }
 }

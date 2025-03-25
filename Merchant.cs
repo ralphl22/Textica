@@ -10,12 +10,8 @@ public class Merchant
         {
             Console.Clear();
 
-            Console.WriteLine("----------------------------------------------");
-
             Character.CharacterLevelAndExperience();
             Character.CharacterStatus();
-
-            Console.WriteLine("----------------------------------------------");
 
             Console.WriteLine("Merchant Alicia: Greetings, adventurer! Looking to buy some of my wares, or are you looking to sell?");
 

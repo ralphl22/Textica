@@ -2,14 +2,14 @@
 public class Character
 {
     public static string CharacterName { get; set; }
-    public static string CharacterClass { get; set; }
     public float CharacterDamage { get; set; }
     public int CharacterAccuracy { get; set; }
     private string Response { get; set; }
-    public static int CharacterLevel { get; set; }
+    public static int CharacterLevel { private get; set; }
     public static int CurrentExperiencePoints { get; set; }
-    public static int ExperiencePointsToLevelUp { get; set; }
+    public static int ExperiencePointsToLevelUp { private get; set; }
     public static float CharacterHealthPoints { get; set; }
+    public static float MaxHealthPoints { get; set; }
     public static float CharacterArmorPoints { get; set; }
     public static float CharacterSpeedPoints { get; set; }
     public static int GoldAmount { get; set; }
@@ -22,41 +22,50 @@ public class Character
             Console.Write("What is thy name, adventurer? ");
 
             CharacterName = Console.ReadLine();
-
             Console.Beep(800, 100);
 
-            Console.Write("Are thy sure this is the name thy choseth? (y or n): ");
-
-            Response = Console.ReadLine();
-            Console.Beep(800, 100);
-
-            if (Response == "y" && CharacterName != "" && CharacterName != null || Response == "Y" && CharacterName != "" && CharacterName != null)
+            if (string.IsNullOrWhiteSpace(CharacterName))
             {
-                Console.Write($"Welcome to the lands of Textica, {CharacterName}!");
-
-                GoldAmount = 50;
-
-                new Inventory();
-
-                Console.ReadKey(true);
-
-                Console.Clear();
-
-                break;
-            }
-            else
-            {
-                Console.Clear();
                 continue;
             }
+
+            while (true)
+            {
+                Console.Write("Are thy sure this is the name thy choseth? (y or n): ");
+
+                Response = Console.ReadLine();
+                Console.Beep(800, 100);
+
+                if (string.IsNullOrWhiteSpace(Response))
+                {
+                    continue;
+                }
+                else if (Response == "y" || Response == "Y")
+                {
+                    Console.Write($"Welcome to the lands of Textica, {CharacterName}!");
+
+                    GoldAmount = 50;
+
+                    new Inventory();
+
+                    Console.ReadKey(true);
+
+                    Console.Clear();
+
+                    break;
+                }
+            }
+            break;
         }
     }
     // Automatically creates a character for testing purposes
     public void AutoCharacterCreation()
     {
-        CharacterName = "John Smith";
+        CharacterName = "John the Adventurer";
 
         CharacterHealthPoints = 10;
+
+        MaxHealthPoints = 10;
 
         GoldAmount = 50;
 
@@ -85,32 +94,42 @@ public class Character
             case 200:
                 CharacterLevel = 2;
                 CurrentExperiencePoints = 0;
-                Console.WriteLine($"You leveled up to {CharacterLevel}!");
+                Console.WriteLine($"You leveled up to Lvl {CharacterLevel}!");
                 ExperiencePointsToLevelUp = 300;
+                Thread.Sleep(2000);
+                Console.Clear();
                 break;
             case 300:
                 CharacterLevel = 3;
                 CurrentExperiencePoints = 0;
-                Console.WriteLine($"You leveled up to {CharacterLevel}!");
+                Console.WriteLine($"You leveled up to Lvl {CharacterLevel}!");
                 ExperiencePointsToLevelUp = 400;
+                Thread.Sleep(2000);
+                Console.Clear();
                 break;
             case 400:
                 CharacterLevel = 4;
                 CurrentExperiencePoints = 0;
-                Console.WriteLine($"You leveled up to {CharacterLevel}!");
+                Console.WriteLine($"You leveled up to Lvl {CharacterLevel}!");
                 ExperiencePointsToLevelUp = 500;
+                Thread.Sleep(2000);
+                Console.Clear();
                 break;
             case 500:
+                CharacterLevel = 5;
                 CurrentExperiencePoints = 0;
                 ExperiencePointsToLevelUp = 0;
-                CharacterLevel = 5;
-                Console.WriteLine($"You leveled up to {CharacterLevel}!");
+                Console.WriteLine($"You leveled up to Lvl {CharacterLevel}!");
+                Thread.Sleep(2000);
+                Console.Clear();
                 break;
         }
     }
     // Displays the character's status: name, class, HP, AP, and SPD
     public static void CharacterStatus()
     {
+        Console.WriteLine("----------------------------------------------");
+
         Console.WriteLine($"{CharacterName}");
 
         Console.Write($"Lvl {CharacterLevel} ");
@@ -121,7 +140,7 @@ public class Character
 
         Console.ForegroundColor = ConsoleColor.Red;
 
-        Console.Write($"HP: {CharacterHealthPoints} ");
+        Console.Write($"HP: {CharacterHealthPoints} / {MaxHealthPoints} ");
 
         Console.ForegroundColor = ConsoleColor.DarkGray;
 
@@ -136,5 +155,7 @@ public class Character
         Console.WriteLine($" {GoldAmount} G");
 
         Console.ResetColor();
+
+        Console.WriteLine("----------------------------------------------");
     }
 }

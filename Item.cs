@@ -1,9 +1,8 @@
 ﻿// Contains items useable by the player character
-public class Item {}
+public class Item;
 public class Weapon : Item
 {
-    public float WeaponDamage { get; set; }
-    public int WeaponCost { get; set; }
+    public float WeaponDamage { get; private set; }
     public Weapon(float weaponDamage, int weaponCost)
     {
         WeaponDamage = weaponDamage;

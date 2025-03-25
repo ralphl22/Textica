@@ -1,18 +1,18 @@
 ﻿// Responsible for displaying and managing player's inventory
 public class Inventory
 {
-    public static List<Item> InventoryList { get; set; }
-    public static Item LeatherArmor { get; set; }
-    public static Item Sword { get; set; }
-    public static Item HealthPotion { get; set; }
-    public static Item Bow { get; set; }
-    public static Item ChainmailArmor { get; set; }
-    public static Item GoblinHead { get; set; }
-    public static bool IsItemEquipped { get; set; } 
-    public static bool IsLeatherArmorEquipped { get; set; }
-    public static bool IsSwordEquipped { get; set; }
-    public static bool IsBowEquipped { get; set; }
-    public static bool IsChainmailArmorEquipped { get; set; }
+    public static List<Item> InventoryList { get; private set; }
+    public static Item LeatherArmor { get; private set; }
+    public static Item Sword { get; private set; }
+    public static Item HealthPotion { get; private set; }
+    public static Item Bow { get; private set; }
+    public static Item ChainmailArmor { get; private set; }
+    public static Item GoblinHead { get; private set; }
+    public static bool IsItemEquipped { get; private set; } 
+    public static bool IsLeatherArmorEquipped { get; private set; }
+    public static bool IsSwordEquipped { get; private set; }
+    public static bool IsBowEquipped { get; private set; }
+    public static bool IsChainmailArmorEquipped { get; private set; }
     public Inventory()
     {
         // Intializes inventory items and creates the player's inventory
@@ -32,7 +32,7 @@ public class Inventory
 
         GoblinHead = new GoblinHead();
 
-        InventoryList = new List<Item>() { Sword, LeatherArmor, HealthPotion, HealthPotion, HealthPotion, ChainmailArmor };
+        InventoryList = new List<Item>() { Sword, LeatherArmor, HealthPotion, HealthPotion, HealthPotion };
 
         // Calls the method which determines if the relevant armor items are in the players inventory. If they are, the player gets the AP for that specific armor; if they are not, the player's AP is 0.
         IsInInventory();
@@ -103,7 +103,7 @@ public class Inventory
 
                         response = Console.ReadLine();
 
-                        if (response == "healthpotion" || response == "HealthPotion")
+                        if (response == "healthpotion" || response == "HealthPotion" || response == "health" || response == "potion")
                         {
                             while (true)
                             {
@@ -114,7 +114,19 @@ public class Inventory
                                 if (response == "yes")
                                 {
                                     Console.WriteLine("Health potion used! You restore 5 HP!");
-                                    Character.CharacterHealthPoints += 5;
+
+
+                                    if (Character.CharacterHealthPoints < Character.MaxHealthPoints)
+                                    {
+                                        Character.CharacterHealthPoints += 5;
+                                        InventoryList.Remove(HealthPotion);
+                                    }
+                                    if (Character.CharacterHealthPoints >= Character.MaxHealthPoints)
+                                    {
+                                        Character.CharacterHealthPoints = Character.MaxHealthPoints;
+                                        Console.WriteLine("Your HP is already full!");
+                                        Thread.Sleep(2000);
+                                    }
                                     break;
                                 }
                                 if (response == "no")
@@ -124,10 +136,11 @@ public class Inventory
                                 else continue;
                             }
                         }
+                        else if (response == "exit") break;
                         else continue;
                     }
                 }
-                if (response == "healthpotion" || response == "HealthPotion")
+                if (response == "healthpotion" || response == "HealthPotion" || response == "potion" || response == "health")
                 {
                     while (true)
                     {
@@ -145,6 +158,7 @@ public class Inventory
                             {
                                 Console.WriteLine("Health potion used! You restore 5 HP!");
                                 Character.CharacterHealthPoints += 5;
+                                Thread.Sleep(2000);
                                 break;
                             }
                             if (response == "no")
@@ -164,12 +178,8 @@ public class Inventory
             // Default behavior of inventory while not in combat: see item count, equip/unquip item, get item description, and exit inventory
             Console.Clear();
 
-            Console.WriteLine("----------------------------------------------");
-
             Character.CharacterLevelAndExperience();
             Character.CharacterStatus();
-
-            Console.WriteLine("----------------------------------------------");
 
             Console.WriteLine($"Inventory ({InventoryList.Count} Items):");
 
@@ -247,7 +257,7 @@ public class Inventory
                         }
                         IsSwordEquipped = true;
                     }
-                    else if (response == "leatherarmor" || response == "LeatherArmor")
+                    else if (response == "leatherarmor" || response == "LeatherArmor" || response == "leather")
                     {
                         if (IsChainmailArmorEquipped == true)
                         {
@@ -264,7 +274,7 @@ public class Inventory
                         IsLeatherArmorEquipped = true;
                         Character.CharacterArmorPoints = 5;
                     }
-                    else if (response == "ChainmailArmor" || response == "chainmailarmor")
+                    else if (response == "ChainmailArmor" || response == "chainmailarmor" || response == "chainmail")
                     {
                         if (IsLeatherArmorEquipped == true)
                         {
@@ -327,7 +337,7 @@ public class Inventory
                         IsLeatherArmorEquipped = false;
                         Character.CharacterArmorPoints = 0;
                     }
-                    else if (response == "ChainmailArmor" || response == "chainmailarmor")
+                    else if (response == "ChainmailArmor" || response == "chainmailarmor" || response == "chaimail")
                     {
                         if (IsChainmailArmorEquipped == false)
                         {
@@ -363,19 +373,19 @@ public class Inventory
 
                 Console.WriteLine($"A common sword. Deals {sword.WeaponDamage} DMG.");
             }
-            if (response == "leatherarmor" || response == "LeatherArmor")
+            if (response == "leatherarmor" || response == "LeatherArmor" || response == "leather")
             {
                 Armor leatherArmor = new LeatherArmor();
 
                 Console.WriteLine($"Typical leather armor that offers full body protection. It provides {leatherArmor.ArmorPoints} AP.");
             }
-            if (response == "ChainmailArmor" || response == "chainmailarmor")
+            if (response == "ChainmailArmor" || response == "chainmailarmor" || response == "chainmail")
             {
                 Armor chainmailArmor = new ChainmailArmor();
 
                 Console.WriteLine($"Armor made of interlocking metal rings that provides excellent protection against blows. It provides {chainmailArmor.ArmorPoints} AP.");
             }
-            if (response == "healthpotion" || response == "HealthPotion")
+            if (response == "healthpotion" || response == "HealthPotion" || response == "potion" || response == "health")
             {
                 Console.WriteLine("A red health potion. Heals 5 HP.");
             }

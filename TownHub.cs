@@ -4,10 +4,9 @@ public class TownHub
     public static bool ForestAccess { get; set; }
     private string Response { get; set; }
     private int MessageCount { get; set; }
-    public static bool VisitedArea { get; set; }
     public TownHub()
     {
-       Character character = new Character();
+        Character character = new Character();
 
         character.IsCharacterCreated = true;
 
@@ -28,7 +27,7 @@ public class TownHub
             // Initial access to forest not granted until player accepts a quest in the city watch area
             if (ForestAccess == true)
             {
-                /*
+                
                 if (MessageCount == 0)
                 {
                     Console.Beep(800, 100);
@@ -44,14 +43,10 @@ public class TownHub
                     Console.Clear();
 
                     MessageCount++;
-                }*/
-
-                Console.WriteLine("----------------------------------------------");
+                }
 
                 Character.CharacterLevelAndExperience();
                 Character.CharacterStatus();
-
-                Console.WriteLine("----------------------------------------------");
 
                 Console.WriteLine($"Welcome to the city of Textica, {Character.CharacterName}! What do you want to do, or where do you want to go?");
 
